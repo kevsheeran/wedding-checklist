@@ -1678,10 +1678,18 @@ a { color: inherit; text-decoration: none; }
         </div>
       </div>
       <div>
+        <div class="settings-section-title">Sync</div>
+        <div class="settings-row">
+          <label class="settings-row-label" for="settings-gh-token">GitHub token</label>
+          <input type="password" id="settings-gh-token" class="form-input" style="width:150px;min-height:36px;font-size:11px" placeholder="ghp_…" autocomplete="off">
+        </div>
+        <div class="settings-row">
+          <span class="settings-row-label" style="opacity:0.55;font-size:10px">Token stored on this device only. Needed to save to GitHub.</span>
+        </div>
         <div class="settings-section-title">Data</div>
         <div class="settings-row">
-          <span class="settings-row-label">Export backup</span>
-          <button class="settings-action-btn" id="export-btn">Export JSON</button>
+          <span class="settings-row-label">Download local backup</span>
+          <button class="settings-action-btn" id="export-btn">Download JSON</button>
         </div>
         <div class="settings-row">
           <span class="settings-row-label">Import backup</span>
@@ -1699,8 +1707,12 @@ a { color: inherit; text-decoration: none; }
 
 <script>
 /* ── Constants ─────────────────────────────────────── */
-const STORAGE_KEY = 'wedding-checklist-v1';
-const PIN_KEY     = 'wedding-pin-v1';
+const STORAGE_KEY  = 'wedding-checklist-v1';
+const PIN_KEY      = 'wedding-pin-v1';
+const GH_TOKEN_KEY = 'gh-token-v1';
+const GH_OWNER     = 'kevsheeran';
+const GH_REPO      = 'wedding-checklist';
+const GH_FILE      = 'data.json';
 const DEFAULT_BUDGET = 24900;
 const CHECKMARK_SVG = `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`;
 const MINUS_SVG = `<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>`;
@@ -3040,10 +3052,14 @@ function updateFianceeNameInUI() {
     opt.textContent = name;
   });
 }
-function openSettings() { document.getElementById('settings-panel').classList.add('open'); }
+function openSettings() {
+  document.getElementById('settings-panel').classList.add('open');
+  const tok = localStorage.getItem(GH_TOKEN_KEY) || '';
+  document.getElementById('settings-gh-token').value = tok;
+}
 function closeSettings() { document.getElementById('settings-panel').classList.remove('open'); }
 
-function exportData(showToast = false) {
+function exportData() {
   const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
@@ -3051,7 +3067,54 @@ function exportData(showToast = false) {
   a.download = `wedding-checklist-${new Date().toISOString().slice(0,10)}.json`;
   a.click();
   URL.revokeObjectURL(url);
-  if (showToast) showToast('Backup saved to your downloads');
+}
+
+async function loadFromGitHub() {
+  try {
+    const url = `https://raw.githubusercontent.com/${GH_OWNER}/${GH_REPO}/main/${GH_FILE}?t=${Date.now()}`;
+    const res = await fetch(url);
+    if (!res.ok) return; // no data.json yet — use localStorage seed
+    const data = await res.json();
+    if (data && Array.isArray(data.items) && Array.isArray(data.categories)) {
+      state = { ...state, ...data };
+      saveState();
+      render();
+    }
+  } catch(e) { /* silent — use localStorage */ }
+}
+
+async function saveToGitHub(showFeedback = false) {
+  const token = localStorage.getItem(GH_TOKEN_KEY);
+  if (!token) {
+    showToast('Set your GitHub token in Settings → Sync first');
+    openSettings();
+    return;
+  }
+  const btn = document.getElementById('save-btn');
+  if (btn) { btn.style.opacity = '0.4'; btn.style.pointerEvents = 'none'; }
+  try {
+    const apiUrl = `https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${GH_FILE}`;
+    const headers = { 'Authorization': `Bearer ${token}`, 'Accept': 'application/vnd.github+json', 'Content-Type': 'application/json' };
+    // Get current SHA (required to update existing file)
+    let sha = null;
+    const infoRes = await fetch(apiUrl, { headers });
+    if (infoRes.ok) { sha = (await infoRes.json()).sha; }
+    // Base64-encode the JSON (handles unicode)
+    const content = btoa(unescape(encodeURIComponent(JSON.stringify(state, null, 2))));
+    const body = { message: `Update checklist – ${new Date().toISOString().slice(0,16).replace('T',' ')}`, content };
+    if (sha) body.sha = sha;
+    const res = await fetch(apiUrl, { method: 'PUT', headers, body: JSON.stringify(body) });
+    if (res.ok) {
+      if (showFeedback) showToast('Saved to GitHub ✓');
+    } else {
+      const err = await res.json();
+      showToast(err.message?.includes('Bad credentials') ? 'Invalid token — check Settings → Sync' : 'Save failed: ' + (err.message || 'error'));
+    }
+  } catch(e) {
+    showToast('Save failed — check your connection');
+  } finally {
+    if (btn) { btn.style.opacity = ''; btn.style.pointerEvents = ''; }
+  }
 }
 
 function importData(file) {
@@ -3132,6 +3195,7 @@ function checkPinEntry() {
         document.getElementById('pin-lock').classList.add('unlocked');
         _pinEntry = '';
         _pinSetupFirst = '';
+        loadFromGitHub();
       } else {
         // Mismatch — shake and restart
         const dots = document.querySelectorAll('.pin-dot');
@@ -3152,6 +3216,7 @@ function checkPinEntry() {
     if (_pinEntry === savedPin) {
       document.getElementById('pin-lock').classList.add('unlocked');
       _pinEntry = '';
+      loadFromGitHub();
     } else {
       const dots = document.querySelectorAll('.pin-dot');
       dots.forEach(d => { d.classList.add('dot-err'); d.classList.remove('filled'); });
@@ -3229,7 +3294,7 @@ function wireEvents() {
   });
 
   // Settings
-  document.getElementById('save-btn').addEventListener('click', () => exportData(true));
+  document.getElementById('save-btn').addEventListener('click', () => saveToGitHub(true));
   document.getElementById('settings-btn').addEventListener('click', openSettings);
   document.getElementById('settings-close-btn').addEventListener('click', closeSettings);
   document.getElementById('settings-date').addEventListener('change', e => {
@@ -3239,6 +3304,11 @@ function wireEvents() {
   document.getElementById('settings-budget').addEventListener('change', e => {
     state.budget = Number(e.target.value) || DEFAULT_BUDGET;
     saveState(); renderBudget();
+  });
+  document.getElementById('settings-gh-token').addEventListener('change', e => {
+    const t = e.target.value.trim();
+    if (t) localStorage.setItem(GH_TOKEN_KEY, t);
+    else localStorage.removeItem(GH_TOKEN_KEY);
   });
   document.getElementById('export-btn').addEventListener('click', exportData);
   document.getElementById('import-btn').addEventListener('click', () => {
