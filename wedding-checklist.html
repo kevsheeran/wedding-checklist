@@ -1330,7 +1330,7 @@ a { color: inherit; text-decoration: none; }
 <div id="pin-lock">
   <div class="pin-inner">
     <div class="pin-logo" id="pin-logo">M &amp; —</div>
-    <div class="pin-sub" id="pin-sub-loc">Abu Dhabi · 2027</div>
+    <div class="pin-sub" id="pin-sub-loc">Enter your passcode</div>
     <div class="pin-dots">
       <div class="pin-dot" id="pd0"></div>
       <div class="pin-dot" id="pd1"></div>
@@ -3086,19 +3086,24 @@ function escHtml(str) {
 /* ── PIN Lock ──────────────────────────────────────── */
 let _pinEntry = '';
 
+let _pinSetupFirst = ''; // stores first entry during setup
+
 function initPinLock() {
-  // Update PIN lock logo with fiancée name
   const fName = state.fianceeName ? state.fianceeName.trim() : '';
   const fInitial = fName ? fName.charAt(0).toUpperCase() : '—';
   document.getElementById('pin-logo').innerHTML = `M &amp; ${escHtml(fInitial)}`;
-  // Show/hide lock
+  _pinEntry = '';
+  _pinSetupFirst = '';
   const savedPin = localStorage.getItem(PIN_KEY);
   if (!savedPin) {
-    document.getElementById('pin-lock').classList.add('unlocked');
+    // No PIN yet — show setup screen
+    document.getElementById('pin-sub-loc').textContent = 'Create your passcode';
+    document.getElementById('pin-hint').textContent = 'Enter 4 digits to set your passcode';
   } else {
-    _pinEntry = '';
-    updatePinDots();
+    document.getElementById('pin-sub-loc').textContent = 'Enter your passcode';
+    document.getElementById('pin-hint').textContent = 'Incorrect passcode';
   }
+  updatePinDots();
 }
 
 function updatePinDots() {
@@ -3113,19 +3118,51 @@ function updatePinDots() {
 
 function checkPinEntry() {
   const savedPin = localStorage.getItem(PIN_KEY);
-  if (_pinEntry === savedPin) {
-    document.getElementById('pin-lock').classList.add('unlocked');
-    _pinEntry = '';
-  } else {
-    const dots = document.querySelectorAll('.pin-dot');
-    dots.forEach(d => { d.classList.add('dot-err'); d.classList.remove('filled'); });
-    document.getElementById('pin-hint').classList.add('show');
-    setTimeout(() => {
-      dots.forEach(d => d.classList.remove('dot-err'));
-      document.getElementById('pin-hint').classList.remove('show');
+  if (!savedPin) {
+    // Setup mode
+    if (!_pinSetupFirst) {
+      _pinSetupFirst = _pinEntry;
       _pinEntry = '';
+      document.getElementById('pin-sub-loc').textContent = 'Confirm your passcode';
+      document.getElementById('pin-hint').textContent = 'Passcodes do not match — try again';
       updatePinDots();
-    }, 1000);
+    } else {
+      if (_pinEntry === _pinSetupFirst) {
+        localStorage.setItem(PIN_KEY, _pinEntry);
+        document.getElementById('pin-lock').classList.add('unlocked');
+        _pinEntry = '';
+        _pinSetupFirst = '';
+      } else {
+        // Mismatch — shake and restart
+        const dots = document.querySelectorAll('.pin-dot');
+        dots.forEach(d => { d.classList.add('dot-err'); d.classList.remove('filled'); });
+        document.getElementById('pin-hint').classList.add('show');
+        setTimeout(() => {
+          dots.forEach(d => d.classList.remove('dot-err'));
+          document.getElementById('pin-hint').classList.remove('show');
+          _pinEntry = '';
+          _pinSetupFirst = '';
+          document.getElementById('pin-sub-loc').textContent = 'Create your passcode';
+          updatePinDots();
+        }, 1000);
+      }
+    }
+  } else {
+    // Normal unlock mode
+    if (_pinEntry === savedPin) {
+      document.getElementById('pin-lock').classList.add('unlocked');
+      _pinEntry = '';
+    } else {
+      const dots = document.querySelectorAll('.pin-dot');
+      dots.forEach(d => { d.classList.add('dot-err'); d.classList.remove('filled'); });
+      document.getElementById('pin-hint').classList.add('show');
+      setTimeout(() => {
+        dots.forEach(d => d.classList.remove('dot-err'));
+        document.getElementById('pin-hint').classList.remove('show');
+        _pinEntry = '';
+        updatePinDots();
+      }, 1000);
+    }
   }
 }
 
