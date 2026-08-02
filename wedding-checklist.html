@@ -1249,7 +1249,7 @@ a { color: inherit; text-decoration: none; }
 
 /* ── Decision overlay (reuses sheet pattern) ─────── */
 #decision-overlay {
-  position: fixed; inset: 0; z-index: 200;
+  position: fixed; inset: 0; z-index: 250;
   background: rgba(34,29,23,0.4); display: none;
   align-items: flex-end; justify-content: center;
 }
@@ -1428,10 +1428,66 @@ a { color: inherit; text-decoration: none; }
   .board-card-cat { font-size: 8px; }
 }
 
+/* Vendor options in item sheet */
+.item-vendors-section {
+  border-top: 1px solid var(--hairline);
+  padding-top: 16px;
+  margin-top: 16px;
+}
+.item-vendors-label {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.09em;
+  text-transform: uppercase; color: var(--ink); opacity: 0.45;
+  margin-bottom: 10px;
+}
+.item-vendor-mini {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 10px; border-radius: 8px;
+  background: var(--panel); margin-bottom: 6px;
+  border: 1px solid var(--hairline);
+}
+.item-vendor-mini.is-final {
+  border-color: var(--rust); background: rgba(184,87,51,0.07);
+}
+.item-vendor-mini-name { font-size: 13px; font-weight: 500; flex: 1; color: var(--ink); }
+.item-vendor-mini-price { font-size: 11px; color: var(--rust); font-weight: 600; }
+.item-vendors-empty {
+  font-size: 12px; color: var(--ink); opacity: 0.45;
+  font-style: italic; margin-bottom: 10px;
+}
+.item-vendors-btn {
+  width: 100%; font-family: 'Jost', sans-serif; font-size: 12px;
+  font-weight: 600; letter-spacing: 0.03em;
+  padding: 9px 16px; border-radius: 8px; cursor: pointer;
+  border: 1px dashed rgba(184,87,51,0.4);
+  background: none; color: var(--rust); transition: all 0.15s;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+}
+.item-vendors-btn:hover { background: var(--rust-pale); border-style: solid; }
+
+/* Vendor chip on item row */
+.vendor-chip {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 10px;
+  white-space: nowrap;
+}
+.vendor-chip.final {
+  background: rgba(46,125,50,0.12); color: #2e7d32; border: 1px solid rgba(46,125,50,0.25);
+}
+.vendor-chip.comparing {
+  background: rgba(184,87,51,0.1); color: var(--rust); border: 1px solid rgba(184,87,51,0.25);
+}
+
+/* Category budget chip */
+.cat-budget-chip {
+  font-size: 11px; font-weight: 600; color: var(--rust);
+  opacity: 0.75; white-space: nowrap; letter-spacing: 0.01em;
+  margin-right: 2px;
+}
+
 /* Print */
 @media print {
   #header, #cat-nav, #view-tabs, #sidebar, #budget-strip, #filter-bar,
-  #toast-container, #modal-overlay, #settings-panel,
+  #decision-overlay, #toast-container, #modal-overlay, #settings-panel,
   #cat-modal-overlay, .add-item-btn, .cat-action-btn, #pin-lock { display: none !important; }
   body { background: #fff; color: #000; font-size: 11pt; }
   #main-content { padding: 0; }
@@ -1680,6 +1736,7 @@ a { color: inherit; text-decoration: none; }
             <select id="item-cat-input" class="form-select"></select>
           </div>
         </div>
+        <div id="item-vendors-section" class="item-vendors-section"></div>
       </div>
       <div class="sheet-footer">
         <button class="btn-secondary" id="sheet-delete-btn" style="display:none">Delete</button>
@@ -2593,6 +2650,9 @@ function renderMain() {
     const pct = calcProgress(fullRaw);
     const doneCount   = fullRaw.filter(i => i.status === 'done').length;
     const activeCount = fullRaw.filter(i => i.status !== 'na').length;
+    const catBudget   = fullRaw
+      .filter(i => i.status !== 'na' && i.estCost != null)
+      .reduce((s, i) => s + i.estCost, 0);
 
     const section = document.createElement('section');
     section.className = 'cat-section';
@@ -2608,9 +2668,7 @@ function renderMain() {
         <div class="cat-progress-bar"><div class="cat-progress-fill" style="width:${pct}%"></div></div>
       </div>
       <div class="cat-section-actions">
-        <button class="cat-compare-btn" data-action="open-decision" data-cat="${cat.id}" aria-label="Compare options for ${escHtml(cat.name)}" title="Compare options">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="2" y="3" width="8" height="18" rx="1"/><rect x="14" y="3" width="8" height="18" rx="1"/></svg>
-        </button>
+        ${catBudget > 0 ? `<span class="cat-budget-chip">${fmtAED(catBudget)}</span>` : ''}
         <button class="cat-action-btn" data-action="add-item" data-cat="${cat.id}" aria-label="Add item to ${escHtml(cat.name)}">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
         </button>
@@ -2620,10 +2678,6 @@ function renderMain() {
       </div>
     `;
     section.appendChild(header);
-
-    // Decision summary (shown when options have been added)
-    const decSummary = renderDecisionSummary(cat.id);
-    if (decSummary) section.appendChild(decSummary);
 
     const list = document.createElement('div');
     list.className = 'item-list';
@@ -2719,6 +2773,21 @@ function renderItem(item) {
     tBadge.className = `tag-badge ${tagClass}`;
     tBadge.textContent = item.tag === 'reception-only' ? 'Reception' : item.tag;
     statusRow.appendChild(tBadge);
+  }
+
+  // Vendor chip
+  const dec = getDecision(item.id);
+  if (dec && dec.options.length) {
+    const vc = document.createElement('span');
+    const finalOpt = dec.finalOptionId ? dec.options.find(o => o.id === dec.finalOptionId) : null;
+    if (finalOpt) {
+      vc.className = 'vendor-chip final';
+      vc.innerHTML = `<svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> ${escHtml(finalOpt.name)}`;
+    } else {
+      vc.className = 'vendor-chip comparing';
+      vc.textContent = `${dec.options.length} option${dec.options.length > 1 ? 's' : ''} comparing`;
+    }
+    statusRow.appendChild(vc);
   }
 
   body.appendChild(statusRow);
@@ -3051,6 +3120,7 @@ function openItemModal(itemId, defaultCatId) {
   naBtn.style.display = item ? '' : 'none';
   if (item) naBtn.textContent = item.status === 'na' ? 'Restore' : 'Mark N/A';
 
+  renderItemSheetVendors(item ? item.id : null);
   overlay.classList.add('open');
   setTimeout(() => document.getElementById('item-title-input').focus(), 100);
 }
@@ -3463,7 +3533,7 @@ function savePinChange() {
 }
 
 /* ── Decision tracking ─────────────────────────────── */
-let _decCatId    = null; // category the decision sheet is open for
+let _decItemId    = null; // category the decision sheet is open for
 let _decOptionId = null; // option being edited (null = new)
 
 const DEC_STATUS_LABEL = {
@@ -3471,30 +3541,34 @@ const DEC_STATUS_LABEL = {
   visited: 'Visited', declined: 'Declined', selected: 'Selected',
 };
 
-function getDecision(catId) {
-  return state.decisions.find(d => d.categoryId === catId) || null;
+function getDecision(itemId) {
+  return state.decisions.find(d => d.itemId === itemId) || null;
 }
-function getOrCreateDecision(catId) {
-  let d = getDecision(catId);
+function getOrCreateDecision(itemId) {
+  let d = getDecision(itemId);
   if (!d) {
-    d = { id: uid(), categoryId: catId, finalOptionId: null, options: [] };
+    d = { id: uid(), itemId, finalOptionId: null, options: [] };
     state.decisions.push(d);
   }
   return d;
 }
 
-function openDecisionSheet(catId) {
-  _decCatId = catId;
+function openDecisionSheet(itemId) {
+  _decItemId = itemId;
   _decOptionId = null;
-  const cat = state.categories.find(c => c.id === catId);
-  document.getElementById('dec-cat-name').textContent = cat ? cat.name : '';
+  const itm = state.items.find(i => i.id === itemId);
+  document.getElementById('dec-cat-name').textContent = itm ? itm.title : '';
   showDecListPanel();
   document.getElementById('decision-overlay').classList.add('open');
 }
 function closeDecisionSheet() {
   document.getElementById('decision-overlay').classList.remove('open');
-  _decCatId = null;
+  const closedItemId = _decItemId;
+  _decItemId = null;
   _decOptionId = null;
+  if (closedItemId && document.getElementById('modal-overlay').classList.contains('open')) {
+    renderItemSheetVendors(closedItemId);
+  }
 }
 
 function showDecListPanel() {
@@ -3506,7 +3580,7 @@ function showDecFormPanel(optionId) {
   _decOptionId = optionId || null;
   document.getElementById('dec-list-panel').style.display = 'none';
   document.getElementById('dec-form-panel').style.display = '';
-  const dec = getDecision(_decCatId);
+  const dec = getDecision(_decItemId);
   const opt = optionId && dec ? dec.options.find(o => o.id === optionId) : null;
   document.getElementById('dec-form-title').textContent = opt ? 'Edit Option' : 'New Option';
   document.getElementById('opt-name').value    = opt ? opt.name : '';
@@ -3517,14 +3591,14 @@ function showDecFormPanel(optionId) {
   document.getElementById('opt-details').value = opt ? opt.details : '';
   document.getElementById('opt-updated').value = opt ? (opt.updatedAt || '') : new Date().toISOString().slice(0,10);
   document.getElementById('opt-delete-btn').style.display = opt ? '' : 'none';
-  const dec2 = getDecision(_decCatId);
+  const dec2 = getDecision(_decItemId);
   const isFinal = opt && dec2 && dec2.finalOptionId === optionId;
   document.getElementById('opt-select-btn').style.display = (opt && !isFinal) ? '' : 'none';
   setTimeout(() => document.getElementById('opt-name').focus(), 80);
 }
 
 function renderDecOptionsList() {
-  const dec = getDecision(_decCatId);
+  const dec = getDecision(_decItemId);
   const options = dec ? dec.options : [];
   const finalId = dec ? dec.finalOptionId : null;
 
@@ -3577,7 +3651,7 @@ function saveDecOption() {
     nameInput.addEventListener('input', () => nameInput.classList.remove('error'), { once: true });
     return;
   }
-  const dec = getOrCreateDecision(_decCatId);
+  const dec = getOrCreateDecision(_decItemId);
   const payload = {
     name,
     status:       document.getElementById('opt-status').value,
@@ -3600,7 +3674,7 @@ function saveDecOption() {
 
 function deleteDecOption() {
   if (!_decOptionId) return;
-  const dec = getDecision(_decCatId);
+  const dec = getDecision(_decItemId);
   if (!dec) return;
   if (dec.finalOptionId === _decOptionId) dec.finalOptionId = null;
   dec.options = dec.options.filter(o => o.id !== _decOptionId);
@@ -3611,15 +3685,21 @@ function deleteDecOption() {
 }
 
 function selectFinalOption(optionId) {
-  const dec = getOrCreateDecision(_decCatId);
+  const dec = getOrCreateDecision(_decItemId);
   dec.finalOptionId = optionId;
+  const item = state.items.find(i => i.id === _decItemId);
+  if (item) {
+    item.status = 'done';
+    const opt = dec.options.find(o => o.id === optionId);
+    if (opt && opt.price != null) item.estCost = opt.price;
+  }
   saveState();
   render();
   renderDecOptionsList();
 }
 
 function clearFinalOption() {
-  const dec = getDecision(_decCatId);
+  const dec = getDecision(_decItemId);
   if (dec) { dec.finalOptionId = null; saveState(); render(); }
   renderDecOptionsList();
 }
@@ -3653,6 +3733,50 @@ function renderDecisionSummary(catId) {
   return el;
 }
 
+/* ── Vendor options in item sheet ──────────────────── */
+function renderItemSheetVendors(itemId) {
+  const container = document.getElementById('item-vendors-section');
+  if (!container) return;
+  container.innerHTML = '';
+  if (!itemId) return;
+
+  const label = document.createElement('div');
+  label.className = 'item-vendors-label';
+  label.textContent = 'Vendor Options';
+  container.appendChild(label);
+
+  const dec = getDecision(itemId);
+  const options = dec ? dec.options : [];
+  const finalId = dec ? dec.finalOptionId : null;
+
+  if (!options.length) {
+    const empty = document.createElement('div');
+    empty.className = 'item-vendors-empty';
+    empty.textContent = 'No options yet — compare vendors before deciding.';
+    container.appendChild(empty);
+  } else {
+    options.forEach(opt => {
+      const isFinal = opt.id === finalId;
+      const card = document.createElement('div');
+      card.className = 'item-vendor-mini' + (isFinal ? ' is-final' : '');
+      const statusCls = 'vst-' + (isFinal ? 'selected' : opt.status);
+      card.innerHTML = `
+        <div class="item-vendor-mini-name">${escHtml(opt.name)}</div>
+        ${opt.price != null ? `<div class="item-vendor-mini-price">${fmtAED(opt.price)}</div>` : ''}
+        <span class="vendor-status ${statusCls}">${isFinal ? 'Selected' : DEC_STATUS_LABEL[opt.status] || opt.status}</span>
+      `;
+      container.appendChild(card);
+    });
+  }
+
+  const btn = document.createElement('button');
+  btn.className = 'item-vendors-btn';
+  btn.setAttribute('data-action', 'open-vendors');
+  btn.setAttribute('data-item', itemId);
+  btn.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> ${options.length ? 'Manage vendor options' : 'Add vendor options'}`;
+  container.appendChild(btn);
+}
+
 /* ── Event wiring ──────────────────────────────────── */
 function wireEvents() {
   // Persistent main-content delegation (fixes the { once } accumulation bug)
@@ -3662,10 +3786,9 @@ function wireEvents() {
     const actionBtn = e.target.closest('[data-action]');
     if (actionBtn) {
       const { action, cat: catId, item: itemId } = actionBtn.dataset;
-      if (action === 'add-item')      { openItemModal(null, catId); return; }
-      if (action === 'edit-cat')      { openCatModal(catId); return; }
-      if (action === 'toggle-check')  { toggleItemCheck(itemId); return; }
-      if (action === 'open-decision') { openDecisionSheet(catId); return; }
+      if (action === 'add-item')     { openItemModal(null, catId); return; }
+      if (action === 'edit-cat')     { openCatModal(catId); return; }
+      if (action === 'toggle-check') { toggleItemCheck(itemId); return; }
     }
     const itemRow = e.target.closest('.item-row');
     if (itemRow && !e.target.closest('[data-action]')) {
@@ -3676,6 +3799,11 @@ function wireEvents() {
   // Item modal buttons
   document.getElementById('modal-overlay').addEventListener('click', e => {
     if (e.target === document.getElementById('modal-overlay')) closeItemModal();
+  });
+  // Vendor options button inside item sheet
+  document.getElementById('modal-sheet').addEventListener('click', e => {
+    const btn = e.target.closest('[data-action="open-vendors"]');
+    if (btn) openDecisionSheet(btn.dataset.item);
   });
   document.getElementById('sheet-close-btn').addEventListener('click', closeItemModal);
   document.getElementById('sheet-save-btn').addEventListener('click', saveItemModal);
