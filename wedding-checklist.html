@@ -1239,7 +1239,7 @@ a { color: inherit; text-decoration: none; }
 }
 .pin-logo {
   font-family: 'Gilda Display', serif;
-  font-style: italic; font-size: 34px; font-weight: 500;
+  font-style: italic; font-size: 34px; font-weight: 400;
   color: rgba(250,243,232,0.96); line-height: 1; margin-bottom: 5px;
   text-align: center;
 }
@@ -1478,6 +1478,10 @@ a { color: inherit; text-decoration: none; }
   .board-card { padding: 10px; border-radius: 8px; }
   .board-card-title { font-size: 12px; }
   .board-card-cat { font-size: 8px; }
+
+  /* Sheet & decision title smaller on mobile */
+  .sheet-title { font-size: 19px; }
+  .cat-section-title { font-size: 17px; }
 }
 
 /* Vendor options in item sheet */
@@ -1935,6 +1939,10 @@ a { color: inherit; text-decoration: none; }
           <button id="opt-select-btn" class="btn-secondary" style="display:none">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
             Select as Final Choice
+          </button>
+          <button id="opt-unselect-btn" class="vendor-btn danger" style="display:none">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            Unselect
           </button>
           <button id="opt-delete-btn" class="vendor-btn danger" style="display:none;margin-left:auto">Delete option</button>
         </div>
@@ -3651,6 +3659,7 @@ function showDecFormPanel(optionId) {
   const dec2 = getDecision(_decItemId);
   const isFinal = opt && dec2 && dec2.finalOptionId === optionId;
   document.getElementById('opt-select-btn').style.display = (opt && !isFinal) ? '' : 'none';
+  document.getElementById('opt-unselect-btn').style.display = (opt && isFinal) ? '' : 'none';
   setTimeout(() => document.getElementById('opt-name').focus(), 80);
 }
 
@@ -3752,13 +3761,15 @@ function selectFinalOption(optionId) {
   }
   saveState();
   render();
-  renderDecOptionsList();
+  showDecListPanel();
+  showToast('Final choice saved ✓');
 }
 
 function clearFinalOption() {
   const dec = getDecision(_decItemId);
   if (dec) { dec.finalOptionId = null; saveState(); render(); }
-  renderDecOptionsList();
+  showDecListPanel();
+  showToast('Selection removed.');
 }
 
 function renderDecisionSummary(catId) {
@@ -4077,6 +4088,7 @@ function wireEvents() {
   document.getElementById('opt-select-btn').addEventListener('click', () => {
     if (_decOptionId) selectFinalOption(_decOptionId);
   });
+  document.getElementById('opt-unselect-btn').addEventListener('click', clearFinalOption);
   // Decision option card actions (edit / select-final / clear-final)
   document.getElementById('dec-options-list').addEventListener('click', e => {
     const btn = e.target.closest('[data-dec-action]');
