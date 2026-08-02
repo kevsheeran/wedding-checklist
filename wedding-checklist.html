@@ -1247,6 +1247,124 @@ a { color: inherit; text-decoration: none; }
 }
 .pin-key.key-del { color: var(--ink); opacity: 0.5; }
 
+/* ── Decision overlay (reuses sheet pattern) ─────── */
+#decision-overlay {
+  position: fixed; inset: 0; z-index: 200;
+  background: rgba(34,29,23,0.4); display: none;
+  align-items: flex-end; justify-content: center;
+}
+#decision-overlay.open { display: flex; }
+#decision-sheet {
+  background: var(--cream); width: 100%; max-width: 560px;
+  border-radius: 16px 16px 0 0;
+  max-height: 90vh; display: flex; flex-direction: column;
+  box-shadow: 0 -4px 32px rgba(34,29,23,0.14);
+  animation: slide-up 0.22s ease;
+}
+#decision-sheet .sheet-body { overflow-y: auto; padding: 0 20px 32px; flex: 1; }
+
+/* Vendor option card */
+.vendor-card {
+  background: #fff; border: 1px solid var(--hairline);
+  border-radius: 10px; padding: 14px; margin-bottom: 10px;
+  cursor: pointer; transition: border-color 0.15s, box-shadow 0.15s;
+}
+.vendor-card:hover { border-color: var(--rust); }
+.vendor-card.is-final {
+  border-color: var(--rust); background: rgba(184,87,51,0.05);
+}
+.vendor-card-top { display: flex; align-items: center; gap: 10px; }
+.vendor-card-name { font-size: 14px; font-weight: 600; color: var(--ink); flex: 1; }
+.vendor-card-price { font-size: 12px; color: var(--rust); font-weight: 600; margin-top: 5px; }
+.vendor-card-meta { font-size: 11px; color: var(--ink); opacity: 0.55; margin-top: 4px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.vendor-card-actions { display: flex; gap: 6px; margin-top: 10px; }
+.vendor-btn {
+  font-family: 'Jost', sans-serif; font-size: 11px; font-weight: 500;
+  padding: 5px 12px; border-radius: 20px; cursor: pointer;
+  transition: all 0.15s; border: 1px solid var(--hairline); background: var(--panel);
+  color: var(--ink);
+}
+.vendor-btn:hover { border-color: var(--rust); color: var(--rust); }
+.vendor-btn.primary { background: var(--rust); border-color: var(--rust); color: #fff; }
+.vendor-btn.primary:hover { background: var(--rust-dark); }
+.vendor-btn.danger { color: #b01e1e; border-color: rgba(176,30,30,0.25); }
+.vendor-btn.danger:hover { background: rgba(176,30,30,0.06); }
+
+/* Vendor status badge */
+.vendor-status {
+  font-size: 9px; font-weight: 700; letter-spacing: 0.09em;
+  text-transform: uppercase; padding: 3px 8px; border-radius: 10px;
+  white-space: nowrap;
+}
+.vst-considering { background: #e8f0fe; color: #1a56cc; }
+.vst-contacted   { background: #e0f2fe; color: #0277bd; }
+.vst-quoted      { background: #fff3e0; color: #e65100; }
+.vst-visited     { background: #e8f5e9; color: #2e7d32; }
+.vst-declined    { background: #fce4ec; color: #c62828; }
+.vst-selected    { background: var(--rust); color: #fff; }
+
+/* Decision summary strip in category */
+.decision-summary {
+  display: flex; align-items: center; gap: 10px;
+  background: rgba(184,87,51,0.07); border: 1px solid rgba(184,87,51,0.22);
+  border-radius: 8px; padding: 9px 13px; margin-bottom: 12px;
+}
+.decision-summary-icon { color: var(--rust); flex-shrink: 0; }
+.decision-summary-text { flex: 1; min-width: 0; }
+.decision-summary-label {
+  font-size: 9px; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--rust); opacity: 0.65;
+}
+.decision-summary-value { font-size: 13px; font-weight: 600; color: var(--ink); }
+.decision-summary-pending { font-size: 12px; color: var(--ink); opacity: 0.55; font-style: italic; }
+.decision-compare-chip {
+  font-family: 'Jost', sans-serif; font-size: 10px; font-weight: 600;
+  letter-spacing: 0.05em; padding: 4px 10px; border-radius: 14px;
+  border: 1px solid rgba(184,87,51,0.3); background: none;
+  color: var(--rust); cursor: pointer; white-space: nowrap;
+  transition: all 0.15s; flex-shrink: 0;
+}
+.decision-compare-chip:hover { background: var(--rust-pale); }
+
+/* Category header compare button */
+.cat-compare-btn {
+  flex-shrink: 0; width: 28px; height: 28px; border-radius: 4px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--rust); opacity: 0.7; transition: all 0.15s;
+  background: none; border: none; cursor: pointer;
+}
+.cat-compare-btn:hover { background: var(--rust-pale); opacity: 1; }
+
+/* Final selection banner inside decision sheet */
+.dec-final-banner {
+  display: flex; align-items: center; gap: 10px;
+  background: rgba(46,125,50,0.08); border: 1px solid rgba(46,125,50,0.25);
+  border-radius: 8px; padding: 10px 14px; margin-bottom: 16px;
+}
+.dec-final-banner-label { font-size: 9px; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase; color: #2e7d32; }
+.dec-final-banner-name { font-size: 14px; font-weight: 600; color: var(--ink); flex: 1; }
+.dec-clear-btn {
+  font-size: 11px; font-weight: 500; color: var(--ink); opacity: 0.5;
+  background: none; border: none; cursor: pointer; padding: 2px 6px;
+  font-family: 'Jost', sans-serif; transition: opacity 0.15s;
+}
+.dec-clear-btn:hover { opacity: 1; }
+
+/* Option form back button */
+.dec-back-row { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+.dec-back-btn {
+  width: 32px; height: 32px; border-radius: 6px; background: var(--panel);
+  border: 1px solid var(--hairline); display: flex; align-items: center;
+  justify-content: center; cursor: pointer; flex-shrink: 0;
+}
+
+@media (min-width: 768px) {
+  #decision-overlay { align-items: center; }
+  #decision-sheet { border-radius: 12px; max-height: 80vh; }
+}
+
 /* ── Mobile UX polish ─────────────────────────────── */
 @media (max-width: 767px) {
   :root { --header-h: 60px; --tabs-h: 46px; }
@@ -1620,6 +1738,91 @@ a { color: inherit; text-decoration: none; }
     </div>
   </div>
 
+  <!-- Decision / Options comparison overlay -->
+  <div id="decision-overlay" role="dialog" aria-modal="true" aria-labelledby="dec-title">
+    <div id="decision-sheet">
+      <div class="sheet-handle"></div>
+      <div class="sheet-header">
+        <div>
+          <h2 class="sheet-title" id="dec-title">Compare Options</h2>
+          <div id="dec-cat-name" style="font-size:11px;opacity:0.5;margin-top:1px;font-family:'Jost',sans-serif;letter-spacing:0.06em;text-transform:uppercase"></div>
+        </div>
+        <button class="icon-btn" id="dec-close-btn" aria-label="Close">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <!-- Options list panel -->
+      <div id="dec-list-panel" class="sheet-body">
+        <div id="dec-final-banner" class="dec-final-banner" style="display:none">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2e7d32" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+          <div style="flex:1">
+            <div class="dec-final-banner-label">Final selection</div>
+            <div class="dec-final-banner-name" id="dec-final-name"></div>
+          </div>
+          <button class="dec-clear-btn" id="dec-clear-btn">Change</button>
+        </div>
+        <div id="dec-options-list"></div>
+        <button id="dec-add-btn" class="btn-secondary" style="width:100%;margin-top:4px">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Add Option
+        </button>
+      </div>
+      <!-- Option edit/add form panel -->
+      <div id="dec-form-panel" class="sheet-body" style="display:none">
+        <div class="dec-back-row">
+          <button class="dec-back-btn" id="dec-back-btn" aria-label="Back to options list">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+          </button>
+          <h3 id="dec-form-title" style="font-size:14px;font-weight:600;font-family:'Jost',sans-serif">New Option</h3>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="opt-name">Name / Vendor *</label>
+          <input id="opt-name" class="form-input" type="text" placeholder="e.g. Arjan Rotana" autocomplete="off">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="opt-status">Status</label>
+            <select id="opt-status" class="form-input">
+              <option value="considering">Considering</option>
+              <option value="contacted">Contacted</option>
+              <option value="quoted">Quoted</option>
+              <option value="visited">Visited</option>
+              <option value="declined">Declined</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="opt-price">Quote (AED)</label>
+            <input id="opt-price" class="form-input" type="number" min="0" placeholder="0">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="opt-notes">Notes</label>
+          <textarea id="opt-notes" class="form-input" rows="2" placeholder="General notes about this option…"></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="opt-convo">Communication history</label>
+          <textarea id="opt-convo" class="form-input" rows="3" placeholder="Emails sent, calls made, follow-ups scheduled…"></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="opt-details">Important details</label>
+          <textarea id="opt-details" class="form-input" rows="3" placeholder="Package inclusions, terms &amp; conditions, availability…"></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="opt-updated">Last updated</label>
+          <input id="opt-updated" class="form-input" type="date">
+        </div>
+        <div class="sheet-actions" style="flex-wrap:wrap;gap:8px">
+          <button id="opt-save-btn" class="btn-primary">Save</button>
+          <button id="opt-select-btn" class="btn-secondary" style="display:none">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+            Select as Final Choice
+          </button>
+          <button id="opt-delete-btn" class="vendor-btn danger" style="display:none;margin-left:auto">Delete option</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Settings panel -->
   <div id="settings-panel" role="complementary" aria-label="Settings">
     <div class="settings-header">
@@ -1767,11 +1970,11 @@ function buildSeedData() {
     item(c2,'Passport photos ready (4+ each, white background)',{tag:'required'}),
     // Cat 3 — Post-Wedding Legal
     item(c3,'MOFA attestation of marriage certificate',{tag:'required',notes:'Recommended immediately after ceremony; needed for ROM + any future spouse visa'}),
-    item(c3,'Complete 4 typewritten Report of Marriage forms, original signatures',{tag:'required'}),
+    item(c3,'Complete 4 typewritten Report of Marriage forms with original signatures',{tag:'required'}),
     item(c3,'Prepare original + 3 photocopies of attested marriage contract (with English translation)',{tag:'required'}),
     item(c3,'4 passport photos each + 3 passport photocopies each',{tag:'required'}),
     item(c3,'File ROM at Philippine Embassy Abu Dhabi',{tag:'required',estCost:100,notes:'Embassy has jurisdiction over Abu Dhabi + Al Ain. Claim after ~5 working days'}),
-    item(c3,'Confirm PSA record months later',{tag:'required',notes:'This is what makes the marriage exist in PH records — never skip'}),
+    item(c3,'Confirm PSA record is updated (a few months after filing)',{tag:'required',notes:'This is what makes the marriage official in PH records — never skip'}),
     // Cat 4 — Family Travel
     item(c4,'Decide route: agency tourist visa vs. family visit visa',{tag:'required',dueDate:'2026-12-01',notes:'Agency tourist visa (60-day, simplest) vs. family visit visa (Mark sponsors, AED 4,000 salary threshold + attested birth cert)'}),
     item(c4,'Apply for both fathers\' visas',{tag:'required',estCost:1400,notes:'No visa-on-arrival for PH passports without US/EU/etc. visa — pre-approved visa mandatory'}),
@@ -1781,7 +1984,7 @@ function buildSeedData() {
     item(c4,'Travel insurance for both fathers',{tag:'optional',estCost:200}),
     item(c4,'Airport pickup plan',{tag:'required',assignee:'Family'}),
     // Cat 5 — Prenup
-    item(c5,'Shortlist photographers (ask: who handles location permits?)',{tag:'required',dueDate:'2026-10-15',notes:'Hired-photographer shoots in public spots may need permits; reputable studios arrange them'}),
+    item(c5,'Shortlist photographers (ask: who handles location permits?)',{tag:'required',dueDate:'2026-10-15',notes:'Hired photographers shooting in public spots may need permits; reputable studios will arrange these'}),
     item(c5,'Book prenup shoot',{tag:'required',estCost:2500,dueDate:'2026-11-15',notes:'Shoot Oct–Mar window for weather; golden hour'}),
     item(c5,'Choose locations (cluster nearby spots)',{tag:'required',notes:'If hotel backdrop wanted, shoot at OUR wedding hotel — outside hotels charge AED 10k+ for shoots'}),
     item(c5,'Outfits: 2–3 changes',{tag:'required',assignee:'Fiancée'}),
@@ -1859,7 +2062,7 @@ function buildSeedData() {
     item(c10,'Game stubs (Bato Bato Pick or similar)',{tag:'reception-only'}),
     item(c10,'Emcee/host briefed with program + sponsor acknowledgment script',{tag:'required',notes:'Introduce each ninong/ninang with a short story; acknowledgments after welcome + before dessert'}),
     // Symbolic ceremony set (default na)
-    item(c10,'SYMBOLIC: Cord',{tag:'reception-only',status:'na',notes:'Flip to todo if we decide to do Filipino rites at reception'}),
+    item(c10,'SYMBOLIC: Cord',{tag:'reception-only',status:'na',notes:'Change to To Do if we decide to include Filipino rites at the reception'}),
     item(c10,'SYMBOLIC: 2 veils',{tag:'reception-only',status:'na'}),
     item(c10,'SYMBOLIC: Arras',{tag:'reception-only',status:'na'}),
     item(c10,'SYMBOLIC: Unity candles + lighter',{tag:'reception-only',status:'na'}),
@@ -1887,11 +2090,11 @@ function buildSeedData() {
     item(c13,'Walk-through call/meet 3 days before',{tag:'required'}),
     item(c13,'Thank-you gift for Day Captain',{tag:'required',estCost:150}),
   ];
-  return { categories: cats, items, weddingDate: '2027-03-15', budget: DEFAULT_BUDGET };
+  return { categories: cats, items, weddingDate: '2027-03-15', budget: DEFAULT_BUDGET, fianceeName: '', decisions: [] };
 }
 
 /* ── State ─────────────────────────────────────────── */
-let state = { categories: [], items: [], weddingDate: '2027-03-15', budget: DEFAULT_BUDGET, fianceeName: '' };
+let state = { categories: [], items: [], weddingDate: '2027-03-15', budget: DEFAULT_BUDGET, fianceeName: '', decisions: [] };
 let activeCategory = 'all';
 let activeView     = 'all';
 let filters = { search: '', status: '', assignee: '', tag: '', dueSoon: false };
@@ -1930,6 +2133,7 @@ function loadState() {
     try {
       state = JSON.parse(raw);
       if (!state.fianceeName) state.fianceeName = '';
+      if (!state.decisions) state.decisions = [];
     }
     catch(e) { state = buildSeedData(); saveState(); }
   }
@@ -2404,6 +2608,9 @@ function renderMain() {
         <div class="cat-progress-bar"><div class="cat-progress-fill" style="width:${pct}%"></div></div>
       </div>
       <div class="cat-section-actions">
+        <button class="cat-compare-btn" data-action="open-decision" data-cat="${cat.id}" aria-label="Compare options for ${escHtml(cat.name)}" title="Compare options">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="2" y="3" width="8" height="18" rx="1"/><rect x="14" y="3" width="8" height="18" rx="1"/></svg>
+        </button>
         <button class="cat-action-btn" data-action="add-item" data-cat="${cat.id}" aria-label="Add item to ${escHtml(cat.name)}">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
         </button>
@@ -2413,6 +2620,10 @@ function renderMain() {
       </div>
     `;
     section.appendChild(header);
+
+    // Decision summary (shown when options have been added)
+    const decSummary = renderDecisionSummary(cat.id);
+    if (decSummary) section.appendChild(decSummary);
 
     const list = document.createElement('div');
     list.className = 'item-list';
@@ -3251,6 +3462,197 @@ function savePinChange() {
   showToast('Passcode set. Active on next load.');
 }
 
+/* ── Decision tracking ─────────────────────────────── */
+let _decCatId    = null; // category the decision sheet is open for
+let _decOptionId = null; // option being edited (null = new)
+
+const DEC_STATUS_LABEL = {
+  considering: 'Considering', contacted: 'Contacted', quoted: 'Quoted',
+  visited: 'Visited', declined: 'Declined', selected: 'Selected',
+};
+
+function getDecision(catId) {
+  return state.decisions.find(d => d.categoryId === catId) || null;
+}
+function getOrCreateDecision(catId) {
+  let d = getDecision(catId);
+  if (!d) {
+    d = { id: uid(), categoryId: catId, finalOptionId: null, options: [] };
+    state.decisions.push(d);
+  }
+  return d;
+}
+
+function openDecisionSheet(catId) {
+  _decCatId = catId;
+  _decOptionId = null;
+  const cat = state.categories.find(c => c.id === catId);
+  document.getElementById('dec-cat-name').textContent = cat ? cat.name : '';
+  showDecListPanel();
+  document.getElementById('decision-overlay').classList.add('open');
+}
+function closeDecisionSheet() {
+  document.getElementById('decision-overlay').classList.remove('open');
+  _decCatId = null;
+  _decOptionId = null;
+}
+
+function showDecListPanel() {
+  document.getElementById('dec-list-panel').style.display = '';
+  document.getElementById('dec-form-panel').style.display = 'none';
+  renderDecOptionsList();
+}
+function showDecFormPanel(optionId) {
+  _decOptionId = optionId || null;
+  document.getElementById('dec-list-panel').style.display = 'none';
+  document.getElementById('dec-form-panel').style.display = '';
+  const dec = getDecision(_decCatId);
+  const opt = optionId && dec ? dec.options.find(o => o.id === optionId) : null;
+  document.getElementById('dec-form-title').textContent = opt ? 'Edit Option' : 'New Option';
+  document.getElementById('opt-name').value    = opt ? opt.name : '';
+  document.getElementById('opt-status').value  = opt ? opt.status : 'considering';
+  document.getElementById('opt-price').value   = opt && opt.price != null ? opt.price : '';
+  document.getElementById('opt-notes').value   = opt ? opt.notes : '';
+  document.getElementById('opt-convo').value   = opt ? opt.conversation : '';
+  document.getElementById('opt-details').value = opt ? opt.details : '';
+  document.getElementById('opt-updated').value = opt ? (opt.updatedAt || '') : new Date().toISOString().slice(0,10);
+  document.getElementById('opt-delete-btn').style.display = opt ? '' : 'none';
+  const dec2 = getDecision(_decCatId);
+  const isFinal = opt && dec2 && dec2.finalOptionId === optionId;
+  document.getElementById('opt-select-btn').style.display = (opt && !isFinal) ? '' : 'none';
+  setTimeout(() => document.getElementById('opt-name').focus(), 80);
+}
+
+function renderDecOptionsList() {
+  const dec = getDecision(_decCatId);
+  const options = dec ? dec.options : [];
+  const finalId = dec ? dec.finalOptionId : null;
+
+  // Final banner
+  const banner = document.getElementById('dec-final-banner');
+  if (finalId) {
+    const finalOpt = options.find(o => o.id === finalId);
+    if (finalOpt) {
+      banner.style.display = 'flex';
+      document.getElementById('dec-final-name').textContent = finalOpt.name;
+    }
+  } else {
+    banner.style.display = 'none';
+  }
+
+  const list = document.getElementById('dec-options-list');
+  list.innerHTML = '';
+  if (!options.length) {
+    list.innerHTML = '<p style="font-size:13px;opacity:0.5;text-align:center;padding:24px 0;font-style:italic">No options yet — add your first one below.</p>';
+    return;
+  }
+  options.forEach(opt => {
+    const isFinal = opt.id === finalId;
+    const card = document.createElement('div');
+    card.className = 'vendor-card' + (isFinal ? ' is-final' : '');
+    const statusCls = 'vst-' + (isFinal ? 'selected' : opt.status);
+    const priceHtml = opt.price != null ? `<div class="vendor-card-price">${fmtAED(opt.price)}</div>` : '';
+    const metaHtml  = opt.notes ? `<div class="vendor-card-meta">${escHtml(opt.notes.slice(0,90))}${opt.notes.length > 90 ? '…' : ''}</div>` : '';
+    const updHtml   = opt.updatedAt ? `<div style="font-size:10px;opacity:0.4;margin-top:4px">${fmtDate(opt.updatedAt)}</div>` : '';
+    card.innerHTML = `
+      <div class="vendor-card-top">
+        <div class="vendor-card-name">${escHtml(opt.name)}</div>
+        <span class="vendor-status ${statusCls}">${isFinal ? 'Final' : DEC_STATUS_LABEL[opt.status] || opt.status}</span>
+      </div>
+      ${priceHtml}${metaHtml}${updHtml}
+      <div class="vendor-card-actions">
+        <button class="vendor-btn" data-dec-action="edit-option" data-opt="${opt.id}">Edit</button>
+        ${!isFinal ? `<button class="vendor-btn primary" data-dec-action="select-final" data-opt="${opt.id}">Select as final</button>` : `<button class="vendor-btn danger" data-dec-action="clear-final">Remove selection</button>`}
+      </div>`;
+    list.appendChild(card);
+  });
+}
+
+function saveDecOption() {
+  const nameInput = document.getElementById('opt-name');
+  const name = nameInput.value.trim();
+  if (!name) {
+    nameInput.classList.add('error');
+    nameInput.focus();
+    nameInput.addEventListener('input', () => nameInput.classList.remove('error'), { once: true });
+    return;
+  }
+  const dec = getOrCreateDecision(_decCatId);
+  const payload = {
+    name,
+    status:       document.getElementById('opt-status').value,
+    price:        document.getElementById('opt-price').value !== '' ? Number(document.getElementById('opt-price').value) : null,
+    notes:        document.getElementById('opt-notes').value.trim(),
+    conversation: document.getElementById('opt-convo').value.trim(),
+    details:      document.getElementById('opt-details').value.trim(),
+    updatedAt:    document.getElementById('opt-updated').value || new Date().toISOString().slice(0,10),
+  };
+  if (_decOptionId) {
+    const idx = dec.options.findIndex(o => o.id === _decOptionId);
+    if (idx !== -1) dec.options[idx] = { ...dec.options[idx], ...payload };
+  } else {
+    dec.options.push({ id: uid(), ...payload });
+  }
+  saveState();
+  render();
+  showDecListPanel();
+}
+
+function deleteDecOption() {
+  if (!_decOptionId) return;
+  const dec = getDecision(_decCatId);
+  if (!dec) return;
+  if (dec.finalOptionId === _decOptionId) dec.finalOptionId = null;
+  dec.options = dec.options.filter(o => o.id !== _decOptionId);
+  if (!dec.options.length) state.decisions = state.decisions.filter(d => d.id !== dec.id);
+  saveState();
+  render();
+  showDecListPanel();
+}
+
+function selectFinalOption(optionId) {
+  const dec = getOrCreateDecision(_decCatId);
+  dec.finalOptionId = optionId;
+  saveState();
+  render();
+  renderDecOptionsList();
+}
+
+function clearFinalOption() {
+  const dec = getDecision(_decCatId);
+  if (dec) { dec.finalOptionId = null; saveState(); render(); }
+  renderDecOptionsList();
+}
+
+function renderDecisionSummary(catId) {
+  const dec = getDecision(catId);
+  if (!dec || !dec.options.length) return null;
+  const el = document.createElement('div');
+  el.className = 'decision-summary';
+  const finalOpt = dec.finalOptionId ? dec.options.find(o => o.id === dec.finalOptionId) : null;
+  if (finalOpt) {
+    el.innerHTML = `
+      <div class="decision-summary-icon">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <div class="decision-summary-text">
+        <div class="decision-summary-label">Final selection</div>
+        <div class="decision-summary-value">${escHtml(finalOpt.name)}${finalOpt.price != null ? ` <span style="font-weight:400;font-size:12px;opacity:0.65">— ${fmtAED(finalOpt.price)}</span>` : ''}</div>
+      </div>
+      <button class="decision-compare-chip" data-action="open-decision" data-cat="${catId}">Compare</button>`;
+  } else {
+    el.innerHTML = `
+      <div class="decision-summary-icon" style="opacity:0.4">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+      </div>
+      <div class="decision-summary-text">
+        <div class="decision-summary-pending">${dec.options.length} option${dec.options.length > 1 ? 's' : ''} being compared — no final selection yet</div>
+      </div>
+      <button class="decision-compare-chip" data-action="open-decision" data-cat="${catId}">View</button>`;
+  }
+  return el;
+}
+
 /* ── Event wiring ──────────────────────────────────── */
 function wireEvents() {
   // Persistent main-content delegation (fixes the { once } accumulation bug)
@@ -3260,9 +3662,10 @@ function wireEvents() {
     const actionBtn = e.target.closest('[data-action]');
     if (actionBtn) {
       const { action, cat: catId, item: itemId } = actionBtn.dataset;
-      if (action === 'add-item')    { openItemModal(null, catId); return; }
-      if (action === 'edit-cat')    { openCatModal(catId); return; }
-      if (action === 'toggle-check'){ toggleItemCheck(itemId); return; }
+      if (action === 'add-item')      { openItemModal(null, catId); return; }
+      if (action === 'edit-cat')      { openCatModal(catId); return; }
+      if (action === 'toggle-check')  { toggleItemCheck(itemId); return; }
+      if (action === 'open-decision') { openDecisionSheet(catId); return; }
     }
     const itemRow = e.target.closest('.item-row');
     if (itemRow && !e.target.closest('[data-action]')) {
@@ -3290,6 +3693,7 @@ function wireEvents() {
       closeItemModal();
       closeCatModal();
       closeSettings();
+      closeDecisionSheet();
     }
   });
 
@@ -3422,6 +3826,29 @@ function wireEvents() {
   document.getElementById('filter-clear-btn').addEventListener('click', clearAllFilters);
   document.getElementById('search-clear-btn').addEventListener('click', () => {
     filters.search = ''; render();
+  });
+
+  // Decision overlay
+  document.getElementById('dec-close-btn').addEventListener('click', closeDecisionSheet);
+  document.getElementById('decision-overlay').addEventListener('click', e => {
+    if (e.target === document.getElementById('decision-overlay')) closeDecisionSheet();
+  });
+  document.getElementById('dec-add-btn').addEventListener('click', () => showDecFormPanel(null));
+  document.getElementById('dec-back-btn').addEventListener('click', showDecListPanel);
+  document.getElementById('dec-clear-btn').addEventListener('click', clearFinalOption);
+  document.getElementById('opt-save-btn').addEventListener('click', saveDecOption);
+  document.getElementById('opt-delete-btn').addEventListener('click', deleteDecOption);
+  document.getElementById('opt-select-btn').addEventListener('click', () => {
+    if (_decOptionId) selectFinalOption(_decOptionId);
+  });
+  // Decision option card actions (edit / select-final / clear-final)
+  document.getElementById('dec-options-list').addEventListener('click', e => {
+    const btn = e.target.closest('[data-dec-action]');
+    if (!btn) return;
+    const { decAction, opt } = btn.dataset;
+    if (decAction === 'edit-option')   { showDecFormPanel(opt); return; }
+    if (decAction === 'select-final')  { selectFinalOption(opt); return; }
+    if (decAction === 'clear-final')   { clearFinalOption(); return; }
   });
 
   // Budget breakdown toggle + DCP
