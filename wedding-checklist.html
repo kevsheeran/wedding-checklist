@@ -3509,7 +3509,7 @@ function escHtml(str) {
 /* ── PIN Lock ──────────────────────────────────────── */
 let _pinEntry = '';
 
-let _pinSetupFirst = ''; // stores first entry during setup
+let _pinSetupFirst = '';
 
 function initPinLock() {
   const fName = state.fianceeName ? state.fianceeName.trim() : '';
@@ -3517,15 +3517,10 @@ function initPinLock() {
   document.getElementById('pin-logo').innerHTML = `M &amp; ${escHtml(fInitial)}`;
   _pinEntry = '';
   _pinSetupFirst = '';
-  const savedPin = localStorage.getItem(PIN_KEY);
-  if (!savedPin) {
-    // No PIN yet — show setup screen
-    document.getElementById('pin-sub-loc').textContent = 'Create your passcode';
-    document.getElementById('pin-hint').textContent = 'Enter 4 digits to set your passcode';
-  } else {
-    document.getElementById('pin-sub-loc').textContent = 'Enter your passcode';
-    document.getElementById('pin-hint').textContent = 'Incorrect passcode';
-  }
+  // Always pre-seed the PIN to 1419 on first load
+  if (!localStorage.getItem(PIN_KEY)) localStorage.setItem(PIN_KEY, '1419');
+  document.getElementById('pin-sub-loc').textContent = 'Enter your passcode';
+  document.getElementById('pin-hint').textContent = 'Incorrect passcode';
   updatePinDots();
 }
 
@@ -3541,55 +3536,27 @@ function updatePinDots() {
 
 function checkPinEntry() {
   const savedPin = localStorage.getItem(PIN_KEY);
-  if (!savedPin) {
-    // Setup mode
-    if (!_pinSetupFirst) {
-      _pinSetupFirst = _pinEntry;
-      _pinEntry = '';
-      document.getElementById('pin-sub-loc').textContent = 'Confirm your passcode';
-      document.getElementById('pin-hint').textContent = 'Passcodes do not match — try again';
-      updatePinDots();
-    } else {
-      if (_pinEntry === _pinSetupFirst) {
-        localStorage.setItem(PIN_KEY, _pinEntry);
-        document.getElementById('pin-lock').classList.add('unlocked');
-        _pinEntry = '';
-        _pinSetupFirst = '';
-        loadFromGitHub();
-        showSyncPrompt();
-      } else {
-        // Mismatch — shake and restart
-        const dots = document.querySelectorAll('.pin-dot');
-        dots.forEach(d => { d.classList.add('dot-err'); d.classList.remove('filled'); });
-        document.getElementById('pin-hint').classList.add('show');
-        setTimeout(() => {
-          dots.forEach(d => d.classList.remove('dot-err'));
-          document.getElementById('pin-hint').classList.remove('show');
-          _pinEntry = '';
-          _pinSetupFirst = '';
-          document.getElementById('pin-sub-loc').textContent = 'Create your passcode';
-          updatePinDots();
-        }, 1000);
-      }
-    }
-  } else {
-    // Normal unlock mode
-    if (_pinEntry === savedPin) {
-      document.getElementById('pin-lock').classList.add('unlocked');
-      _pinEntry = '';
-      loadFromGitHub();
+  if (_pinEntry === savedPin) {
+    document.getElementById('pin-lock').classList.add('unlocked');
+    _pinEntry = '';
+    // If no GitHub token yet → show the token prompt first;
+    // loadFromGitHub() will be called after the token is saved.
+    // If token already stored → load from GitHub immediately.
+    if (!localStorage.getItem(GH_TOKEN_KEY)) {
       showSyncPrompt();
     } else {
-      const dots = document.querySelectorAll('.pin-dot');
-      dots.forEach(d => { d.classList.add('dot-err'); d.classList.remove('filled'); });
-      document.getElementById('pin-hint').classList.add('show');
-      setTimeout(() => {
-        dots.forEach(d => d.classList.remove('dot-err'));
-        document.getElementById('pin-hint').classList.remove('show');
-        _pinEntry = '';
-        updatePinDots();
-      }, 1000);
+      loadFromGitHub();
     }
+  } else {
+    const dots = document.querySelectorAll('.pin-dot');
+    dots.forEach(d => { d.classList.add('dot-err'); d.classList.remove('filled'); });
+    document.getElementById('pin-hint').classList.add('show');
+    setTimeout(() => {
+      dots.forEach(d => d.classList.remove('dot-err'));
+      document.getElementById('pin-hint').classList.remove('show');
+      _pinEntry = '';
+      updatePinDots();
+    }, 1000);
   }
 }
 
@@ -3947,13 +3914,13 @@ function wireEvents() {
   // Sync prompt
   document.getElementById('sync-prompt-save-btn').addEventListener('click', () => {
     const t = document.getElementById('sync-prompt-token').value.trim();
-    if (t) {
-      localStorage.setItem(GH_TOKEN_KEY, t);
-      const settingsInput = document.getElementById('settings-gh-token');
-      if (settingsInput) settingsInput.value = t;
-      showToast('GitHub sync enabled ✓');
-    }
+    if (!t) { showToast('Paste your GitHub token first.'); return; }
+    localStorage.setItem(GH_TOKEN_KEY, t);
+    const settingsInput = document.getElementById('settings-gh-token');
+    if (settingsInput) settingsInput.value = t;
     closeSyncPrompt(false);
+    showToast('Loading from GitHub…');
+    loadFromGitHub();
   });
   document.getElementById('sync-prompt-skip-btn').addEventListener('click', () => closeSyncPrompt(true));
 
