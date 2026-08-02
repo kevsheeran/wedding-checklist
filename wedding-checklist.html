@@ -1482,6 +1482,23 @@ a { color: inherit; text-decoration: none; }
   /* Sheet & decision title smaller on mobile */
   .sheet-title { font-size: 19px; }
   .cat-section-title { font-size: 17px; }
+
+  /* Prevent iOS Safari zoom on input focus (must be ≥16px) */
+  .form-input { font-size: 16px !important; }
+  .filter-select { font-size: 14px; height: 38px; }
+  .search-input { font-size: 15px; }
+
+  /* Larger labels and item text */
+  .form-label { font-size: 12px; letter-spacing: 0.09em; }
+  .item-title { font-size: 15px; }
+  .form-group { margin-bottom: 14px; }
+
+  /* Bigger touch targets for vendor buttons */
+  .vendor-btn { font-size: 12px; padding: 7px 14px; min-height: 36px; }
+  .vendor-card-actions { gap: 8px; margin-top: 12px; }
+
+  /* FAB spacing — hide add-item-btn inline when FAB exists */
+  .add-item-btn { display: none; }
 }
 
 /* Vendor options in item sheet */
@@ -1519,6 +1536,30 @@ a { color: inherit; text-decoration: none; }
   display: flex; align-items: center; justify-content: center; gap: 6px;
 }
 .item-vendors-btn:hover { background: var(--rust-pale); border-style: solid; }
+
+/* Vendor attachment link */
+.vendor-link-btn {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-family: 'Raleway', sans-serif; font-size: 11px; font-weight: 600;
+  color: var(--rust); text-decoration: none;
+  margin-top: 6px; padding: 4px 10px; border-radius: 20px;
+  border: 1px solid rgba(122,26,46,0.3);
+  background: rgba(122,26,46,0.05);
+  transition: background 0.15s;
+}
+.vendor-link-btn:hover { background: rgba(122,26,46,0.12); }
+
+/* Mobile FAB */
+#fab-add {
+  position: fixed; bottom: 88px; right: 18px;
+  width: 54px; height: 54px; border-radius: 50%;
+  background: var(--rust); color: #fff;
+  box-shadow: 0 4px 18px rgba(122,26,46,0.45), 0 2px 6px rgba(0,0,0,0.12);
+  display: none; align-items: center; justify-content: center;
+  z-index: 91; transition: transform 0.15s, box-shadow 0.15s;
+}
+#fab-add:active { transform: scale(0.94); }
+@media (max-width: 767px) { #fab-add { display: flex; } }
 
 /* Vendor chip on item row */
 .vendor-chip {
@@ -1732,6 +1773,11 @@ a { color: inherit; text-decoration: none; }
     </div>
   </div>
 
+  <!-- Mobile FAB -->
+  <button id="fab-add" aria-label="Add item">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+  </button>
+
   <!-- Toast container -->
   <div id="toast-container" aria-live="polite" aria-atomic="false"></div>
 
@@ -1929,6 +1975,10 @@ a { color: inherit; text-decoration: none; }
         <div class="form-group">
           <label class="form-label" for="opt-details">Important details</label>
           <textarea id="opt-details" class="form-input" rows="3" placeholder="Package inclusions, terms &amp; conditions, availability…"></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="opt-link">Attachment link <span style="opacity:0.45;font-weight:400">(Google Drive, iCloud, photo…)</span></label>
+          <input id="opt-link" class="form-input" type="url" placeholder="https://drive.google.com/…" autocomplete="off" inputmode="url">
         </div>
         <div class="form-group">
           <label class="form-label" for="opt-updated">Last updated</label>
@@ -2926,6 +2976,7 @@ function renderItem(item) {
 /* ── Render: Budget strip ──────────────────────────── */
 let _budgetOpen = false;
 
+let _wasOverBudget = false;
 function renderBudget() {
   const spent = calcBudget();
   const ceiling = state.budget || DEFAULT_BUDGET;
@@ -2934,7 +2985,10 @@ function renderBudget() {
   document.getElementById('budget-ceiling-display').textContent = fmtAED(ceiling);
   const fill = document.getElementById('budget-fill');
   fill.style.width = pct + '%';
-  fill.classList.toggle('over', spent > ceiling);
+  const isOver = spent > ceiling;
+  fill.classList.toggle('over', isOver);
+  if (isOver && !_wasOverBudget) showToast(`Over budget by ${fmtAED(spent - ceiling)} ⚠️`);
+  _wasOverBudget = isOver;
   if (_budgetOpen) renderBudgetBreakdown();
 }
 
@@ -3175,7 +3229,13 @@ function toggleItemCheck(itemId) {
 /* ── Item Modal ────────────────────────────────────── */
 let _editingItemId = null;
 
+function setFabVisible(v) {
+  const fab = document.getElementById('fab-add');
+  if (fab) fab.style.display = v ? '' : 'none';
+}
+
 function openItemModal(itemId, defaultCatId) {
+  setFabVisible(false);
   _editingItemId = itemId || null;
   const item = itemId ? state.items.find(i=>i.id===itemId) : null;
   const overlay = document.getElementById('modal-overlay');
@@ -3216,6 +3276,7 @@ function closeItemModal() {
   document.getElementById('modal-overlay').classList.remove('open');
   document.getElementById('item-title-input').classList.remove('error');
   _editingItemId = null;
+  setFabVisible(true);
 }
 
 function saveItemModal() {
@@ -3654,6 +3715,7 @@ function showDecFormPanel(optionId) {
   document.getElementById('opt-notes').value   = opt ? opt.notes : '';
   document.getElementById('opt-convo').value   = opt ? opt.conversation : '';
   document.getElementById('opt-details').value = opt ? opt.details : '';
+  document.getElementById('opt-link').value    = opt ? (opt.link || '') : '';
   document.getElementById('opt-updated').value = opt ? (opt.updatedAt || '') : new Date().toISOString().slice(0,10);
   document.getElementById('opt-delete-btn').style.display = opt ? '' : 'none';
   const dec2 = getDecision(_decItemId);
@@ -3694,12 +3756,16 @@ function renderDecOptionsList() {
     const priceHtml = opt.price != null ? `<div class="vendor-card-price">${fmtAED(opt.price)}</div>` : '';
     const metaHtml  = opt.notes ? `<div class="vendor-card-meta">${escHtml(opt.notes.slice(0,90))}${opt.notes.length > 90 ? '…' : ''}</div>` : '';
     const updHtml   = opt.updatedAt ? `<div style="font-size:10px;opacity:0.4;margin-top:4px">${fmtDate(opt.updatedAt)}</div>` : '';
+    const linkHtml  = opt.link ? `<a href="${escHtml(opt.link)}" target="_blank" rel="noopener" class="vendor-link-btn">
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      Open attachment</a>` : '';
     card.innerHTML = `
       <div class="vendor-card-top">
         <div class="vendor-card-name">${escHtml(opt.name)}</div>
         <span class="vendor-status ${statusCls}">${isFinal ? 'Final' : DEC_STATUS_LABEL[opt.status] || opt.status}</span>
       </div>
       ${priceHtml}${metaHtml}${updHtml}
+      ${linkHtml}
       <div class="vendor-card-actions">
         <button class="vendor-btn" data-dec-action="edit-option" data-opt="${opt.id}">Edit</button>
         ${!isFinal ? `<button class="vendor-btn primary" data-dec-action="select-final" data-opt="${opt.id}">Select as final</button>` : `<button class="vendor-btn danger" data-dec-action="clear-final">Remove selection</button>`}
@@ -3725,6 +3791,7 @@ function saveDecOption() {
     notes:        document.getElementById('opt-notes').value.trim(),
     conversation: document.getElementById('opt-convo').value.trim(),
     details:      document.getElementById('opt-details').value.trim(),
+    link:         document.getElementById('opt-link').value.trim(),
     updatedAt:    document.getElementById('opt-updated').value || new Date().toISOString().slice(0,10),
   };
   if (_decOptionId) {
@@ -4097,6 +4164,14 @@ function wireEvents() {
     if (decAction === 'edit-option')   { showDecFormPanel(opt); return; }
     if (decAction === 'select-final')  { selectFinalOption(opt); return; }
     if (decAction === 'clear-final')   { clearFinalOption(); return; }
+  });
+
+  // Mobile FAB — opens add-item for current active category
+  document.getElementById('fab-add').addEventListener('click', () => {
+    const catId = activeCategory !== 'all'
+      ? activeCategory
+      : ([...state.categories].sort((a,b)=>a.order-b.order)[0]?.id || null);
+    openItemModal(null, catId);
   });
 
   // Budget breakdown toggle + DCP
