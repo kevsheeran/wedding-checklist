@@ -481,7 +481,7 @@
       "dueDate": "2026-09-15",
       "estCost": null,
       "tag": "required",
-      "starred": false
+      "starred": true
     },
     {
       "id": "adc7f3df-d384-4543-8e70-9c532bede5db",
@@ -1482,7 +1482,7 @@
       "estCost": 26250,
       "tag": "required",
       "categoryId": "bc8a8a77-e563-4ead-81f2-daff1d4b2744",
-      "starred": false
+      "starred": true
     }
   ],
   "weddingDate": "2027-03-18",
@@ -1547,9 +1547,9 @@
         {
           "id": "57bee9b2-40f1-4a4f-8d23-ba61eda1532e",
           "name": "Grand Hyatt Dubai",
-          "status": "quoted",
+          "status": "contacted",
           "price": null,
-          "notes": "Sent Request for Proposal: Confirmation Number: H6356176",
+          "notes": "Sent Request for Proposal: Confirmation Number: H6356176\n\nCurrently not open for event-only bookings for the requested period in March.",
           "conversation": "Email",
           "details": "",
           "link": "https://www.hyatt.com/grand-hyatt/en-US/dxbgh-grand-hyatt-dubai/meetings",
@@ -1683,6 +1683,17 @@
           "price": 150000,
           "notes": "Samaya Ballroom - 600 guests. Min of 150K. March peak season.",
           "conversation": "",
+          "details": "",
+          "link": "",
+          "updatedAt": "2026-08-04"
+        },
+        {
+          "id": "3267f1de-fb3b-4b0f-91d3-1d191b60190e",
+          "name": "Embassy Suites by Hilton Dubai Business Bay",
+          "status": "quoted",
+          "price": 20250,
+          "notes": "225 AED per person\nFursa Ballroom B = 90 guests\nCheck some other ballrooms\nWaiting for reply",
+          "conversation": "Email - Madelene\nmadelene.espejo@hilton.com\n0567731107",
           "details": "",
           "link": "",
           "updatedAt": "2026-08-04"
