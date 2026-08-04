@@ -1624,12 +1624,12 @@
         {
           "id": "fef5838a-c3cc-46d0-93ac-47d126ec92b9",
           "name": "Hospitality World Trade Centre",
-          "status": "visited",
+          "status": "contacted",
           "price": null,
-          "notes": "800 DWTC (3982)\nhospitality@dwtc.com",
-          "conversation": "",
+          "notes": "Minimum 300 guests. They'll call back.",
+          "conversation": "Call\n\n800 DWTC (3982)\nhospitality@dwtc.com",
           "details": "",
-          "link": "",
+          "link": "https://www.dwtchospitality.com/en/weddings/",
           "updatedAt": "2026-08-04"
         }
       ]
