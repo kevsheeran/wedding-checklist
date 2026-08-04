@@ -1675,6 +1675,17 @@
           "details": "",
           "link": "",
           "updatedAt": "2026-08-04"
+        },
+        {
+          "id": "49fec994-d851-4306-96b3-6a491f0df515",
+          "name": "The Ritz-Carlton, Dubai International Financial Centre",
+          "status": "declined",
+          "price": 150000,
+          "notes": "Samaya Ballroom - 600 guests. Min of 150K. March peak season.",
+          "conversation": "",
+          "details": "",
+          "link": "",
+          "updatedAt": "2026-08-04"
         }
       ]
     }
