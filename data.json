@@ -495,8 +495,9 @@
       "status": "todo",
       "assignee": "",
       "dueDate": null,
-      "estCost": 8000,
-      "tag": "required"
+      "estCost": 20000,
+      "tag": "required",
+      "starred": false
     },
     {
       "id": "97dd8d4a-b99c-42f2-a125-22e0039c21a1",
@@ -1454,6 +1455,18 @@
       "dueDate": null,
       "estCost": 150,
       "tag": "required"
+    },
+    {
+      "id": "7bf057d0-2899-452a-bec6-ed8111e73fdb",
+      "title": "Decoration Company",
+      "notes": "Package inclusive of:\nEntrance Deco\nPerfume Table\nKosha\nCatwalk\nDance Floor\nCenter Pieces\n8 Tables\n80 Chairs\n1 Table for Ceremony\nSound System\nLighting System\nDJ\nPrinting Service\nSmoke Machine\nSpotlight\nFireworks",
+      "status": "doing",
+      "assignee": "Both",
+      "dueDate": "2026-08-08",
+      "estCost": 26250,
+      "tag": "required",
+      "categoryId": "bc8a8a77-e563-4ead-81f2-daff1d4b2744",
+      "starred": false
     }
   ],
   "weddingDate": "2027-03-18",
