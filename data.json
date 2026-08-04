@@ -1635,7 +1635,7 @@
         {
           "id": "76d6ff1b-74d4-49f9-85b1-4857c978e935",
           "name": "The Lana, Marasi Drive, Business Bay, Dubai UAE",
-          "status": "considering",
+          "status": "quoted",
           "price": null,
           "notes": "Requested a proposal",
           "conversation": "+971 4 541 7777\n\n+44 7488 880408\n\nevents.LAN@dorchestercollection.com",
@@ -1646,7 +1646,7 @@
         {
           "id": "081e6ea6-575d-4065-b554-df65f9fc030e",
           "name": "More Venue List",
-          "status": "considering",
+          "status": "quoted",
           "price": null,
           "notes": "https://www.findmyvenue.com/listing/1?filters=%7B%22city%22%3A%22Dubai%22%2C%22eventTypes%22%3A%7B%22Weddings%22%3A%5B%22Wedding%22%5D%7D%2C%22venueTypes%22%3A%5B%22Ballroom%22%2C%22Banquet%20Hall%22%2C%22Concert%20hall%22%2C%22EXPO%22%2C%22Meeting%20Center%22%2C%22Conference%20center%22%2C%22Co-working%20space%22%2C%22Exhibitions%20Halls%22%2C%22Meeting%20room%22%2C%22Training%20room%22%5D%7D",
           "conversation": "",
@@ -1657,12 +1657,23 @@
         {
           "id": "2cbc39ca-59de-49eb-96d7-f4cd0312a262",
           "name": "Palazzo Versace Dubai",
-          "status": "considering",
+          "status": "quoted",
           "price": null,
           "notes": "",
           "conversation": "",
           "details": "",
           "link": "https://www.palazzoversace.ae/special-offers/wedding-packages",
+          "updatedAt": "2026-08-04"
+        },
+        {
+          "id": "efb8c5e7-3413-4ea2-a33b-9278110306e8",
+          "name": "DoubleTree by Hilton Dubai M Square",
+          "status": "contacted",
+          "price": 20000,
+          "notes": "Saturday is available on March 2027.",
+          "conversation": "WhatsApp - Wedding Catalog shared",
+          "details": "",
+          "link": "",
           "updatedAt": "2026-08-04"
         }
       ]
