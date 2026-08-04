@@ -1349,6 +1349,7 @@ a { color: inherit; text-decoration: none; }
   text-transform: uppercase; padding: 3px 8px; border-radius: 10px;
   white-space: nowrap;
 }
+.vst-proposal    { background: #f3e5f5; color: #7b1fa2; }
 .vst-considering { background: #e8f0fe; color: #1a56cc; }
 .vst-contacted   { background: #e0f2fe; color: #0277bd; }
 .vst-quoted      { background: #fff3e0; color: #e65100; }
@@ -1664,7 +1665,7 @@ body.dark .filter-select { background: #2a1f18; color: var(--ink); }
 <!-- PIN Lock Screen -->
 <div id="pin-lock">
   <div class="pin-inner">
-    <div class="pin-logo" id="pin-logo">M &amp; —</div>
+    <div class="pin-logo" id="pin-logo">K &amp; —</div>
     <div class="pin-sub" id="pin-sub-loc">Enter your passcode</div>
     <div class="pin-dots">
       <div class="pin-dot" id="pd0"></div>
@@ -1696,8 +1697,8 @@ body.dark .filter-select { background: #2a1f18; color: var(--ink); }
   <!-- Header -->
   <header id="header">
     <div class="header-left">
-      <div class="monogram" id="monogram-text">M &amp; —</div>
-      <div class="header-sub" id="header-location">Abu Dhabi · <span id="header-year">2027</span></div>
+      <div class="monogram" id="monogram-text">K &amp; —</div>
+      <div class="header-sub" id="header-location">Wedding Planner</div>
     </div>
     <div class="header-right">
       <div class="countdown-chip" id="countdown-chip">— days to go</div>
@@ -2021,16 +2022,53 @@ body.dark .filter-select { background: #2a1f18; color: var(--ink); }
           <div class="form-group">
             <label class="form-label" for="opt-status">Status</label>
             <select id="opt-status" class="form-input">
-              <option value="considering">Considering</option>
-              <option value="contacted">Contacted</option>
+              <option value="proposal">Proposal Requested</option>
               <option value="quoted">Quoted</option>
+              <option value="contacted">Contacted</option>
+              <option value="considering">Considering</option>
               <option value="visited">Visited</option>
               <option value="declined">Declined</option>
             </select>
           </div>
           <div class="form-group">
-            <label class="form-label" for="opt-price">Quote (AED)</label>
+            <label class="form-label" for="opt-price">Total Quote (AED)</label>
             <input id="opt-price" class="form-input" type="number" min="0" placeholder="0">
+          </div>
+        </div>
+        <!-- Hotel / Venue Details -->
+        <div id="hotel-venue-section" style="background:var(--rust-pale);border:1px solid rgba(122,26,46,0.18);border-radius:var(--radius-sm);padding:14px 14px 4px;margin-bottom:16px">
+          <div style="font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--rust);margin-bottom:12px">Hotel / Venue Details</div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="opt-min-guests">Min. Guests Required</label>
+              <input id="opt-min-guests" class="form-input" type="number" min="0" placeholder="e.g. 50">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="opt-ppp">Price Per Person (AED)</label>
+              <input id="opt-ppp" class="form-input" type="number" min="0" placeholder="0">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="opt-quote-calc">Quote — 100 Guests (AED)</label>
+            <input id="opt-quote-calc" class="form-input" type="number" min="0" placeholder="Auto-calculated from price per person" style="background:#fff">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="opt-agent-name">Agent Name</label>
+            <input id="opt-agent-name" class="form-input" type="text" placeholder="Contact person at the hotel" autocomplete="off">
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="opt-mobile">Mobile Number</label>
+              <input id="opt-mobile" class="form-input" type="tel" placeholder="+971 50…" autocomplete="off">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="opt-telephone">Telephone Number</label>
+              <input id="opt-telephone" class="form-input" type="tel" placeholder="+971 2…" autocomplete="off">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="opt-email">Email Address</label>
+            <input id="opt-email" class="form-input" type="email" placeholder="events@hotel.com" autocomplete="off">
           </div>
         </div>
         <div class="form-group">
@@ -2053,17 +2091,19 @@ body.dark .filter-select { background: #2a1f18; color: var(--ink); }
           <label class="form-label" for="opt-updated">Last updated</label>
           <input id="opt-updated" class="form-input" type="date">
         </div>
-        <div class="sheet-actions" style="flex-wrap:wrap;gap:8px">
-          <button id="opt-save-btn" class="btn-primary">Save</button>
-          <button id="opt-select-btn" class="btn-secondary" style="display:none">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
-            Select as Final Choice
-          </button>
-          <button id="opt-unselect-btn" class="vendor-btn danger" style="display:none">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-            Unselect
-          </button>
-          <button id="opt-delete-btn" class="vendor-btn danger" style="display:none;margin-left:auto">Delete option</button>
+        <div class="sheet-footer" style="padding:16px 0 4px;margin-top:4px">
+          <button id="opt-delete-btn" class="btn-danger" style="display:none">Delete</button>
+          <div style="flex:1;display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap">
+            <button id="opt-unselect-btn" class="btn-secondary" style="display:none">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              Unselect
+            </button>
+            <button id="opt-select-btn" class="btn-secondary" style="display:none">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Select as Final
+            </button>
+            <button id="opt-save-btn" class="btn-primary">Save Option</button>
+          </div>
         </div>
       </div>
     </div>
@@ -2522,7 +2562,7 @@ function renderHeader() {
   // Monogram — use fiancée initial if set
   const fName = state.fianceeName ? state.fianceeName.trim() : '';
   const fInitial = fName ? fName.charAt(0).toUpperCase() : '—';
-  document.getElementById('monogram-text').innerHTML = `M &amp; ${escHtml(fInitial)}`;
+  document.getElementById('monogram-text').innerHTML = `K &amp; ${escHtml(fInitial)}`;
 
   // Countdown
   const d = daysUntil(state.weddingDate);
@@ -3690,7 +3730,7 @@ let _pinSetupFirst = '';
 function initPinLock() {
   const fName = state.fianceeName ? state.fianceeName.trim() : '';
   const fInitial = fName ? fName.charAt(0).toUpperCase() : '—';
-  document.getElementById('pin-logo').innerHTML = `M &amp; ${escHtml(fInitial)}`;
+  document.getElementById('pin-logo').innerHTML = `K &amp; ${escHtml(fInitial)}`;
   _pinEntry = '';
   _pinSetupFirst = '';
   // Always pre-seed the PIN to 1419 on first load
@@ -3761,6 +3801,7 @@ let _decItemId    = null; // category the decision sheet is open for
 let _decOptionId = null; // option being edited (null = new)
 
 const DEC_STATUS_LABEL = {
+  proposal: 'Proposal Requested',
   considering: 'Considering', contacted: 'Contacted', quoted: 'Quoted',
   visited: 'Visited', declined: 'Declined', selected: 'Selected',
 };
@@ -3813,8 +3854,15 @@ function showDecFormPanel(optionId) {
   document.getElementById('opt-notes').value   = opt ? opt.notes : '';
   document.getElementById('opt-convo').value   = opt ? opt.conversation : '';
   document.getElementById('opt-details').value = opt ? opt.details : '';
-  document.getElementById('opt-link').value    = opt ? (opt.link || '') : '';
-  document.getElementById('opt-updated').value = opt ? (opt.updatedAt || '') : new Date().toISOString().slice(0,10);
+  document.getElementById('opt-link').value      = opt ? (opt.link || '') : '';
+  document.getElementById('opt-updated').value  = opt ? (opt.updatedAt || '') : new Date().toISOString().slice(0,10);
+  document.getElementById('opt-min-guests').value  = opt && opt.minGuests != null ? opt.minGuests : '';
+  document.getElementById('opt-ppp').value         = opt && opt.pricePerPerson != null ? opt.pricePerPerson : '';
+  document.getElementById('opt-quote-calc').value  = opt && opt.pricePerPerson != null ? opt.pricePerPerson * 100 : '';
+  document.getElementById('opt-agent-name').value  = opt ? (opt.agentName || '') : '';
+  document.getElementById('opt-mobile').value      = opt ? (opt.mobile || '') : '';
+  document.getElementById('opt-telephone').value   = opt ? (opt.telephone || '') : '';
+  document.getElementById('opt-email').value       = opt ? (opt.email || '') : '';
   document.getElementById('opt-delete-btn').style.display = opt ? '' : 'none';
   const dec2 = getDecision(_decItemId);
   const isFinal = opt && dec2 && dec2.finalOptionId === optionId;
@@ -3853,6 +3901,16 @@ function renderDecOptionsList() {
     const statusCls = 'vst-' + (isFinal ? 'selected' : opt.status);
     const priceHtml = opt.price != null ? `<div class="vendor-card-price">${fmtAED(opt.price)}</div>` : '';
     const metaHtml  = opt.notes ? `<div class="vendor-card-meta">${escHtml(opt.notes.slice(0,90))}${opt.notes.length > 90 ? '…' : ''}</div>` : '';
+    const hotelMeta = (() => {
+      const parts = [];
+      if (opt.agentName) parts.push(`Agent: ${escHtml(opt.agentName)}`);
+      if (opt.pricePerPerson != null) parts.push(`AED ${Number(opt.pricePerPerson).toLocaleString('en-AE')}/pax`);
+      if (opt.quoteFor100 != null) parts.push(`100-pax quote: ${fmtAED(opt.quoteFor100)}`);
+      if (opt.minGuests != null) parts.push(`Min. ${opt.minGuests} guests`);
+      if (opt.mobile) parts.push(`📱 ${escHtml(opt.mobile)}`);
+      if (opt.email) parts.push(`✉ ${escHtml(opt.email)}`);
+      return parts.length ? `<div class="vendor-card-meta" style="margin-top:5px;line-height:1.6">${parts.join(' · ')}</div>` : '';
+    })();
     const updHtml   = opt.updatedAt ? `<div style="font-size:10px;opacity:0.4;margin-top:4px">${fmtDate(opt.updatedAt)}</div>` : '';
     const linkHtml  = opt.link ? `<a href="${escHtml(opt.link)}" target="_blank" rel="noopener" class="vendor-link-btn">
       <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
@@ -3862,7 +3920,7 @@ function renderDecOptionsList() {
         <div class="vendor-card-name">${escHtml(opt.name)}</div>
         <span class="vendor-status ${statusCls}">${isFinal ? 'Final' : DEC_STATUS_LABEL[opt.status] || opt.status}</span>
       </div>
-      ${priceHtml}${metaHtml}${updHtml}
+      ${priceHtml}${metaHtml}${hotelMeta}${updHtml}
       ${linkHtml}
       <div class="vendor-card-actions">
         <button class="vendor-btn" data-dec-action="edit-option" data-opt="${opt.id}">Edit</button>
@@ -3884,13 +3942,20 @@ function saveDecOption() {
   const dec = getOrCreateDecision(_decItemId);
   const payload = {
     name,
-    status:       document.getElementById('opt-status').value,
-    price:        document.getElementById('opt-price').value !== '' ? Number(document.getElementById('opt-price').value) : null,
-    notes:        document.getElementById('opt-notes').value.trim(),
-    conversation: document.getElementById('opt-convo').value.trim(),
-    details:      document.getElementById('opt-details').value.trim(),
-    link:         document.getElementById('opt-link').value.trim(),
-    updatedAt:    document.getElementById('opt-updated').value || new Date().toISOString().slice(0,10),
+    status:         document.getElementById('opt-status').value,
+    price:          document.getElementById('opt-price').value !== '' ? Number(document.getElementById('opt-price').value) : null,
+    notes:          document.getElementById('opt-notes').value.trim(),
+    conversation:   document.getElementById('opt-convo').value.trim(),
+    details:        document.getElementById('opt-details').value.trim(),
+    link:           document.getElementById('opt-link').value.trim(),
+    updatedAt:      document.getElementById('opt-updated').value || new Date().toISOString().slice(0,10),
+    minGuests:      document.getElementById('opt-min-guests').value !== '' ? Number(document.getElementById('opt-min-guests').value) : null,
+    pricePerPerson: document.getElementById('opt-ppp').value !== '' ? Number(document.getElementById('opt-ppp').value) : null,
+    quoteFor100:    document.getElementById('opt-quote-calc').value !== '' ? Number(document.getElementById('opt-quote-calc').value) : null,
+    agentName:      document.getElementById('opt-agent-name').value.trim(),
+    mobile:         document.getElementById('opt-mobile').value.trim(),
+    telephone:      document.getElementById('opt-telephone').value.trim(),
+    email:          document.getElementById('opt-email').value.trim(),
   };
   if (_decOptionId) {
     const idx = dec.options.findIndex(o => o.id === _decOptionId);
@@ -4157,7 +4222,7 @@ function wireEvents() {
     // Update PIN lock logo too
     const fName = state.fianceeName;
     const fInitial = fName ? fName.charAt(0).toUpperCase() : '—';
-    document.getElementById('pin-logo').innerHTML = `M &amp; ${escHtml(fInitial)}`;
+    document.getElementById('pin-logo').innerHTML = `K &amp; ${escHtml(fInitial)}`;
   });
 
   // PIN management
@@ -4260,6 +4325,10 @@ function wireEvents() {
   document.getElementById('dec-clear-btn').addEventListener('click', clearFinalOption);
   document.getElementById('opt-save-btn').addEventListener('click', saveDecOption);
   document.getElementById('opt-delete-btn').addEventListener('click', deleteDecOption);
+  document.getElementById('opt-ppp').addEventListener('input', e => {
+    const ppp = Number(e.target.value) || 0;
+    document.getElementById('opt-quote-calc').value = ppp ? ppp * 100 : '';
+  });
   document.getElementById('opt-select-btn').addEventListener('click', () => {
     if (_decOptionId) selectFinalOption(_decOptionId);
   });
