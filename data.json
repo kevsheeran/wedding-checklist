@@ -1648,7 +1648,7 @@
           "name": "More Venue List",
           "status": "considering",
           "price": null,
-          "notes": "https://www.findmyvenue.com/listing/1?filters=%7B%22city%22%3A%22Dubai%22%2C%22eventTypes%22%3A%7B%22Weddings%22%3A%5B%22Wedding%22%5D%7D%7D",
+          "notes": "https://www.findmyvenue.com/listing/1?filters=%7B%22city%22%3A%22Dubai%22%2C%22eventTypes%22%3A%7B%22Weddings%22%3A%5B%22Wedding%22%5D%7D%2C%22venueTypes%22%3A%5B%22Ballroom%22%2C%22Banquet%20Hall%22%2C%22Concert%20hall%22%2C%22EXPO%22%2C%22Meeting%20Center%22%2C%22Conference%20center%22%2C%22Co-working%20space%22%2C%22Exhibitions%20Halls%22%2C%22Meeting%20room%22%2C%22Training%20room%22%5D%7D",
           "conversation": "",
           "details": "",
           "link": "https://www.findmyvenue.com/listing/1",
