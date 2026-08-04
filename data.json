@@ -1719,6 +1719,17 @@
           "details": "",
           "link": "",
           "updatedAt": "2026-08-04"
+        },
+        {
+          "id": "5258a412-2f18-4f88-b547-3fdb8609c93f",
+          "name": "Sofitel Dubai, The Palm Resort",
+          "status": "quoted",
+          "price": 35000,
+          "notes": "Reply to email - awaiting feedback\n\nevents.palmdubai@sofitel.com\ncatalina.crotti@sofitel.com\n044555421",
+          "conversation": "Email",
+          "details": "",
+          "link": "",
+          "updatedAt": "2026-08-04"
         }
       ]
     }
