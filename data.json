@@ -474,13 +474,14 @@
     {
       "id": "a04ad5a5-23a6-45dc-a2c6-addd41d47894",
       "categoryId": "bc8a8a77-e563-4ead-81f2-daff1d4b2744",
-      "title": "Shortlist + visit hotels",
+      "title": "Hotel Reception",
       "notes": "",
-      "status": "todo",
+      "status": "doing",
       "assignee": "",
       "dueDate": "2026-09-15",
       "estCost": null,
-      "tag": "required"
+      "tag": "required",
+      "starred": false
     },
     {
       "id": "adc7f3df-d384-4543-8e70-9c532bede5db",
@@ -1574,6 +1575,39 @@
           "conversation": "Email",
           "details": "Emirates Ballroom or Dubai Ballroom",
           "link": "",
+          "updatedAt": "2026-08-04"
+        },
+        {
+          "id": "d1476f37-2d2f-4828-9264-4063c7be98c9",
+          "name": "One and Only One Za'abeel",
+          "status": "quoted",
+          "price": null,
+          "notes": "Requested for quote/proposal",
+          "conversation": "",
+          "details": "https://oneandonly-stellar-ballroom.vuz.com/\nhttps://oneandonly-solar-ballroom.vuz.com/\nhttps://damstatic.kerzner.com/v1/static/OOOZ_Meeting_Brochure_JUL25?_gl=1*3qkzv4*_gcl_au*MTU5OTM1NDkxNS4xNzg1ODUzOTIx*FPAU*MTU5OTM1NDkxNS4xNzg1ODUzOTIx",
+          "link": "https://www.weddingchamps.com/thank-you/",
+          "updatedAt": "2026-08-04"
+        },
+        {
+          "id": "f9028bbe-1f90-4a73-a40d-afd877d02f14",
+          "name": "The Address Hotels & Resort",
+          "status": "quoted",
+          "price": null,
+          "notes": "Requested a proposal",
+          "conversation": "meet.adm@addresshotels.com",
+          "details": "",
+          "link": "https://www.addresshotels.com/en/hotels/address-dubai-mall/events/",
+          "updatedAt": "2026-08-04"
+        },
+        {
+          "id": "103706a9-ef4d-4887-9b21-b057814a36d2",
+          "name": "Arabian Ranches Golf Club",
+          "status": "quoted",
+          "price": null,
+          "notes": "Submitted an enquiry.\n\n+971 4 366 4700 or events@arabianranchesgolf.ae",
+          "conversation": "Email",
+          "details": "https://www.weddingsbyemaar.com/wp-content/uploads/2021/04/ARGC-WEDDING-PACKAGES.pdf",
+          "link": "https://www.arabianranchesgolfclub.com/weddings/",
           "updatedAt": "2026-08-04"
         }
       ]
