@@ -1591,7 +1591,7 @@
         {
           "id": "f9028bbe-1f90-4a73-a40d-afd877d02f14",
           "name": "The Address Hotels & Resort",
-          "status": "quoted",
+          "status": "visited",
           "price": null,
           "notes": "Requested a proposal",
           "conversation": "meet.adm@addresshotels.com",
@@ -1602,12 +1602,34 @@
         {
           "id": "103706a9-ef4d-4887-9b21-b057814a36d2",
           "name": "Arabian Ranches Golf Club",
-          "status": "quoted",
+          "status": "visited",
           "price": null,
           "notes": "Submitted an enquiry.\n\n+971 4 366 4700 or events@arabianranchesgolf.ae",
           "conversation": "Email",
           "details": "https://www.weddingsbyemaar.com/wp-content/uploads/2021/04/ARGC-WEDDING-PACKAGES.pdf",
           "link": "https://www.arabianranchesgolfclub.com/weddings/",
+          "updatedAt": "2026-08-04"
+        },
+        {
+          "id": "59a68d59-0b29-434b-82e1-239fc8086da2",
+          "name": "The Westin Dubai Mina Seyahi Beach Resort & Marina",
+          "status": "visited",
+          "price": null,
+          "notes": "Sent an enquiry\n\n+971 4-3994141",
+          "conversation": "",
+          "details": "",
+          "link": "https://venuewise.com/venue/the-westin-dubai-mina-seyahi-beach-resort-marina/serdaal-1-1",
+          "updatedAt": "2026-08-04"
+        },
+        {
+          "id": "fef5838a-c3cc-46d0-93ac-47d126ec92b9",
+          "name": "Hospitality World Trade Centre",
+          "status": "visited",
+          "price": null,
+          "notes": "800 DWTC (3982)\nhospitality@dwtc.com",
+          "conversation": "",
+          "details": "",
+          "link": "",
           "updatedAt": "2026-08-04"
         }
       ]
