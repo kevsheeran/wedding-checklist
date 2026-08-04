@@ -63,20 +63,26 @@
     {
       "id": "1e900fa7-7d76-45ae-b8d6-e57306c7d966",
       "name": "Gifts & Tokens",
-      "order": 11,
+      "order": 12,
       "icon": "gift"
     },
     {
       "id": "35ed86f8-27a3-4f7c-aebe-4ddcef1b1ea6",
       "name": "Suppliers & Payments",
-      "order": 12,
+      "order": 13,
       "icon": "invoice"
     },
     {
       "id": "937967b0-ff63-4928-a60b-b9155cd34c83",
       "name": "Day Captain Pack",
-      "order": 13,
+      "order": 14,
       "icon": "star"
+    },
+    {
+      "id": "4dafb51c-f43a-4abd-b470-49c8fdeddbff",
+      "name": "Ceremony Items",
+      "order": 11,
+      "icon": "diamond"
     }
   ],
   "items": [
@@ -1190,95 +1196,104 @@
       "assignee": "",
       "dueDate": null,
       "estCost": null,
-      "tag": "required"
+      "tag": "required",
+      "starred": false
     },
     {
       "id": "f3caa516-ec8d-48c9-91b2-3afc3ff2007f",
-      "categoryId": "04bd4f67-1cf1-46e6-989b-0f165afa509c",
+      "categoryId": "4dafb51c-f43a-4abd-b470-49c8fdeddbff",
       "title": "SYMBOLIC: Cord",
       "notes": "Flip to todo if we decide to do Filipino rites at reception",
-      "status": "na",
+      "status": "todo",
       "assignee": "",
       "dueDate": null,
       "estCost": null,
-      "tag": "reception-only"
+      "tag": "reception-only",
+      "starred": false
     },
     {
       "id": "cd87b225-83d7-4299-b154-af90f65378c9",
-      "categoryId": "04bd4f67-1cf1-46e6-989b-0f165afa509c",
+      "categoryId": "4dafb51c-f43a-4abd-b470-49c8fdeddbff",
       "title": "SYMBOLIC: 2 veils",
       "notes": "",
-      "status": "na",
+      "status": "todo",
       "assignee": "",
       "dueDate": null,
       "estCost": null,
-      "tag": "reception-only"
+      "tag": "reception-only",
+      "starred": false
     },
     {
       "id": "3e2cf15f-0cda-4f05-b90a-9fc0ce9181aa",
-      "categoryId": "04bd4f67-1cf1-46e6-989b-0f165afa509c",
+      "categoryId": "4dafb51c-f43a-4abd-b470-49c8fdeddbff",
       "title": "SYMBOLIC: Arras",
       "notes": "",
-      "status": "na",
+      "status": "todo",
       "assignee": "",
       "dueDate": null,
       "estCost": null,
-      "tag": "reception-only"
+      "tag": "reception-only",
+      "starred": false
     },
     {
       "id": "93cf2e5d-b7b8-4135-8296-dae63713764d",
-      "categoryId": "04bd4f67-1cf1-46e6-989b-0f165afa509c",
+      "categoryId": "4dafb51c-f43a-4abd-b470-49c8fdeddbff",
       "title": "SYMBOLIC: Unity candles + lighter",
       "notes": "",
-      "status": "na",
+      "status": "todo",
       "assignee": "",
       "dueDate": null,
       "estCost": null,
-      "tag": "reception-only"
+      "tag": "reception-only",
+      "starred": false
     },
     {
       "id": "a3746585-9f75-4098-b740-685e57929b98",
-      "categoryId": "04bd4f67-1cf1-46e6-989b-0f165afa509c",
+      "categoryId": "4dafb51c-f43a-4abd-b470-49c8fdeddbff",
       "title": "SYMBOLIC: Bible",
       "notes": "",
-      "status": "na",
+      "status": "todo",
       "assignee": "",
       "dueDate": null,
       "estCost": null,
-      "tag": "reception-only"
+      "tag": "reception-only",
+      "starred": false
     },
     {
       "id": "afc58e5e-2a14-444b-b3fc-45884c186539",
-      "categoryId": "04bd4f67-1cf1-46e6-989b-0f165afa509c",
+      "categoryId": "4dafb51c-f43a-4abd-b470-49c8fdeddbff",
       "title": "SYMBOLIC: Pandesal",
       "notes": "",
-      "status": "na",
+      "status": "todo",
       "assignee": "",
       "dueDate": null,
       "estCost": null,
-      "tag": "reception-only"
+      "tag": "reception-only",
+      "starred": false
     },
     {
       "id": "e21c4be9-ea15-4147-a9b0-3c7a60ff4fd9",
-      "categoryId": "04bd4f67-1cf1-46e6-989b-0f165afa509c",
+      "categoryId": "4dafb51c-f43a-4abd-b470-49c8fdeddbff",
       "title": "SYMBOLIC: Grape juice",
       "notes": "",
-      "status": "na",
+      "status": "todo",
       "assignee": "",
       "dueDate": null,
       "estCost": null,
-      "tag": "reception-only"
+      "tag": "reception-only",
+      "starred": false
     },
     {
       "id": "ab4b956c-ba00-48f4-9e55-8d91b79c09f4",
-      "categoryId": "04bd4f67-1cf1-46e6-989b-0f165afa509c",
+      "categoryId": "4dafb51c-f43a-4abd-b470-49c8fdeddbff",
       "title": "SYMBOLIC: 2 cups + plate",
       "notes": "",
-      "status": "na",
+      "status": "todo",
       "assignee": "",
       "dueDate": null,
       "estCost": null,
-      "tag": "reception-only"
+      "tag": "reception-only",
+      "starred": false
     },
     {
       "id": "cf93f6fa-3358-4481-8a17-b6cb2e671a21",
