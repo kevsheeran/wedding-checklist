@@ -63,20 +63,26 @@
     {
       "id": "1e900fa7-7d76-45ae-b8d6-e57306c7d966",
       "name": "Gifts & Tokens",
-      "order": 11,
+      "order": 12,
       "icon": "gift"
     },
     {
       "id": "35ed86f8-27a3-4f7c-aebe-4ddcef1b1ea6",
       "name": "Suppliers & Payments",
-      "order": 12,
+      "order": 13,
       "icon": "invoice"
     },
     {
       "id": "937967b0-ff63-4928-a60b-b9155cd34c83",
       "name": "Day Captain Pack",
-      "order": 13,
+      "order": 14,
       "icon": "star"
+    },
+    {
+      "id": "4dafb51c-f43a-4abd-b470-49c8fdeddbff",
+      "name": "Ceremony Items",
+      "order": 11,
+      "icon": "diamond"
     }
   ],
   "items": [
@@ -468,13 +474,14 @@
     {
       "id": "a04ad5a5-23a6-45dc-a2c6-addd41d47894",
       "categoryId": "bc8a8a77-e563-4ead-81f2-daff1d4b2744",
-      "title": "Shortlist + visit hotels",
+      "title": "Hotel Reception",
       "notes": "",
-      "status": "todo",
+      "status": "doing",
       "assignee": "",
       "dueDate": "2026-09-15",
       "estCost": null,
-      "tag": "required"
+      "tag": "required",
+      "starred": true
     },
     {
       "id": "adc7f3df-d384-4543-8e70-9c532bede5db",
@@ -495,8 +502,9 @@
       "status": "todo",
       "assignee": "",
       "dueDate": null,
-      "estCost": 8000,
-      "tag": "required"
+      "estCost": 20000,
+      "tag": "required",
+      "starred": false
     },
     {
       "id": "97dd8d4a-b99c-42f2-a125-22e0039c21a1",
@@ -1189,95 +1197,104 @@
       "assignee": "",
       "dueDate": null,
       "estCost": null,
-      "tag": "required"
+      "tag": "required",
+      "starred": false
     },
     {
       "id": "f3caa516-ec8d-48c9-91b2-3afc3ff2007f",
-      "categoryId": "04bd4f67-1cf1-46e6-989b-0f165afa509c",
+      "categoryId": "4dafb51c-f43a-4abd-b470-49c8fdeddbff",
       "title": "SYMBOLIC: Cord",
       "notes": "Flip to todo if we decide to do Filipino rites at reception",
-      "status": "na",
+      "status": "todo",
       "assignee": "",
       "dueDate": null,
       "estCost": null,
-      "tag": "reception-only"
+      "tag": "reception-only",
+      "starred": false
     },
     {
       "id": "cd87b225-83d7-4299-b154-af90f65378c9",
-      "categoryId": "04bd4f67-1cf1-46e6-989b-0f165afa509c",
+      "categoryId": "4dafb51c-f43a-4abd-b470-49c8fdeddbff",
       "title": "SYMBOLIC: 2 veils",
       "notes": "",
-      "status": "na",
+      "status": "todo",
       "assignee": "",
       "dueDate": null,
       "estCost": null,
-      "tag": "reception-only"
+      "tag": "reception-only",
+      "starred": false
     },
     {
       "id": "3e2cf15f-0cda-4f05-b90a-9fc0ce9181aa",
-      "categoryId": "04bd4f67-1cf1-46e6-989b-0f165afa509c",
+      "categoryId": "4dafb51c-f43a-4abd-b470-49c8fdeddbff",
       "title": "SYMBOLIC: Arras",
       "notes": "",
-      "status": "na",
+      "status": "todo",
       "assignee": "",
       "dueDate": null,
       "estCost": null,
-      "tag": "reception-only"
+      "tag": "reception-only",
+      "starred": false
     },
     {
       "id": "93cf2e5d-b7b8-4135-8296-dae63713764d",
-      "categoryId": "04bd4f67-1cf1-46e6-989b-0f165afa509c",
+      "categoryId": "4dafb51c-f43a-4abd-b470-49c8fdeddbff",
       "title": "SYMBOLIC: Unity candles + lighter",
       "notes": "",
-      "status": "na",
+      "status": "todo",
       "assignee": "",
       "dueDate": null,
       "estCost": null,
-      "tag": "reception-only"
+      "tag": "reception-only",
+      "starred": false
     },
     {
       "id": "a3746585-9f75-4098-b740-685e57929b98",
-      "categoryId": "04bd4f67-1cf1-46e6-989b-0f165afa509c",
+      "categoryId": "4dafb51c-f43a-4abd-b470-49c8fdeddbff",
       "title": "SYMBOLIC: Bible",
       "notes": "",
-      "status": "na",
+      "status": "todo",
       "assignee": "",
       "dueDate": null,
       "estCost": null,
-      "tag": "reception-only"
+      "tag": "reception-only",
+      "starred": false
     },
     {
       "id": "afc58e5e-2a14-444b-b3fc-45884c186539",
-      "categoryId": "04bd4f67-1cf1-46e6-989b-0f165afa509c",
+      "categoryId": "4dafb51c-f43a-4abd-b470-49c8fdeddbff",
       "title": "SYMBOLIC: Pandesal",
       "notes": "",
-      "status": "na",
+      "status": "todo",
       "assignee": "",
       "dueDate": null,
       "estCost": null,
-      "tag": "reception-only"
+      "tag": "reception-only",
+      "starred": false
     },
     {
       "id": "e21c4be9-ea15-4147-a9b0-3c7a60ff4fd9",
-      "categoryId": "04bd4f67-1cf1-46e6-989b-0f165afa509c",
+      "categoryId": "4dafb51c-f43a-4abd-b470-49c8fdeddbff",
       "title": "SYMBOLIC: Grape juice",
       "notes": "",
-      "status": "na",
+      "status": "todo",
       "assignee": "",
       "dueDate": null,
       "estCost": null,
-      "tag": "reception-only"
+      "tag": "reception-only",
+      "starred": false
     },
     {
       "id": "ab4b956c-ba00-48f4-9e55-8d91b79c09f4",
-      "categoryId": "04bd4f67-1cf1-46e6-989b-0f165afa509c",
+      "categoryId": "4dafb51c-f43a-4abd-b470-49c8fdeddbff",
       "title": "SYMBOLIC: 2 cups + plate",
       "notes": "",
-      "status": "na",
+      "status": "todo",
       "assignee": "",
       "dueDate": null,
       "estCost": null,
-      "tag": "reception-only"
+      "tag": "reception-only",
+      "starred": false
     },
     {
       "id": "cf93f6fa-3358-4481-8a17-b6cb2e671a21",
@@ -1454,6 +1471,18 @@
       "dueDate": null,
       "estCost": 150,
       "tag": "required"
+    },
+    {
+      "id": "7bf057d0-2899-452a-bec6-ed8111e73fdb",
+      "title": "Decoration Company",
+      "notes": "Package inclusive of:\nEntrance Deco\nPerfume Table\nKosha\nCatwalk\nDance Floor\nCenter Pieces\n8 Tables\n80 Chairs\n1 Table for Ceremony\nSound System\nLighting System\nDJ\nPrinting Service\nSmoke Machine\nSpotlight\nFireworks",
+      "status": "doing",
+      "assignee": "Both",
+      "dueDate": "2026-08-08",
+      "estCost": 26250,
+      "tag": "required",
+      "categoryId": "bc8a8a77-e563-4ead-81f2-daff1d4b2744",
+      "starred": true
     }
   ],
   "weddingDate": "2027-03-18",
@@ -1474,6 +1503,233 @@
           "conversation": "",
           "details": "",
           "updatedAt": "2026-08-02"
+        }
+      ]
+    },
+    {
+      "id": "7456223a-122d-4d9b-8c19-ac1b619fa8c4",
+      "itemId": "a04ad5a5-23a6-45dc-a2c6-addd41d47894",
+      "finalOptionId": null,
+      "options": [
+        {
+          "id": "9591c214-cda5-4801-ae00-240d4b7858f1",
+          "name": "Millennium Lakeview Hotel (Al Buhaira Ballroom)",
+          "status": "quoted",
+          "price": null,
+          "notes": "Requested a proposal/wedding package",
+          "conversation": "Email",
+          "details": "+971 4 885 2222\nh1026.sales02@millenniumhotels.com",
+          "link": "https://www.millenniumhotels.com/en/Weddings/Middle%20East/UAE/Dubai/",
+          "updatedAt": "2026-08-04"
+        },
+        {
+          "id": "d4a88763-5a75-4667-9e70-f5bd46144f94",
+          "name": "InterContinental Dubai Festival City",
+          "status": "quoted",
+          "price": null,
+          "notes": "AED 230 net per person\n200 min guest required. Will need to discuss with them.",
+          "conversation": "Email",
+          "details": "Welcome Mocktails\n\n Buffet and table set-up\n\nComplimentary three-tiered wedding cake\n\nComplimentary valet service\n\nComplimentary one night stay and breakfast\n\nComplimentary LCD Projector and screen",
+          "link": "https://www.dubaifestivalcityhotels.com/weddings",
+          "updatedAt": "2026-08-04"
+        },
+        {
+          "id": "cefb2abf-8181-4ee9-9c01-8a804b37e150",
+          "name": "Hyatt Regency Dubai Creek Heights (Aryaam Ballroom)",
+          "status": "contacted",
+          "price": 30000,
+          "notes": "Requested a proposal: Confirmation Number: H6356155\n\nMin 100. Rate: 300 per person\n\nContact them by December - 045531234",
+          "conversation": "Email / Call",
+          "details": "Check Email",
+          "link": "https://www.hyatt.com/hyatt-regency/en-US/dxbhc-hyatt-regency-dubai-creek-heights/weddings https://my.matterport.com/show/?m=cwiDapVbUGE",
+          "updatedAt": "2026-08-04"
+        },
+        {
+          "id": "57bee9b2-40f1-4a4f-8d23-ba61eda1532e",
+          "name": "Grand Hyatt Dubai",
+          "status": "contacted",
+          "price": null,
+          "notes": "Sent Request for Proposal: Confirmation Number: H6356176\n\nCurrently not open for event-only bookings for the requested period in March.",
+          "conversation": "Email",
+          "details": "",
+          "link": "https://www.hyatt.com/grand-hyatt/en-US/dxbgh-grand-hyatt-dubai/meetings",
+          "updatedAt": "2026-08-04"
+        },
+        {
+          "id": "3fbcf516-6223-4d21-8d5d-ff0508d2f3a4",
+          "name": "Arjaan by Rotana Dubai",
+          "status": "quoted",
+          "price": 35000,
+          "notes": "Package starts from AED 350 per person. Min 100 person",
+          "conversation": "Whatsapp",
+          "details": "",
+          "link": "",
+          "updatedAt": "2026-08-04"
+        },
+        {
+          "id": "29692bbe-0983-4421-960a-3ab356bd12f6",
+          "name": "JW Marriot Marquis Hotel Dubai",
+          "status": "quoted",
+          "price": null,
+          "notes": "CONFIRMATION NUMBER\nM01785853783532",
+          "conversation": "Email",
+          "details": "Emirates Ballroom or Dubai Ballroom",
+          "link": "",
+          "updatedAt": "2026-08-04"
+        },
+        {
+          "id": "d1476f37-2d2f-4828-9264-4063c7be98c9",
+          "name": "One and Only One Za'abeel",
+          "status": "quoted",
+          "price": null,
+          "notes": "Requested for quote/proposal",
+          "conversation": "",
+          "details": "https://oneandonly-stellar-ballroom.vuz.com/\nhttps://oneandonly-solar-ballroom.vuz.com/\nhttps://damstatic.kerzner.com/v1/static/OOOZ_Meeting_Brochure_JUL25?_gl=1*3qkzv4*_gcl_au*MTU5OTM1NDkxNS4xNzg1ODUzOTIx*FPAU*MTU5OTM1NDkxNS4xNzg1ODUzOTIx",
+          "link": "https://www.weddingchamps.com/thank-you/",
+          "updatedAt": "2026-08-04"
+        },
+        {
+          "id": "f9028bbe-1f90-4a73-a40d-afd877d02f14",
+          "name": "The Address Hotels & Resort",
+          "status": "visited",
+          "price": null,
+          "notes": "Requested a proposal",
+          "conversation": "meet.adm@addresshotels.com",
+          "details": "",
+          "link": "https://www.addresshotels.com/en/hotels/address-dubai-mall/events/",
+          "updatedAt": "2026-08-04"
+        },
+        {
+          "id": "103706a9-ef4d-4887-9b21-b057814a36d2",
+          "name": "Arabian Ranches Golf Club",
+          "status": "visited",
+          "price": null,
+          "notes": "Submitted an enquiry.\n\n+971 4 366 4700 or events@arabianranchesgolf.ae",
+          "conversation": "Email",
+          "details": "https://www.weddingsbyemaar.com/wp-content/uploads/2021/04/ARGC-WEDDING-PACKAGES.pdf",
+          "link": "https://www.arabianranchesgolfclub.com/weddings/",
+          "updatedAt": "2026-08-04"
+        },
+        {
+          "id": "59a68d59-0b29-434b-82e1-239fc8086da2",
+          "name": "The Westin Dubai Mina Seyahi Beach Resort & Marina",
+          "status": "visited",
+          "price": null,
+          "notes": "Sent an enquiry\n\n+971 4-3994141",
+          "conversation": "",
+          "details": "",
+          "link": "https://venuewise.com/venue/the-westin-dubai-mina-seyahi-beach-resort-marina/serdaal-1-1",
+          "updatedAt": "2026-08-04"
+        },
+        {
+          "id": "fef5838a-c3cc-46d0-93ac-47d126ec92b9",
+          "name": "Hospitality World Trade Centre",
+          "status": "contacted",
+          "price": null,
+          "notes": "Minimum 300 guests. They'll call back.",
+          "conversation": "Call\n\n800 DWTC (3982)\nhospitality@dwtc.com",
+          "details": "",
+          "link": "https://www.dwtchospitality.com/en/weddings/",
+          "updatedAt": "2026-08-04"
+        },
+        {
+          "id": "76d6ff1b-74d4-49f9-85b1-4857c978e935",
+          "name": "The Lana, Marasi Drive, Business Bay, Dubai UAE",
+          "status": "quoted",
+          "price": null,
+          "notes": "Requested a proposal",
+          "conversation": "+971 4 541 7777\n\n+44 7488 880408\n\nevents.LAN@dorchestercollection.com",
+          "details": "",
+          "link": "https://www.dorchestercollection.com/dubai/the-lana/occasions/get-in-touch",
+          "updatedAt": "2026-08-04"
+        },
+        {
+          "id": "081e6ea6-575d-4065-b554-df65f9fc030e",
+          "name": "More Venue List",
+          "status": "quoted",
+          "price": null,
+          "notes": "https://www.findmyvenue.com/listing/1?filters=%7B%22city%22%3A%22Dubai%22%2C%22eventTypes%22%3A%7B%22Weddings%22%3A%5B%22Wedding%22%5D%7D%2C%22venueTypes%22%3A%5B%22Ballroom%22%2C%22Banquet%20Hall%22%2C%22Concert%20hall%22%2C%22EXPO%22%2C%22Meeting%20Center%22%2C%22Conference%20center%22%2C%22Co-working%20space%22%2C%22Exhibitions%20Halls%22%2C%22Meeting%20room%22%2C%22Training%20room%22%5D%7D",
+          "conversation": "",
+          "details": "",
+          "link": "https://www.findmyvenue.com/listing/1 https://www.weddingsonline.ae/venues/dubai",
+          "updatedAt": "2026-08-04"
+        },
+        {
+          "id": "2cbc39ca-59de-49eb-96d7-f4cd0312a262",
+          "name": "Palazzo Versace Dubai",
+          "status": "quoted",
+          "price": null,
+          "notes": "",
+          "conversation": "",
+          "details": "",
+          "link": "https://www.palazzoversace.ae/special-offers/wedding-packages",
+          "updatedAt": "2026-08-04"
+        },
+        {
+          "id": "efb8c5e7-3413-4ea2-a33b-9278110306e8",
+          "name": "DoubleTree by Hilton Dubai M Square",
+          "status": "contacted",
+          "price": 20000,
+          "notes": "Saturday is available on March 2027.",
+          "conversation": "Aisuu Baiyrool: WhatsApp - Wedding Catalog shared",
+          "details": "",
+          "link": "",
+          "updatedAt": "2026-08-04"
+        },
+        {
+          "id": "49fec994-d851-4306-96b3-6a491f0df515",
+          "name": "The Ritz-Carlton, Dubai International Financial Centre",
+          "status": "declined",
+          "price": 150000,
+          "notes": "Samaya Ballroom - 600 guests. Min of 150K. March peak season.",
+          "conversation": "",
+          "details": "",
+          "link": "",
+          "updatedAt": "2026-08-04"
+        },
+        {
+          "id": "3267f1de-fb3b-4b0f-91d3-1d191b60190e",
+          "name": "Embassy Suites by Hilton Dubai Business Bay",
+          "status": "quoted",
+          "price": 20250,
+          "notes": "225 AED per person\nFursa Ballroom B = 90 guests\nCheck some other ballrooms\nWaiting for reply",
+          "conversation": "Email - Madelene\nmadelene.espejo@hilton.com\n0567731107",
+          "details": "",
+          "link": "",
+          "updatedAt": "2026-08-04"
+        },
+        {
+          "id": "a4425207-7908-497d-814c-86999f5c3c30",
+          "name": "Sheraton Grand Hotel Dubai",
+          "status": "quoted",
+          "price": null,
+          "notes": "+971 4-5034444",
+          "conversation": "CONFIRMATION NUMBER\nM01785865827451\n\nEmail: Cynthia Edelweiss\n045034209",
+          "details": "",
+          "link": "https://www.marriott.com/en-us/hotels/dxbgh-sheraton-grand-hotel-dubai/events/",
+          "updatedAt": "2026-08-04"
+        },
+        {
+          "id": "7622aa28-dbff-4bb3-9d77-e2d8ee27fdd2",
+          "name": "Al Habtoor Grand Resort JBR, Autograph Collection (Marriot Bonvoy)",
+          "status": "contacted",
+          "price": 25000,
+          "notes": "250 per person\nmin guarantee of 50 guests\nReplied to them - awaiting reply",
+          "conversation": "Email - Package included\nelizabeth.kadeiza@habtoorhospitality.com\n043995000\n0569317009",
+          "details": "",
+          "link": "",
+          "updatedAt": "2026-08-04"
+        },
+        {
+          "id": "5258a412-2f18-4f88-b547-3fdb8609c93f",
+          "name": "Sofitel Dubai, The Palm Resort",
+          "status": "quoted",
+          "price": 35000,
+          "notes": "Reply to email - awaiting feedback\n\nevents.palmdubai@sofitel.com\ncatalina.crotti@sofitel.com\n044555421",
+          "conversation": "Email",
+          "details": "",
+          "link": "",
+          "updatedAt": "2026-08-04"
         }
       ]
     }
