@@ -2035,40 +2035,170 @@ body.dark .filter-select { background: #2a1f18; color: var(--ink); }
             <input id="opt-price" class="form-input" type="number" min="0" placeholder="0">
           </div>
         </div>
-        <!-- Hotel / Venue Details -->
-        <div id="hotel-venue-section" style="background:var(--rust-pale);border:1px solid rgba(122,26,46,0.18);border-radius:var(--radius-sm);padding:14px 14px 4px;margin-bottom:16px">
+        <!-- Venue & Reception — Hotel Details -->
+        <div id="section-venue" class="vendor-extra-section" style="display:none;background:var(--rust-pale);border:1px solid rgba(122,26,46,0.18);border-radius:var(--radius-sm);padding:14px 14px 4px;margin-bottom:16px">
           <div style="font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--rust);margin-bottom:12px">Hotel / Venue Details</div>
           <div class="form-row">
             <div class="form-group">
-              <label class="form-label" for="opt-min-guests">Min. Guests Required</label>
-              <input id="opt-min-guests" class="form-input" type="number" min="0" placeholder="e.g. 50">
+              <label class="form-label" for="v-min-guests">Min. Guests Required</label>
+              <input id="v-min-guests" class="form-input" type="number" min="0" placeholder="e.g. 50">
             </div>
             <div class="form-group">
-              <label class="form-label" for="opt-ppp">Price Per Person (AED)</label>
-              <input id="opt-ppp" class="form-input" type="number" min="0" placeholder="0">
+              <label class="form-label" for="v-ppp">Price Per Person (AED)</label>
+              <input id="v-ppp" class="form-input" type="number" min="0" placeholder="0">
             </div>
           </div>
           <div class="form-group">
-            <label class="form-label" for="opt-quote-calc">Quote — 100 Guests (AED)</label>
-            <input id="opt-quote-calc" class="form-input" type="number" min="0" placeholder="Auto-calculated from price per person" style="background:#fff">
+            <label class="form-label" for="v-quote">Quote — 100 Guests (AED)</label>
+            <input id="v-quote" class="form-input" type="number" min="0" placeholder="Auto-calculated from price per person" style="background:#fff">
           </div>
           <div class="form-group">
-            <label class="form-label" for="opt-agent-name">Agent Name</label>
-            <input id="opt-agent-name" class="form-input" type="text" placeholder="Contact person at the hotel" autocomplete="off">
+            <label class="form-label" for="v-agent">Agent Name</label>
+            <input id="v-agent" class="form-input" type="text" placeholder="Contact person at the hotel" autocomplete="off">
           </div>
           <div class="form-row">
             <div class="form-group">
-              <label class="form-label" for="opt-mobile">Mobile Number</label>
-              <input id="opt-mobile" class="form-input" type="tel" placeholder="+971 50…" autocomplete="off">
+              <label class="form-label" for="v-mobile">Mobile Number</label>
+              <input id="v-mobile" class="form-input" type="tel" placeholder="+971 50…" autocomplete="off">
             </div>
             <div class="form-group">
-              <label class="form-label" for="opt-telephone">Telephone Number</label>
-              <input id="opt-telephone" class="form-input" type="tel" placeholder="+971 2…" autocomplete="off">
+              <label class="form-label" for="v-tel">Telephone Number</label>
+              <input id="v-tel" class="form-input" type="tel" placeholder="+971 2…" autocomplete="off">
             </div>
           </div>
           <div class="form-group">
-            <label class="form-label" for="opt-email">Email Address</label>
-            <input id="opt-email" class="form-input" type="email" placeholder="events@hotel.com" autocomplete="off">
+            <label class="form-label" for="v-email">Email Address</label>
+            <input id="v-email" class="form-input" type="email" placeholder="events@hotel.com" autocomplete="off">
+          </div>
+        </div>
+        <!-- Prenup Shoot — Photography Details -->
+        <div id="section-photo" class="vendor-extra-section" style="display:none;background:rgba(2,119,189,0.06);border:1px solid rgba(2,119,189,0.18);border-radius:var(--radius-sm);padding:14px 14px 4px;margin-bottom:16px">
+          <div style="font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#0277bd;margin-bottom:12px">Photography Details</div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="ph-package">Package</label>
+              <input id="ph-package" class="form-input" type="text" placeholder="e.g. Half Day, Full Day" autocomplete="off">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="ph-hours">Coverage (hrs)</label>
+              <input id="ph-hours" class="form-input" type="number" min="0" placeholder="e.g. 6">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="ph-deliverables">Deliverables</label>
+            <input id="ph-deliverables" class="form-input" type="text" placeholder="e.g. 200 edited photos + 1 highlight reel" autocomplete="off">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="ph-travel-fee">Travel / Location Fee (AED)</label>
+            <input id="ph-travel-fee" class="form-input" type="number" min="0" placeholder="0">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="ph-contact">Contact Person</label>
+            <input id="ph-contact" class="form-input" type="text" placeholder="Photographer's name" autocomplete="off">
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="ph-mobile">Mobile</label>
+              <input id="ph-mobile" class="form-input" type="tel" placeholder="+971 50…" autocomplete="off">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="ph-email">Email</label>
+              <input id="ph-email" class="form-input" type="email" placeholder="studio@email.com" autocomplete="off">
+            </div>
+          </div>
+        </div>
+        <!-- Suppliers & Payments — Service Details -->
+        <div id="section-supplier" class="vendor-extra-section" style="display:none;background:rgba(46,125,50,0.06);border:1px solid rgba(46,125,50,0.18);border-radius:var(--radius-sm);padding:14px 14px 4px;margin-bottom:16px">
+          <div style="font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#2a7a45;margin-bottom:12px">Service Details</div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="sp-service-type">Service Type</label>
+              <select id="sp-service-type" class="form-input">
+                <option value="">— select —</option>
+                <option value="Photographer">Photographer</option>
+                <option value="Videographer">Videographer</option>
+                <option value="HMUA">Hair &amp; Makeup</option>
+                <option value="Florist">Florist</option>
+                <option value="Caterer">Caterer</option>
+                <option value="Transport">Transport</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="sp-package">Package Name</label>
+              <input id="sp-package" class="form-input" type="text" placeholder="e.g. Premium, Classic" autocomplete="off">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="sp-inclusions">Inclusions</label>
+            <textarea id="sp-inclusions" class="form-input" rows="2" placeholder="What's included in the package…"></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="sp-trial-date">Trial / Preview Date</label>
+            <input id="sp-trial-date" class="form-input" type="date">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="sp-contact">Contact Person</label>
+            <input id="sp-contact" class="form-input" type="text" placeholder="Name" autocomplete="off">
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="sp-mobile">Mobile</label>
+              <input id="sp-mobile" class="form-input" type="tel" placeholder="+971 50…" autocomplete="off">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="sp-email">Email</label>
+              <input id="sp-email" class="form-input" type="email" placeholder="contact@service.com" autocomplete="off">
+            </div>
+          </div>
+        </div>
+        <!-- Attire & Rings — Boutique / Tailor Details -->
+        <div id="section-attire" class="vendor-extra-section" style="display:none;background:rgba(212,168,67,0.07);border:1px solid rgba(212,168,67,0.28);border-radius:var(--radius-sm);padding:14px 14px 4px;margin-bottom:16px">
+          <div style="font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#8a6a00;margin-bottom:12px">Boutique / Tailor Details</div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="at-shop-type">Shop Type</label>
+              <select id="at-shop-type" class="form-input">
+                <option value="">— select —</option>
+                <option value="Boutique">Boutique</option>
+                <option value="Designer">Designer</option>
+                <option value="Tailor">Tailor</option>
+                <option value="Jeweller">Jeweller</option>
+                <option value="Online">Online</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="at-alteration-fee">Alteration Fee (AED)</label>
+              <input id="at-alteration-fee" class="form-input" type="number" min="0" placeholder="0">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="at-first-fitting">First Fitting</label>
+              <input id="at-first-fitting" class="form-input" type="date">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="at-final-fitting">Final Fitting</label>
+              <input id="at-final-fitting" class="form-input" type="date">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="at-delivery">Delivery Date</label>
+            <input id="at-delivery" class="form-input" type="date">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="at-contact">Contact Person</label>
+            <input id="at-contact" class="form-input" type="text" placeholder="Name" autocomplete="off">
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="at-mobile">Mobile</label>
+              <input id="at-mobile" class="form-input" type="tel" placeholder="+971 50…" autocomplete="off">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="at-email">Email</label>
+              <input id="at-email" class="form-input" type="email" placeholder="contact@boutique.com" autocomplete="off">
+            </div>
           </div>
         </div>
         <div class="form-group">
@@ -3796,6 +3926,21 @@ function savePinChange() {
   showToast('Passcode set. Active on next load.');
 }
 
+/* ── Category type detection for vendor extra fields ── */
+function getCatType(itemId) {
+  if (!itemId) return null;
+  const itm = state.items.find(i => i.id === itemId);
+  if (!itm) return null;
+  const cat = state.categories.find(c => c.id === itm.categoryId);
+  if (!cat) return null;
+  const n = cat.name.toLowerCase();
+  if (n.includes('venue'))    return 'venue';
+  if (n.includes('prenup'))   return 'photo';
+  if (n.includes('supplier')) return 'supplier';
+  if (n.includes('attire'))   return 'attire';
+  return null;
+}
+
 /* ── Decision tracking ─────────────────────────────── */
 let _decItemId    = null; // category the decision sheet is open for
 let _decOptionId = null; // option being edited (null = new)
@@ -3854,15 +3999,52 @@ function showDecFormPanel(optionId) {
   document.getElementById('opt-notes').value   = opt ? opt.notes : '';
   document.getElementById('opt-convo').value   = opt ? opt.conversation : '';
   document.getElementById('opt-details').value = opt ? opt.details : '';
-  document.getElementById('opt-link').value      = opt ? (opt.link || '') : '';
-  document.getElementById('opt-updated').value  = opt ? (opt.updatedAt || '') : new Date().toISOString().slice(0,10);
-  document.getElementById('opt-min-guests').value  = opt && opt.minGuests != null ? opt.minGuests : '';
-  document.getElementById('opt-ppp').value         = opt && opt.pricePerPerson != null ? opt.pricePerPerson : '';
-  document.getElementById('opt-quote-calc').value  = opt && opt.pricePerPerson != null ? opt.pricePerPerson * 100 : '';
-  document.getElementById('opt-agent-name').value  = opt ? (opt.agentName || '') : '';
-  document.getElementById('opt-mobile').value      = opt ? (opt.mobile || '') : '';
-  document.getElementById('opt-telephone').value   = opt ? (opt.telephone || '') : '';
-  document.getElementById('opt-email').value       = opt ? (opt.email || '') : '';
+  document.getElementById('opt-link').value    = opt ? (opt.link || '') : '';
+  document.getElementById('opt-updated').value = opt ? (opt.updatedAt || '') : new Date().toISOString().slice(0,10);
+
+  // Show/hide the right category-specific section
+  const catType = getCatType(_decItemId);
+  document.querySelectorAll('.vendor-extra-section').forEach(el => el.style.display = 'none');
+  if (catType) {
+    const sec = document.getElementById('section-' + catType);
+    if (sec) sec.style.display = '';
+  }
+
+  // Populate venue fields
+  const _v = (id, val) => { const el = document.getElementById(id); if (el) el.value = val ?? ''; };
+  _v('v-min-guests', opt?.minGuests ?? '');
+  _v('v-ppp',        opt?.pricePerPerson ?? '');
+  _v('v-quote',      opt?.quoteFor100 ?? '');
+  _v('v-agent',      opt?.agentName ?? '');
+  _v('v-mobile',     opt?.mobile ?? '');
+  _v('v-tel',        opt?.telephone ?? '');
+  _v('v-email',      opt?.email ?? '');
+  // Populate photo fields
+  _v('ph-package',      opt?.photoPackage ?? '');
+  _v('ph-hours',        opt?.coverageHours ?? '');
+  _v('ph-deliverables', opt?.deliverables ?? '');
+  _v('ph-travel-fee',   opt?.travelFee ?? '');
+  _v('ph-contact',      opt?.contactPerson ?? '');
+  _v('ph-mobile',       opt?.mobile ?? '');
+  _v('ph-email',        opt?.email ?? '');
+  // Populate supplier fields
+  _v('sp-service-type', opt?.serviceType ?? '');
+  _v('sp-package',      opt?.packageName ?? '');
+  _v('sp-inclusions',   opt?.inclusions ?? '');
+  _v('sp-trial-date',   opt?.trialDate ?? '');
+  _v('sp-contact',      opt?.contactPerson ?? '');
+  _v('sp-mobile',       opt?.mobile ?? '');
+  _v('sp-email',        opt?.email ?? '');
+  // Populate attire fields
+  _v('at-shop-type',       opt?.shopType ?? '');
+  _v('at-alteration-fee',  opt?.alterationFee ?? '');
+  _v('at-first-fitting',   opt?.firstFittingDate ?? '');
+  _v('at-final-fitting',   opt?.finalFittingDate ?? '');
+  _v('at-delivery',        opt?.deliveryDate ?? '');
+  _v('at-contact',         opt?.contactPerson ?? '');
+  _v('at-mobile',          opt?.mobile ?? '');
+  _v('at-email',           opt?.email ?? '');
+
   document.getElementById('opt-delete-btn').style.display = opt ? '' : 'none';
   const dec2 = getDecision(_decItemId);
   const isFinal = opt && dec2 && dec2.finalOptionId === optionId;
@@ -3901,14 +4083,36 @@ function renderDecOptionsList() {
     const statusCls = 'vst-' + (isFinal ? 'selected' : opt.status);
     const priceHtml = opt.price != null ? `<div class="vendor-card-price">${fmtAED(opt.price)}</div>` : '';
     const metaHtml  = opt.notes ? `<div class="vendor-card-meta">${escHtml(opt.notes.slice(0,90))}${opt.notes.length > 90 ? '…' : ''}</div>` : '';
-    const hotelMeta = (() => {
+    const extraMeta = (() => {
       const parts = [];
-      if (opt.agentName) parts.push(`Agent: ${escHtml(opt.agentName)}`);
-      if (opt.pricePerPerson != null) parts.push(`AED ${Number(opt.pricePerPerson).toLocaleString('en-AE')}/pax`);
-      if (opt.quoteFor100 != null) parts.push(`100-pax quote: ${fmtAED(opt.quoteFor100)}`);
-      if (opt.minGuests != null) parts.push(`Min. ${opt.minGuests} guests`);
-      if (opt.mobile) parts.push(`📱 ${escHtml(opt.mobile)}`);
-      if (opt.email) parts.push(`✉ ${escHtml(opt.email)}`);
+      const ct = getCatType(_decItemId);
+      if (ct === 'venue') {
+        if (opt.agentName)        parts.push(`Agent: ${escHtml(opt.agentName)}`);
+        if (opt.pricePerPerson != null) parts.push(`AED ${Number(opt.pricePerPerson).toLocaleString('en-AE')}/pax`);
+        if (opt.quoteFor100 != null)    parts.push(`100-pax: ${fmtAED(opt.quoteFor100)}`);
+        if (opt.minGuests != null)      parts.push(`Min. ${opt.minGuests} guests`);
+        if (opt.mobile)           parts.push(escHtml(opt.mobile));
+        if (opt.email)            parts.push(escHtml(opt.email));
+      } else if (ct === 'photo') {
+        if (opt.photoPackage)     parts.push(escHtml(opt.photoPackage));
+        if (opt.coverageHours != null)  parts.push(`${opt.coverageHours} hrs`);
+        if (opt.deliverables)     parts.push(escHtml(opt.deliverables));
+        if (opt.travelFee != null && opt.travelFee > 0) parts.push(`Travel: ${fmtAED(opt.travelFee)}`);
+        if (opt.contactPerson)    parts.push(escHtml(opt.contactPerson));
+        if (opt.mobile)           parts.push(escHtml(opt.mobile));
+      } else if (ct === 'supplier') {
+        if (opt.serviceType)      parts.push(escHtml(opt.serviceType));
+        if (opt.packageName)      parts.push(escHtml(opt.packageName));
+        if (opt.trialDate)        parts.push(`Trial: ${fmtDate(opt.trialDate)}`);
+        if (opt.contactPerson)    parts.push(escHtml(opt.contactPerson));
+        if (opt.mobile)           parts.push(escHtml(opt.mobile));
+      } else if (ct === 'attire') {
+        if (opt.shopType)         parts.push(escHtml(opt.shopType));
+        if (opt.alterationFee != null && opt.alterationFee > 0) parts.push(`Alterations: ${fmtAED(opt.alterationFee)}`);
+        if (opt.deliveryDate)     parts.push(`Delivery: ${fmtDate(opt.deliveryDate)}`);
+        if (opt.contactPerson)    parts.push(escHtml(opt.contactPerson));
+        if (opt.mobile)           parts.push(escHtml(opt.mobile));
+      }
       return parts.length ? `<div class="vendor-card-meta" style="margin-top:5px;line-height:1.6">${parts.join(' · ')}</div>` : '';
     })();
     const updHtml   = opt.updatedAt ? `<div style="font-size:10px;opacity:0.4;margin-top:4px">${fmtDate(opt.updatedAt)}</div>` : '';
@@ -3920,7 +4124,7 @@ function renderDecOptionsList() {
         <div class="vendor-card-name">${escHtml(opt.name)}</div>
         <span class="vendor-status ${statusCls}">${isFinal ? 'Final' : DEC_STATUS_LABEL[opt.status] || opt.status}</span>
       </div>
-      ${priceHtml}${metaHtml}${hotelMeta}${updHtml}
+      ${priceHtml}${metaHtml}${extraMeta}${updHtml}
       ${linkHtml}
       <div class="vendor-card-actions">
         <button class="vendor-btn" data-dec-action="edit-option" data-opt="${opt.id}">Edit</button>
@@ -3949,13 +4153,16 @@ function saveDecOption() {
     details:        document.getElementById('opt-details').value.trim(),
     link:           document.getElementById('opt-link').value.trim(),
     updatedAt:      document.getElementById('opt-updated').value || new Date().toISOString().slice(0,10),
-    minGuests:      document.getElementById('opt-min-guests').value !== '' ? Number(document.getElementById('opt-min-guests').value) : null,
-    pricePerPerson: document.getElementById('opt-ppp').value !== '' ? Number(document.getElementById('opt-ppp').value) : null,
-    quoteFor100:    document.getElementById('opt-quote-calc').value !== '' ? Number(document.getElementById('opt-quote-calc').value) : null,
-    agentName:      document.getElementById('opt-agent-name').value.trim(),
-    mobile:         document.getElementById('opt-mobile').value.trim(),
-    telephone:      document.getElementById('opt-telephone').value.trim(),
-    email:          document.getElementById('opt-email').value.trim(),
+    ...(() => {
+      const gv  = id => { const el = document.getElementById(id); return el ? el.value.trim() : ''; };
+      const gn  = id => { const el = document.getElementById(id); return el && el.value !== '' ? Number(el.value) : null; };
+      const ct  = getCatType(_decItemId);
+      if (ct === 'venue')    return { minGuests: gn('v-min-guests'), pricePerPerson: gn('v-ppp'), quoteFor100: gn('v-quote'), agentName: gv('v-agent'), mobile: gv('v-mobile'), telephone: gv('v-tel'), email: gv('v-email') };
+      if (ct === 'photo')    return { photoPackage: gv('ph-package'), coverageHours: gn('ph-hours'), deliverables: gv('ph-deliverables'), travelFee: gn('ph-travel-fee'), contactPerson: gv('ph-contact'), mobile: gv('ph-mobile'), email: gv('ph-email') };
+      if (ct === 'supplier') return { serviceType: gv('sp-service-type'), packageName: gv('sp-package'), inclusions: gv('sp-inclusions'), trialDate: gv('sp-trial-date'), contactPerson: gv('sp-contact'), mobile: gv('sp-mobile'), email: gv('sp-email') };
+      if (ct === 'attire')   return { shopType: gv('at-shop-type'), alterationFee: gn('at-alteration-fee'), firstFittingDate: gv('at-first-fitting'), finalFittingDate: gv('at-final-fitting'), deliveryDate: gv('at-delivery'), contactPerson: gv('at-contact'), mobile: gv('at-mobile'), email: gv('at-email') };
+      return {};
+    })(),
   };
   if (_decOptionId) {
     const idx = dec.options.findIndex(o => o.id === _decOptionId);
@@ -4325,9 +4532,9 @@ function wireEvents() {
   document.getElementById('dec-clear-btn').addEventListener('click', clearFinalOption);
   document.getElementById('opt-save-btn').addEventListener('click', saveDecOption);
   document.getElementById('opt-delete-btn').addEventListener('click', deleteDecOption);
-  document.getElementById('opt-ppp').addEventListener('input', e => {
+  document.getElementById('v-ppp').addEventListener('input', e => {
     const ppp = Number(e.target.value) || 0;
-    document.getElementById('opt-quote-calc').value = ppp ? ppp * 100 : '';
+    document.getElementById('v-quote').value = ppp ? ppp * 100 : '';
   });
   document.getElementById('opt-select-btn').addEventListener('click', () => {
     if (_decOptionId) selectFinalOption(_decOptionId);
