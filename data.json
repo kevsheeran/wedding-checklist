@@ -1653,6 +1653,17 @@
           "details": "",
           "link": "https://www.findmyvenue.com/listing/1",
           "updatedAt": "2026-08-04"
+        },
+        {
+          "id": "2cbc39ca-59de-49eb-96d7-f4cd0312a262",
+          "name": "Palazzo Versace Dubai",
+          "status": "considering",
+          "price": null,
+          "notes": "",
+          "conversation": "",
+          "details": "",
+          "link": "https://www.palazzoversace.ae/special-offers/wedding-packages",
+          "updatedAt": "2026-08-04"
         }
       ]
     }
