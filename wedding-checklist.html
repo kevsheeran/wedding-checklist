@@ -2018,22 +2018,16 @@ body.dark .filter-select { background: #2a1f18; color: var(--ink); }
           <label class="form-label" for="opt-name">Name / Vendor *</label>
           <input id="opt-name" class="form-input" type="text" placeholder="e.g. Arjan Rotana" autocomplete="off">
         </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label" for="opt-status">Status</label>
-            <select id="opt-status" class="form-input">
-              <option value="proposal">Proposal Requested</option>
-              <option value="quoted">Quoted</option>
-              <option value="contacted">Contacted</option>
-              <option value="considering">Considering</option>
-              <option value="visited">Visited</option>
-              <option value="declined">Declined</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="opt-price">Total Quote (AED)</label>
-            <input id="opt-price" class="form-input" type="number" min="0" placeholder="0">
-          </div>
+        <div class="form-group">
+          <label class="form-label" for="opt-status">Status</label>
+          <select id="opt-status" class="form-input">
+            <option value="proposal">Proposal Requested</option>
+            <option value="quoted">Quoted</option>
+            <option value="contacted">Contacted</option>
+            <option value="considering">Considering</option>
+            <option value="visited">Visited</option>
+            <option value="declined">Declined</option>
+          </select>
         </div>
         <!-- Venue & Reception — Hotel Details -->
         <div id="section-venue" class="vendor-extra-section" style="display:none;background:var(--rust-pale);border:1px solid rgba(122,26,46,0.18);border-radius:var(--radius-sm);padding:14px 14px 4px;margin-bottom:16px">
@@ -3995,7 +3989,6 @@ function showDecFormPanel(optionId) {
   document.getElementById('dec-form-title').textContent = opt ? 'Edit Option' : 'New Option';
   document.getElementById('opt-name').value    = opt ? opt.name : '';
   document.getElementById('opt-status').value  = opt ? opt.status : 'considering';
-  document.getElementById('opt-price').value   = opt && opt.price != null ? opt.price : '';
   document.getElementById('opt-notes').value   = opt ? opt.notes : '';
   document.getElementById('opt-convo').value   = opt ? opt.conversation : '';
   document.getElementById('opt-details').value = opt ? opt.details : '';
@@ -4147,7 +4140,6 @@ function saveDecOption() {
   const payload = {
     name,
     status:         document.getElementById('opt-status').value,
-    price:          document.getElementById('opt-price').value !== '' ? Number(document.getElementById('opt-price').value) : null,
     notes:          document.getElementById('opt-notes').value.trim(),
     conversation:   document.getElementById('opt-convo').value.trim(),
     details:        document.getElementById('opt-details').value.trim(),
@@ -4157,11 +4149,11 @@ function saveDecOption() {
       const gv  = id => { const el = document.getElementById(id); return el ? el.value.trim() : ''; };
       const gn  = id => { const el = document.getElementById(id); return el && el.value !== '' ? Number(el.value) : null; };
       const ct  = getCatType(_decItemId);
-      if (ct === 'venue')    return { minGuests: gn('v-min-guests'), pricePerPerson: gn('v-ppp'), quoteFor100: gn('v-quote'), agentName: gv('v-agent'), mobile: gv('v-mobile'), telephone: gv('v-tel'), email: gv('v-email') };
-      if (ct === 'photo')    return { photoPackage: gv('ph-package'), coverageHours: gn('ph-hours'), deliverables: gv('ph-deliverables'), travelFee: gn('ph-travel-fee'), contactPerson: gv('ph-contact'), mobile: gv('ph-mobile'), email: gv('ph-email') };
-      if (ct === 'supplier') return { serviceType: gv('sp-service-type'), packageName: gv('sp-package'), inclusions: gv('sp-inclusions'), trialDate: gv('sp-trial-date'), contactPerson: gv('sp-contact'), mobile: gv('sp-mobile'), email: gv('sp-email') };
-      if (ct === 'attire')   return { shopType: gv('at-shop-type'), alterationFee: gn('at-alteration-fee'), firstFittingDate: gv('at-first-fitting'), finalFittingDate: gv('at-final-fitting'), deliveryDate: gv('at-delivery'), contactPerson: gv('at-contact'), mobile: gv('at-mobile'), email: gv('at-email') };
-      return {};
+      if (ct === 'venue')    return { price: gn('v-quote'), minGuests: gn('v-min-guests'), pricePerPerson: gn('v-ppp'), quoteFor100: gn('v-quote'), agentName: gv('v-agent'), mobile: gv('v-mobile'), telephone: gv('v-tel'), email: gv('v-email') };
+      if (ct === 'photo')    return { price: null, photoPackage: gv('ph-package'), coverageHours: gn('ph-hours'), deliverables: gv('ph-deliverables'), travelFee: gn('ph-travel-fee'), contactPerson: gv('ph-contact'), mobile: gv('ph-mobile'), email: gv('ph-email') };
+      if (ct === 'supplier') return { price: null, serviceType: gv('sp-service-type'), packageName: gv('sp-package'), inclusions: gv('sp-inclusions'), trialDate: gv('sp-trial-date'), contactPerson: gv('sp-contact'), mobile: gv('sp-mobile'), email: gv('sp-email') };
+      if (ct === 'attire')   return { price: null, shopType: gv('at-shop-type'), alterationFee: gn('at-alteration-fee'), firstFittingDate: gv('at-first-fitting'), finalFittingDate: gv('at-final-fitting'), deliveryDate: gv('at-delivery'), contactPerson: gv('at-contact'), mobile: gv('at-mobile'), email: gv('at-email') };
+      return { price: null };
     })(),
   };
   if (_decOptionId) {
