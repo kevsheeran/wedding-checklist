@@ -1631,6 +1631,28 @@
           "details": "",
           "link": "https://www.dwtchospitality.com/en/weddings/",
           "updatedAt": "2026-08-04"
+        },
+        {
+          "id": "76d6ff1b-74d4-49f9-85b1-4857c978e935",
+          "name": "The Lana, Marasi Drive, Business Bay, Dubai UAE",
+          "status": "considering",
+          "price": null,
+          "notes": "Requested a proposal",
+          "conversation": "+971 4 541 7777\n\n+44 7488 880408\n\nevents.LAN@dorchestercollection.com",
+          "details": "",
+          "link": "https://www.dorchestercollection.com/dubai/the-lana/occasions/get-in-touch",
+          "updatedAt": "2026-08-04"
+        },
+        {
+          "id": "081e6ea6-575d-4065-b554-df65f9fc030e",
+          "name": "More Venue List",
+          "status": "considering",
+          "price": null,
+          "notes": "https://www.findmyvenue.com/listing/1?filters=%7B%22city%22%3A%22Dubai%22%2C%22eventTypes%22%3A%7B%22Weddings%22%3A%5B%22Wedding%22%5D%7D%7D",
+          "conversation": "",
+          "details": "",
+          "link": "https://www.findmyvenue.com/listing/1",
+          "updatedAt": "2026-08-04"
         }
       ]
     }
