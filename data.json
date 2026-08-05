@@ -502,7 +502,7 @@
       "status": "todo",
       "assignee": "",
       "dueDate": null,
-      "estCost": 20000,
+      "estCost": null,
       "tag": "required",
       "starred": false
     },
@@ -1577,12 +1577,19 @@
           "id": "29692bbe-0983-4421-960a-3ab356bd12f6",
           "name": "JW Marriot Marquis Hotel Dubai",
           "status": "quoted",
-          "price": null,
+          "price": 30000,
           "notes": "CONFIRMATION NUMBER\nM01785853783532",
           "conversation": "Email",
-          "details": "Emirates Ballroom or Dubai Ballroom",
+          "details": "Emirates Ballroom or Dubai Ballroom\n\nEmirates Ballroom – Dinner at AED 300 Per person.\n\n• Inspiring Venue\n• A selection of the hotel's table linen, chair covers, bows and table centerpieces\n• Complimentary Dance floor and Stage\n• Welcome drinks juices\n• Tailor-made menu including chilled juices, tea & coffee\n• Cake especially designed to you -3 tier (top tier real)\n• Exclusive menu tasting for the wedding couple and up to 6 guests with our Executive chef\n• Overnight stay in our deluxe room including romantic amenities, a romantic breakfast in bed on the\nfollowing day\n• Special reduced rates for the family and wedding guests (subject to availability)\n• Additional 20% discount for friends & family on selected treatments at the Saray Spa.\n• Earn Marriott Bonvoy points with our award winning loyalty program.\n• Complimentary valet parking",
           "link": "",
-          "updatedAt": "2026-08-04"
+          "updatedAt": "2026-08-04",
+          "minGuests": 100,
+          "pricePerPerson": 300,
+          "quoteFor100": 30000,
+          "agentName": "Glenis Miranda",
+          "mobile": "+971 506 982 761",
+          "telephone": "",
+          "email": "glenis.miranda@marriott.com"
         },
         {
           "id": "d1476f37-2d2f-4828-9264-4063c7be98c9",
@@ -1688,7 +1695,7 @@
         },
         {
           "id": "efb8c5e7-3413-4ea2-a33b-9278110306e8",
-          "name": "DoubleTree by Hilton Dubai M Square",
+          "name": "DoubleTree by Hilton Dubai M Square (Al Jaddaf)",
           "status": "contacted",
           "price": 20000,
           "notes": "Saturday is available on March 2027. Ask for Fri availability as well.",
