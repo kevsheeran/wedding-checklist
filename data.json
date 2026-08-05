@@ -1635,13 +1635,20 @@
         {
           "id": "76d6ff1b-74d4-49f9-85b1-4857c978e935",
           "name": "The Lana, Marasi Drive, Business Bay, Dubai UAE",
-          "status": "quoted",
-          "price": null,
-          "notes": "Requested a proposal",
+          "status": "declined",
+          "price": 100000,
+          "notes": "Too expensive. Min spend of 100K AED",
           "conversation": "+971 4 541 7777\n\n+44 7488 880408\n\nevents.LAN@dorchestercollection.com",
           "details": "",
           "link": "https://www.dorchestercollection.com/dubai/the-lana/occasions/get-in-touch",
-          "updatedAt": "2026-08-04"
+          "updatedAt": "2026-08-04",
+          "minGuests": 100,
+          "pricePerPerson": null,
+          "quoteFor100": 100000,
+          "agentName": "Katya",
+          "mobile": "",
+          "telephone": "045417736",
+          "email": ""
         },
         {
           "id": "081e6ea6-575d-4065-b554-df65f9fc030e",
@@ -1730,6 +1737,24 @@
           "details": "",
           "link": "",
           "updatedAt": "2026-08-04"
+        },
+        {
+          "id": "b849ce11-e498-43bf-8293-fba8ac0e9078",
+          "name": "Vogo Grand Hotel",
+          "status": "contacted",
+          "notes": "Sent an inquiry.",
+          "conversation": "Facebook and WhatsApp\n\n135, 150, 175 AED\n\nGrand Ballroom",
+          "details": "",
+          "link": "https://www.vogogranddubai.com/events",
+          "updatedAt": "2026-08-05",
+          "price": 17500,
+          "minGuests": 100,
+          "pricePerPerson": 175,
+          "quoteFor100": 17500,
+          "agentName": "",
+          "mobile": "",
+          "telephone": "",
+          "email": ""
         }
       ]
     }
