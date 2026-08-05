@@ -1761,7 +1761,7 @@
     {
       "id": "b379888b-17ed-4f28-94e5-bd5983d8fdd8",
       "itemId": "7bf057d0-2899-452a-bec6-ed8111e73fdb",
-      "finalOptionId": null,
+      "finalOptionId": "1fc51cfb-9be6-4634-af48-905498dc2db3",
       "options": [
         {
           "id": "33f9d917-82cd-427f-be1d-32c3aebc2fb3",
@@ -1784,7 +1784,7 @@
         {
           "id": "1fc51cfb-9be6-4634-af48-905498dc2db3",
           "name": "Liali Events",
-          "status": "visited",
+          "status": "considering",
           "notes": "Package inclusive of:\nEntrance Deco\nPerfume Table\nKosha\nCatwalk\nDance Floor\nCenter Pieces\n8 Tables\n80 Chairs\n1 Table for Ceremony\nSound System\nLighting System\nDJ\nPrinting Service\nSmoke Machine\nSpotlight\nFireworks",
           "conversation": "",
           "details": "",
