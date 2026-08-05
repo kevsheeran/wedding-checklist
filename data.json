@@ -1691,11 +1691,18 @@
           "name": "DoubleTree by Hilton Dubai M Square",
           "status": "contacted",
           "price": 20000,
-          "notes": "Saturday is available on March 2027.",
-          "conversation": "Aisuu Baiyrool: WhatsApp - Wedding Catalog shared",
+          "notes": "Saturday is available on March 2027. Ask for Fri availability as well.",
+          "conversation": "WhatsApp - Wedding Catalog shared",
           "details": "",
           "link": "",
-          "updatedAt": "2026-08-04"
+          "updatedAt": "2026-08-04",
+          "minGuests": 100,
+          "pricePerPerson": 200,
+          "quoteFor100": 20000,
+          "agentName": "Aisuu Baiyrool",
+          "mobile": "0564141879",
+          "telephone": "",
+          "email": ""
         },
         {
           "id": "49fec994-d851-4306-96b3-6a491f0df515",
