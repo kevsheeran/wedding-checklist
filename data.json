@@ -1475,11 +1475,11 @@
     {
       "id": "7bf057d0-2899-452a-bec6-ed8111e73fdb",
       "title": "Decoration Company",
-      "notes": "Package inclusive of:\nEntrance Deco\nPerfume Table\nKosha\nCatwalk\nDance Floor\nCenter Pieces\n8 Tables\n80 Chairs\n1 Table for Ceremony\nSound System\nLighting System\nDJ\nPrinting Service\nSmoke Machine\nSpotlight\nFireworks",
+      "notes": "",
       "status": "doing",
       "assignee": "Both",
-      "dueDate": "2026-08-08",
-      "estCost": 26250,
+      "dueDate": null,
+      "estCost": null,
       "tag": "required",
       "categoryId": "bc8a8a77-e563-4ead-81f2-daff1d4b2744",
       "starred": true
@@ -1752,6 +1752,49 @@
           "pricePerPerson": 175,
           "quoteFor100": 17500,
           "agentName": "",
+          "mobile": "",
+          "telephone": "",
+          "email": ""
+        }
+      ]
+    },
+    {
+      "id": "b379888b-17ed-4f28-94e5-bd5983d8fdd8",
+      "itemId": "7bf057d0-2899-452a-bec6-ed8111e73fdb",
+      "finalOptionId": null,
+      "options": [
+        {
+          "id": "33f9d917-82cd-427f-be1d-32c3aebc2fb3",
+          "name": "Ethereal Events",
+          "status": "contacted",
+          "notes": "No package available. It's charged per services.\nWedding coordinator available from A to Z.",
+          "conversation": "Whatsapp",
+          "details": "",
+          "link": "",
+          "updatedAt": "2026-08-05",
+          "price": null,
+          "minGuests": null,
+          "pricePerPerson": null,
+          "quoteFor100": null,
+          "agentName": "Lana Maarouf",
+          "mobile": "0565031045",
+          "telephone": "",
+          "email": ""
+        },
+        {
+          "id": "1fc51cfb-9be6-4634-af48-905498dc2db3",
+          "name": "Liali Events",
+          "status": "visited",
+          "notes": "Package inclusive of:\nEntrance Deco\nPerfume Table\nKosha\nCatwalk\nDance Floor\nCenter Pieces\n8 Tables\n80 Chairs\n1 Table for Ceremony\nSound System\nLighting System\nDJ\nPrinting Service\nSmoke Machine\nSpotlight\nFireworks",
+          "conversation": "",
+          "details": "",
+          "link": "",
+          "updatedAt": "2026-08-05",
+          "price": 26250,
+          "minGuests": null,
+          "pricePerPerson": null,
+          "quoteFor100": 26250,
+          "agentName": "Shahd",
           "mobile": "",
           "telephone": "",
           "email": ""
