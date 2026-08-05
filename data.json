@@ -1514,13 +1514,20 @@
         {
           "id": "9591c214-cda5-4801-ae00-240d4b7858f1",
           "name": "Millennium Lakeview Hotel (Al Buhaira Ballroom)",
-          "status": "quoted",
+          "status": "contacted",
           "price": null,
-          "notes": "Requested a proposal/wedding package",
+          "notes": "Requested a proposal/wedding package\n\nWhatsapp - waiting reply",
           "conversation": "Email",
           "details": "+971 4 885 2222\nh1026.sales02@millenniumhotels.com",
           "link": "https://www.millenniumhotels.com/en/Weddings/Middle%20East/UAE/Dubai/",
-          "updatedAt": "2026-08-04"
+          "updatedAt": "2026-08-04",
+          "minGuests": null,
+          "pricePerPerson": null,
+          "quoteFor100": null,
+          "agentName": "Adrina",
+          "mobile": "0565258022",
+          "telephone": "",
+          "email": ""
         },
         {
           "id": "d4a88763-5a75-4667-9e70-f5bd46144f94",
@@ -1743,7 +1750,7 @@
           "name": "Vogo Grand Hotel, Academic City",
           "status": "contacted",
           "notes": "Sent an inquiry.",
-          "conversation": "Facebook and WhatsApp\n\n135, 150, 175 AED\nGrand Ballroom\n\nShiny:\nRental Min Charge: 7500\n125 per person (100)\nAlcohol: 1500 CID Permit Mandatory + 125 / bottle\n\n2 Halls \nInternational Hall 7500\nGrand Ballroom 1500",
+          "conversation": "Facebook and WhatsApp\n\n135, 150, 175 AED\nGrand Ballroom\n\nShiny:\nRental Min Charge: 7500\n125 per person (100)\nAlcohol: 1500 CID Permit Mandatory + 125 / bottle\n\n2 Halls \nInternational Hall 7500\nGrand Ballroom 15000",
           "details": "",
           "link": "https://www.vogogranddubai.com/events",
           "updatedAt": "2026-08-05",
@@ -1753,6 +1760,24 @@
           "quoteFor100": 17500,
           "agentName": "Shiny",
           "mobile": "0509825370",
+          "telephone": "",
+          "email": ""
+        },
+        {
+          "id": "b72e5e2e-35c5-47e4-aec3-fb36900eb961",
+          "name": "Al Khawaneej Hall by Crystal Hospitality",
+          "status": "contacted",
+          "notes": "",
+          "conversation": "",
+          "details": "",
+          "link": "https://crystalhospitality.org/wedding-halls/#",
+          "updatedAt": "2026-08-05",
+          "price": null,
+          "minGuests": null,
+          "pricePerPerson": null,
+          "quoteFor100": null,
+          "agentName": "",
+          "mobile": "",
           "telephone": "",
           "email": ""
         }
