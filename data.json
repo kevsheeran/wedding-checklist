@@ -1740,10 +1740,10 @@
         },
         {
           "id": "b849ce11-e498-43bf-8293-fba8ac0e9078",
-          "name": "Vogo Grand Hotel",
+          "name": "Vogo Grand Hotel, Academic City",
           "status": "contacted",
           "notes": "Sent an inquiry.",
-          "conversation": "Facebook and WhatsApp\n\n135, 150, 175 AED\n\nGrand Ballroom",
+          "conversation": "Facebook and WhatsApp\n\n135, 150, 175 AED\nGrand Ballroom\n\nShiny:\nRental Min Charge: 7500\n125 per person (100)\nAlcohol: 1500 CID Permit Mandatory + 125 / bottle\n\n2 Halls \nInternational Hall 7500\nGrand Ballroom 1500",
           "details": "",
           "link": "https://www.vogogranddubai.com/events",
           "updatedAt": "2026-08-05",
@@ -1751,8 +1751,8 @@
           "minGuests": 100,
           "pricePerPerson": 175,
           "quoteFor100": 17500,
-          "agentName": "",
-          "mobile": "",
+          "agentName": "Shiny",
+          "mobile": "0509825370",
           "telephone": "",
           "email": ""
         }
