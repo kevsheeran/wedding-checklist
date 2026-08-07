@@ -1630,24 +1630,40 @@
         {
           "id": "103706a9-ef4d-4887-9b21-b057814a36d2",
           "name": "Arabian Ranches Golf Club",
-          "status": "visited",
-          "price": null,
+          "status": "declined",
+          "price": 29500,
           "notes": "Submitted an enquiry.\n\n+971 4 366 4700 or events@arabianranchesgolf.ae",
           "conversation": "Email",
           "details": "https://www.weddingsbyemaar.com/wp-content/uploads/2021/04/ARGC-WEDDING-PACKAGES.pdf",
           "link": "https://www.arabianranchesgolfclub.com/weddings/",
-          "updatedAt": "2026-08-04"
+          "updatedAt": "2026-08-04",
+          "minGuests": 100,
+          "minSpend": null,
+          "pricePerPerson": 295,
+          "quoteFor100": 29500,
+          "agentName": "",
+          "mobile": "",
+          "telephone": "",
+          "email": ""
         },
         {
           "id": "59a68d59-0b29-434b-82e1-239fc8086da2",
           "name": "The Westin Dubai Mina Seyahi Beach Resort & Marina",
-          "status": "visited",
-          "price": null,
+          "status": "declined",
+          "price": 30000,
           "notes": "Sent an enquiry\n\n+971 4-3994141",
           "conversation": "",
           "details": "",
           "link": "https://venuewise.com/venue/the-westin-dubai-mina-seyahi-beach-resort-marina/serdaal-1-1",
-          "updatedAt": "2026-08-04"
+          "updatedAt": "2026-08-04",
+          "minGuests": 100,
+          "minSpend": null,
+          "pricePerPerson": 300,
+          "quoteFor100": 30000,
+          "agentName": "",
+          "mobile": "",
+          "telephone": "",
+          "email": ""
         },
         {
           "id": "fef5838a-c3cc-46d0-93ac-47d126ec92b9",
@@ -1742,7 +1758,7 @@
         },
         {
           "id": "a4425207-7908-497d-814c-86999f5c3c30",
-          "name": "Sheraton Grand Hotel Dubai (Starlight Ballroom C)",
+          "name": "Sheraton Grand Hotel Dubai (Starlight Ballroom)",
           "status": "proposal",
           "price": null,
           "notes": "+971 4-5034444\n\nreplied to email - awaiting feedback",
@@ -1756,7 +1772,8 @@
           "agentName": "Cynthia Edelweiss",
           "mobile": "9714 503 4209",
           "telephone": "",
-          "email": "cynthia.edelweiss@sheratongranddubai.com"
+          "email": "cynthia.edelweiss@sheratongranddubai.com",
+          "minSpend": null
         },
         {
           "id": "7622aa28-dbff-4bb3-9d77-e2d8ee27fdd2",
