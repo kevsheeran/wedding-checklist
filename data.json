@@ -1543,13 +1543,21 @@
         {
           "id": "cefb2abf-8181-4ee9-9c01-8a804b37e150",
           "name": "Hyatt Regency Dubai Creek Heights (Aryaam Ballroom)",
-          "status": "contacted",
+          "status": "declined",
           "price": 30000,
-          "notes": "Requested a proposal: Confirmation Number: H6356155\n\nMin 100. Rate: 300 per person\n\nContact them by December - 045531234",
+          "notes": "Requested a proposal: Confirmation Number: H6356155\n\nContact them by December - 045531234",
           "conversation": "Email / Call",
           "details": "Check Email",
           "link": "https://www.hyatt.com/hyatt-regency/en-US/dxbhc-hyatt-regency-dubai-creek-heights/weddings https://my.matterport.com/show/?m=cwiDapVbUGE",
-          "updatedAt": "2026-08-04"
+          "updatedAt": "2026-08-04",
+          "minGuests": 100,
+          "minSpend": null,
+          "pricePerPerson": 300,
+          "quoteFor100": 30000,
+          "agentName": "",
+          "mobile": "",
+          "telephone": "",
+          "email": ""
         },
         {
           "id": "57bee9b2-40f1-4a4f-8d23-ba61eda1532e",
@@ -1899,7 +1907,8 @@
           "agentName": "",
           "mobile": "0558683599",
           "telephone": "",
-          "email": ""
+          "email": "",
+          "minSpend": null
         },
         {
           "id": "fc3700ed-d6a3-46ba-b543-d6e87e1c69f8",
@@ -1917,7 +1926,8 @@
           "agentName": "",
           "mobile": "0569967697",
           "telephone": "",
-          "email": ""
+          "email": "",
+          "minSpend": null
         }
       ]
     },
