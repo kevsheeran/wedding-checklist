@@ -1669,6 +1669,103 @@ a { color: inherit; text-decoration: none; }
 }
 .vendor-search-input:focus { border-color: var(--rust); }
 
+/* Batch select mode */
+#batch-action-bar {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 400;
+  background: #1e1715; color: #fff;
+  padding: 10px 16px 14px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+  box-shadow: 0 -4px 20px rgba(0,0,0,0.3);
+}
+@media (min-width: 768px) {
+  #batch-action-bar { left: 260px; }
+}
+.batch-info { font-size: 13px; font-weight: 600; font-family: 'Raleway',sans-serif; flex: 1; }
+.batch-actions { display: flex; gap: 6px; flex-wrap: wrap; }
+.batch-btn {
+  font-size: 12px; font-weight: 600; font-family: 'Raleway',sans-serif;
+  padding: 6px 14px; border-radius: 20px; border: none; cursor: pointer;
+  background: rgba(255,255,255,0.15); color: #fff; transition: background 0.15s;
+}
+.batch-btn:hover { background: rgba(255,255,255,0.25); }
+.batch-btn.done { background: rgba(46,125,50,0.7); }
+.batch-btn.doing { background: rgba(122,26,46,0.7); }
+.batch-cancel-btn {
+  font-size: 12px; font-weight: 600; font-family: 'Raleway',sans-serif;
+  padding: 6px 14px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.3);
+  background: transparent; color: rgba(255,255,255,0.7); cursor: pointer;
+}
+.item-row.selectable { cursor: default; }
+.item-row.selected { background: rgba(122,26,46,0.08) !important; border-left-color: var(--rust) !important; outline: 2px solid rgba(122,26,46,0.3); outline-offset: -1px; }
+.item-select-indicator {
+  width: 20px; height: 20px; border-radius: 50%; flex-shrink: 0;
+  border: 2px solid var(--hairline); background: #fff; transition: all 0.15s;
+  display: flex; align-items: center; justify-content: center;
+}
+.item-row.selected .item-select-indicator { background: var(--rust); border-color: var(--rust); }
+
+/* Email draft modal */
+#email-draft-modal {
+  position: fixed; inset: 0; z-index: 9992; display: none;
+  align-items: flex-end; justify-content: center; background: rgba(34,29,23,0.5);
+}
+#email-draft-modal.open { display: flex; }
+.email-draft-inner {
+  background: var(--cream); width: 100%; max-width: 600px;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  padding: 20px 20px 32px; max-height: 85vh; display: flex; flex-direction: column; gap: 12px;
+  animation: slide-up 0.22s ease;
+}
+@media (min-width: 768px) {
+  .email-draft-inner { border-radius: var(--radius-lg); max-height: 75vh; margin: 20px; }
+}
+.email-draft-header { display: flex; align-items: center; justify-content: space-between; }
+.email-draft-title { font-size: 16px; font-weight: 700; font-family: 'Raleway',sans-serif; color: var(--ink); }
+.email-draft-subject {
+  font-size: 12px; font-weight: 600; font-family: 'Raleway',sans-serif; color: var(--rust);
+  background: var(--rust-pale); padding: 6px 12px; border-radius: var(--radius-sm);
+  letter-spacing: 0.01em;
+}
+.email-draft-textarea {
+  flex: 1; min-height: 200px; font-size: 13px; font-family: 'Raleway',sans-serif;
+  line-height: 1.7; padding: 12px; border: 1px solid var(--hairline); border-radius: var(--radius-sm);
+  background: #fff; color: var(--ink); resize: none; outline: none;
+}
+.email-draft-actions { display: flex; gap: 8px; }
+
+/* Compare overlay */
+#compare-overlay {
+  position: fixed; inset: 0; z-index: 9993; display: none;
+  background: rgba(34,29,23,0.6); align-items: center; justify-content: center;
+}
+#compare-overlay.open { display: flex; }
+.compare-inner {
+  background: var(--cream); width: calc(100% - 20px); max-width: 900px;
+  max-height: 90vh; border-radius: var(--radius-lg); overflow: hidden;
+  display: flex; flex-direction: column; animation: slide-up 0.2s ease;
+}
+.compare-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 20px; border-bottom: 1px solid var(--hairline); flex-shrink: 0;
+}
+.compare-title { font-size: 16px; font-weight: 700; font-family: 'Raleway',sans-serif; color: var(--ink); }
+.compare-body { overflow-x: auto; overflow-y: auto; flex: 1; padding: 0; }
+.compare-table { width: 100%; border-collapse: collapse; font-family: 'Raleway',sans-serif; font-size: 12px; }
+.compare-table th {
+  padding: 10px 14px; text-align: left; background: var(--panel);
+  font-size: 11px; font-weight: 700; color: var(--rust); letter-spacing: 0.06em;
+  text-transform: uppercase; border-bottom: 2px solid var(--hairline); white-space: nowrap;
+  position: sticky; top: 0; z-index: 1;
+}
+.compare-table th:first-child { min-width: 110px; background: var(--panel); position: sticky; left: 0; z-index: 2; }
+.compare-table td { padding: 9px 14px; border-bottom: 1px solid var(--hairline); vertical-align: top; min-width: 160px; }
+.compare-table td:first-child {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--ink); opacity: 0.5; white-space: nowrap; background: var(--cream);
+  position: sticky; left: 0; z-index: 1;
+}
+.compare-table tr:nth-child(even) td { background: rgba(242,230,210,0.4); }
+.compare-table tr:nth-child(even) td:first-child { background: rgba(242,230,210,0.4); }
+
 /* Vendor chip on item row */
 .vendor-chip {
   display: inline-flex; align-items: center; gap: 4px;
@@ -1940,6 +2037,17 @@ body.dark .filter-select { background: #2a1f18; color: var(--ink); }
 
   <canvas id="confetti-canvas"></canvas>
 
+  <!-- Batch action bar -->
+  <div id="batch-action-bar" style="display:none" role="toolbar" aria-label="Batch actions">
+    <div class="batch-info" id="batch-count">0 selected</div>
+    <div class="batch-actions">
+      <button class="batch-btn" id="batch-todo-btn">To Do</button>
+      <button class="batch-btn doing" id="batch-doing-btn">In Progress</button>
+      <button class="batch-btn done" id="batch-done-btn">Done</button>
+      <button class="batch-cancel-btn" id="batch-cancel-btn">Cancel</button>
+    </div>
+  </div>
+
   <!-- Mobile FAB -->
   <button id="fab-add" aria-label="Add item">
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
@@ -1953,6 +2061,37 @@ body.dark .filter-select { background: #2a1f18; color: var(--ink); }
     <div class="success-modal-inner">
       <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#2a7a45" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="9 12 11 14 15 10"/></svg>
       <div class="success-modal-msg" id="success-modal-msg">Saved successfully</div>
+    </div>
+  </div>
+
+  <!-- Email draft modal -->
+  <div id="email-draft-modal" role="dialog" aria-modal="true">
+    <div class="email-draft-inner">
+      <div class="email-draft-header">
+        <span class="email-draft-title">Email Draft</span>
+        <button class="icon-btn" id="email-draft-close" aria-label="Close">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="email-draft-subject" id="email-draft-subject"></div>
+      <textarea id="email-draft-body" class="email-draft-textarea"></textarea>
+      <div class="email-draft-actions">
+        <button class="btn-primary" id="email-copy-btn" style="flex:1">Copy to Clipboard</button>
+        <button class="btn-secondary" id="email-draft-close2">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Side-by-side comparison overlay -->
+  <div id="compare-overlay" role="dialog" aria-modal="true">
+    <div class="compare-inner">
+      <div class="compare-header">
+        <span class="compare-title">Side-by-Side Comparison</span>
+        <button class="icon-btn" id="compare-close" aria-label="Close">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="compare-body" id="compare-body"></div>
     </div>
   </div>
 
@@ -2135,10 +2274,16 @@ body.dark .filter-select { background: #2a1f18; color: var(--ink); }
           <input id="dec-search-input" class="vendor-search-input" type="search" placeholder="Search vendors…" autocomplete="off">
         </div>
         <div id="dec-options-list"></div>
-        <button id="dec-add-btn" class="btn-secondary" style="width:100%;margin-top:4px">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-          Add Option
-        </button>
+        <div style="display:flex;gap:8px;margin-top:4px">
+          <button id="dec-add-btn" class="btn-secondary" style="flex:1">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Add Option
+          </button>
+          <button id="dec-compare-btn" class="btn-secondary" style="display:none">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="18"/><rect x="14" y="3" width="7" height="18"/></svg>
+            Compare
+          </button>
+        </div>
       </div>
       <!-- Option edit/add form panel -->
       <div id="dec-form-panel" class="sheet-body" style="display:none">
@@ -2400,6 +2545,7 @@ body.dark .filter-select { background: #2a1f18; color: var(--ink); }
         <div class="sheet-footer" style="padding:16px 0 4px;margin-top:4px">
           <button id="opt-delete-btn" class="btn-danger" style="display:none">Delete</button>
           <button id="opt-duplicate-btn" class="btn-secondary" style="display:none">Duplicate</button>
+          <button id="opt-email-btn" class="btn-secondary" style="display:none">Draft email</button>
           <div style="flex:1;display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap">
             <button id="opt-unselect-btn" class="btn-secondary" style="display:none">
               <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
@@ -3295,11 +3441,21 @@ const COST_ICON    = `<svg width="11" height="11" viewBox="0 0 24 24" fill="none
 
 function renderItem(item) {
   const row = document.createElement('div');
-  row.className = `item-row status-${item.status}`;
+  row.className = `item-row status-${item.status}${_selectMode ? ' selectable' : ''}${_selectMode && _selectedItems.has(item.id) ? ' selected' : ''}`;
   row.setAttribute('data-item-id', item.id);
   row.setAttribute('role', 'button');
   row.setAttribute('tabindex', '0');
   row.setAttribute('aria-label', `${item.title} — ${STATUS_LABEL[item.status]}`);
+
+  // ── Select indicator (batch mode) or Checkbox ─────
+  if (_selectMode) {
+    const sel = document.createElement('div');
+    sel.className = 'item-select-indicator';
+    if (_selectedItems.has(item.id)) {
+      sel.innerHTML = `<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>`;
+    }
+    row.appendChild(sel);
+  }
 
   // ── Checkbox ──────────────────────────────────────
   const check = document.createElement('button');
@@ -3307,6 +3463,7 @@ function renderItem(item) {
   check.setAttribute('data-action', 'toggle-check');
   check.setAttribute('data-item', item.id);
   check.setAttribute('aria-label', `Cycle status for: ${item.title}`);
+  if (_selectMode) check.style.display = 'none';
   if (item.status === 'done') {
     check.innerHTML = CHECKMARK_SVG;
   } else if (item.status === 'doing') {
@@ -4298,6 +4455,7 @@ function showDecFormPanel(optionId) {
 
   document.getElementById('opt-delete-btn').style.display = opt ? '' : 'none';
   document.getElementById('opt-duplicate-btn').style.display = opt ? '' : 'none';
+  document.getElementById('opt-email-btn').style.display = opt ? '' : 'none';
   const dec2 = getDecision(_decItemId);
   const isFinal = opt && dec2 && dec2.finalOptionId === optionId;
   document.getElementById('opt-select-btn').style.display = (opt && !isFinal) ? '' : 'none';
@@ -4367,6 +4525,9 @@ function renderDecOptionsList() {
   }
 
   const list = document.getElementById('dec-options-list');
+  const compareBtn = document.getElementById('dec-compare-btn');
+  if (compareBtn) compareBtn.style.display = allOptions.length >= 2 ? '' : 'none';
+
   list.innerHTML = '';
   if (!allOptions.length) {
     list.innerHTML = '<p style="font-size:13px;opacity:0.5;text-align:center;padding:24px 0;font-style:italic">No options yet — add your first one below.</p>';
@@ -4682,6 +4843,140 @@ function closeSyncPrompt(skipped) {
   }
 }
 
+/* ── Batch select mode ─────────────────────────────── */
+let _selectMode = false;
+let _selectedItems = new Set();
+
+function enterSelectMode(firstItemId) {
+  _selectMode = true;
+  _selectedItems = new Set([firstItemId]);
+  document.getElementById('batch-action-bar').style.display = 'flex';
+  if (navigator.vibrate) navigator.vibrate(50);
+  render();
+  updateBatchCount();
+}
+
+function exitSelectMode() {
+  _selectMode = false;
+  _selectedItems = new Set();
+  document.getElementById('batch-action-bar').style.display = 'none';
+  render();
+}
+
+function toggleItemSelection(itemId) {
+  if (_selectedItems.has(itemId)) _selectedItems.delete(itemId);
+  else _selectedItems.add(itemId);
+  updateBatchCount();
+  const row = document.querySelector(`.item-row[data-item-id="${itemId}"]`);
+  if (row) row.classList.toggle('selected', _selectedItems.has(itemId));
+  if (_selectedItems.size === 0) exitSelectMode();
+}
+
+function updateBatchCount() {
+  const n = _selectedItems.size;
+  document.getElementById('batch-count').textContent = `${n} item${n !== 1 ? 's' : ''} selected`;
+}
+
+function batchSetStatus(status) {
+  const n = _selectedItems.size;
+  _selectedItems.forEach(id => {
+    const item = state.items.find(i => i.id === id);
+    if (item) item.status = status;
+  });
+  saveState();
+  exitSelectMode();
+  showToast(`${n} item${n !== 1 ? 's' : ''} marked ${STATUS_LABEL[status] || status}`);
+}
+
+/* ── Email draft generator ─────────────────────────── */
+function generateEmailDraft() {
+  if (!_decOptionId) return;
+  const dec = getDecision(_decItemId);
+  const opt = dec ? dec.options.find(o => o.id === _decOptionId) : null;
+  if (!opt) return;
+  const ct = getCatType(_decItemId);
+  const wDate = state.weddingDate
+    ? new Date(state.weddingDate + 'T00:00:00').toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
+    : 'our wedding date';
+  const partner = state.fianceeName ? state.fianceeName.trim() : 'my partner';
+  const contact = opt.contactPerson || opt.agentName || 'Sir/Madam';
+
+  let subject, body;
+  if (ct === 'venue') {
+    subject = `Wedding Enquiry – ${opt.name}`;
+    body = `Dear ${contact},\n\nI hope this message finds you well. My name is Mark and I am writing to enquire about hosting our wedding reception at ${opt.name}.\n\nWedding date: ${wDate}\nApproximate guest count: 100 guests\n\nWe are specifically interested in:\n• Ballroom or function space availability on the above date\n• Catering packages, minimum spend requirements, and price per person\n• Any exclusive-use options or preferred supplier arrangements\n\nWould you be able to share your current packages and pricing? We would also love to arrange a site visit at your earliest convenience.\n\nThank you for your time, and we look forward to hearing from you.\n\nWarm regards,\nMark & ${partner}`;
+  } else if (ct === 'photo') {
+    subject = `Wedding Photography Enquiry – ${wDate}`;
+    body = `Dear ${contact},\n\nI hope this message finds you well. My name is Mark and I am reaching out to enquire about your photography services for our upcoming wedding.\n\nWedding date: ${wDate}\nVenue: Abu Dhabi (venue TBC)\n\nWe are interested in:\n• Full day wedding coverage and package details\n• Turnaround time and deliverables (photos, albums, video)\n• Your availability on the above date\n\nCould you please share your portfolio, package options, and rates? We would love to discuss further.\n\nThank you and warm regards,\nMark & ${partner}`;
+  } else if (ct === 'supplier') {
+    const svc = opt.serviceType ? opt.serviceType : 'your services';
+    subject = `Wedding Enquiry – ${opt.name}`;
+    body = `Dear ${contact},\n\nI hope this message finds you well. My name is Mark and I am writing to enquire about ${svc} for our upcoming wedding.\n\nWedding date: ${wDate}\nLocation: Abu Dhabi\n\nWe would love to know:\n• Your availability on our wedding date\n• Package options and what is included\n• Pricing and deposit requirements\n\nPlease feel free to share any brochures, portfolios, or pricing sheets. We would love to discuss how we can work together.\n\nThank you and warm regards,\nMark & ${partner}`;
+  } else if (ct === 'attire') {
+    subject = `Wedding Attire Enquiry – ${opt.name}`;
+    body = `Dear ${contact},\n\nI hope this message finds you well. My name is Mark and I am reaching out to enquire about wedding attire at ${opt.name}.\n\nWedding date: ${wDate}\n\nWe are looking for:\n• Available styles and collections suitable for our date\n• Fitting schedule and alteration timelines\n• Pricing and deposit requirements\n\nWould it be possible to schedule an appointment? Please let us know your availability.\n\nThank you and warm regards,\nMark & ${partner}`;
+  } else {
+    subject = `Wedding Enquiry – ${opt.name}`;
+    body = `Dear ${contact},\n\nI hope this message finds you well. My name is Mark and I am writing to enquire about your services for our wedding on ${wDate} in Abu Dhabi.\n\nCould you please share your availability, packages, and pricing?\n\nThank you and warm regards,\nMark & ${partner}`;
+  }
+
+  document.getElementById('email-draft-subject').textContent = `Subject: ${subject}`;
+  document.getElementById('email-draft-body').value = body;
+  document.getElementById('email-draft-modal').classList.add('open');
+}
+
+/* ── Side-by-side vendor comparison ───────────────── */
+function openCompareOverlay() {
+  const dec = getDecision(_decItemId);
+  if (!dec || dec.options.length < 1) return;
+  const opts = dec.options;
+  const finalId = dec.finalOptionId;
+  const today = new Date().toISOString().slice(0, 10);
+
+  const rows = [
+    ['Status',   o => DEC_STATUS_LABEL[o.status] || o.status],
+    ['Rating',   o => o.rating ? '★'.repeat(o.rating) + '☆'.repeat(5 - o.rating) : '—'],
+    ['Price',    o => o.price != null ? fmtAED(o.price) : '—'],
+    ['Deposit',  o => {
+      if (o.depositAmt == null) return '—';
+      const label = fmtAED(o.depositAmt) + (o.depositDue ? ` · due ${fmtDate(o.depositDue)}` : '');
+      return (o.depositPaid ? '✓ Paid — ' : '') + label;
+    }],
+    ['Balance',  o => {
+      if (o.balanceAmt == null) return '—';
+      const label = fmtAED(o.balanceAmt) + (o.balanceDue ? ` · due ${fmtDate(o.balanceDue)}` : '');
+      return (o.balancePaid ? '✓ Paid — ' : '') + label;
+    }],
+    ['Notes',    o => o.notes || '—'],
+    ['Updated',  o => o.updatedAt ? fmtDate(o.updatedAt) : '—'],
+    ['Link',     o => o.link ? 'View →' : '—'],
+  ];
+
+  let html = '<table class="compare-table"><thead><tr><th>Attribute</th>';
+  opts.forEach(o => {
+    const isFinal = o.id === finalId;
+    html += `<th>${escHtml(o.name)}${isFinal ? ' <span style="color:#2e7d32">✓ Final</span>' : ''}</th>`;
+  });
+  html += '</tr></thead><tbody>';
+
+  rows.forEach(([label, fn]) => {
+    html += `<tr><td>${escHtml(label)}</td>`;
+    opts.forEach(o => {
+      const val = fn(o);
+      if (label === 'Link' && o.link) {
+        html += `<td><a href="${escHtml(o.link)}" target="_blank" rel="noopener" style="color:var(--rust)">View attachment</a></td>`;
+      } else {
+        html += `<td>${escHtml(String(val))}</td>`;
+      }
+    });
+    html += '</tr>';
+  });
+  html += '</tbody></table>';
+
+  document.getElementById('compare-body').innerHTML = html;
+  document.getElementById('compare-overlay').classList.add('open');
+}
+
 /* ── Event wiring ──────────────────────────────────── */
 function wireEvents() {
   // Persistent main-content delegation (fixes the { once } accumulation bug)
@@ -4703,6 +4998,7 @@ function wireEvents() {
     }
     const itemRow = e.target.closest('.item-row');
     if (itemRow && !e.target.closest('[data-action]')) {
+      if (_selectMode) { toggleItemSelection(itemRow.dataset.itemId); return; }
       openItemModal(itemRow.dataset.itemId);
     }
   });
@@ -4929,15 +5225,22 @@ function wireEvents() {
     if (decAction === 'clear-final')   { clearFinalOption(); return; }
   });
 
-  // Swipe-to-done (mobile): swipe right on an item row to mark it done
+  // Swipe-to-done + long-press to select (mobile)
   let _sw = null;
+  let _lpTimer = null;
   const mc = document.getElementById('main-content');
   mc.addEventListener('touchstart', e => {
     const row = e.target.closest('.item-row');
     if (!row || e.target.closest('.star-btn') || e.target.closest('[data-action="toggle-check"]')) return;
+    if (_selectMode) return; // in select mode, click handler does selection
     _sw = { id: row.dataset.itemId, x0: e.touches[0].clientX, y0: e.touches[0].clientY, el: row };
+    _lpTimer = setTimeout(() => {
+      _lpTimer = null; _sw = null;
+      enterSelectMode(row.dataset.itemId);
+    }, 500);
   }, { passive: true });
   mc.addEventListener('touchmove', e => {
+    if (_lpTimer) { clearTimeout(_lpTimer); _lpTimer = null; }
     if (!_sw) return;
     const dx = e.touches[0].clientX - _sw.x0;
     const dy = Math.abs(e.touches[0].clientY - _sw.y0);
@@ -4948,6 +5251,7 @@ function wireEvents() {
     }
   }, { passive: true });
   mc.addEventListener('touchend', e => {
+    if (_lpTimer) { clearTimeout(_lpTimer); _lpTimer = null; }
     if (!_sw) return;
     const dx = e.changedTouches[0].clientX - _sw.x0;
     _sw.el.style.transform=''; _sw.el.style.borderLeftColor='';
@@ -4995,6 +5299,35 @@ function wireEvents() {
       const v = parseInt(b.dataset.val);
       if (v > 0) b.classList.toggle('lit', v <= val);
     });
+  });
+
+  // Batch action bar
+  document.getElementById('batch-todo-btn').addEventListener('click',  () => batchSetStatus('todo'));
+  document.getElementById('batch-doing-btn').addEventListener('click', () => batchSetStatus('doing'));
+  document.getElementById('batch-done-btn').addEventListener('click',  () => batchSetStatus('done'));
+  document.getElementById('batch-cancel-btn').addEventListener('click', exitSelectMode);
+
+  // Email draft modal
+  document.getElementById('opt-email-btn').addEventListener('click', generateEmailDraft);
+  document.getElementById('email-draft-close').addEventListener('click', () => document.getElementById('email-draft-modal').classList.remove('open'));
+  document.getElementById('email-draft-close2').addEventListener('click', () => document.getElementById('email-draft-modal').classList.remove('open'));
+  document.getElementById('email-draft-modal').addEventListener('click', e => {
+    if (e.target === document.getElementById('email-draft-modal')) document.getElementById('email-draft-modal').classList.remove('open');
+  });
+  document.getElementById('email-copy-btn').addEventListener('click', () => {
+    const text = document.getElementById('email-draft-body').value;
+    navigator.clipboard.writeText(text).then(() => showToast('Copied to clipboard ✓')).catch(() => {
+      document.getElementById('email-draft-body').select();
+      document.execCommand('copy');
+      showToast('Copied ✓');
+    });
+  });
+
+  // Compare overlay
+  document.getElementById('dec-compare-btn').addEventListener('click', openCompareOverlay);
+  document.getElementById('compare-close').addEventListener('click', () => document.getElementById('compare-overlay').classList.remove('open'));
+  document.getElementById('compare-overlay').addEventListener('click', e => {
+    if (e.target === document.getElementById('compare-overlay')) document.getElementById('compare-overlay').classList.remove('open');
   });
 
   // Budget breakdown toggle + DCP
