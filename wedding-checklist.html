@@ -1332,7 +1332,7 @@ a { color: inherit; text-decoration: none; }
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .vendor-card-actions { display: flex; gap: 6px; margin-top: 10px; }
 .vendor-btn {
-  font-family: 'Raleway', sans-serif; font-size: 11px; font-weight: 500;
+  font-family: 'Raleway', sans-serif; font-size: 12px; font-weight: 500;
   padding: 5px 12px; border-radius: 20px; cursor: pointer;
   transition: all 0.15s; border: 1px solid var(--hairline); background: var(--panel);
   color: var(--ink);
@@ -1372,7 +1372,7 @@ a { color: inherit; text-decoration: none; }
 .decision-summary-value { font-size: 13px; font-weight: 600; color: var(--ink); }
 .decision-summary-pending { font-size: 12px; color: var(--ink); opacity: 0.55; font-style: italic; }
 .decision-compare-chip {
-  font-family: 'Raleway', sans-serif; font-size: 10px; font-weight: 600;
+  font-family: 'Raleway', sans-serif; font-size: 11px; font-weight: 600;
   letter-spacing: 0.05em; padding: 4px 10px; border-radius: 14px;
   border: 1px solid rgba(122,26,46,0.3); background: none;
   color: var(--rust); cursor: pointer; white-space: nowrap;
@@ -1523,7 +1523,7 @@ a { color: inherit; text-decoration: none; }
   border-color: var(--rust); background: rgba(122,26,46,0.07);
 }
 .item-vendor-mini-name { font-size: 13px; font-weight: 500; flex: 1; color: var(--ink); }
-.item-vendor-mini-price { font-size: 11px; color: var(--rust); font-weight: 600; }
+.item-vendor-mini-price { font-size: 13px; color: var(--rust); font-weight: 600; }
 .item-vendors-empty {
   font-size: 12px; color: var(--ink); opacity: 0.45;
   font-style: italic; margin-bottom: 10px;
@@ -1561,6 +1561,23 @@ a { color: inherit; text-decoration: none; }
 }
 #fab-add:active { transform: scale(0.94); }
 @media (max-width: 767px) { #fab-add { display: flex; } }
+
+/* Vendor sort bar */
+.vendor-sort-bar {
+  display: flex; gap: 5px; flex-wrap: wrap;
+  margin-bottom: 12px; padding-bottom: 12px;
+  border-bottom: 1px solid var(--hairline);
+}
+.vendor-sort-pill {
+  font-family: 'Raleway', sans-serif;
+  font-size: 11px; font-weight: 500; letter-spacing: 0.04em;
+  padding: 4px 11px; border-radius: 20px;
+  border: 1px solid var(--hairline);
+  background: var(--panel); color: var(--ink);
+  cursor: pointer; transition: all 0.15s; white-space: nowrap;
+}
+.vendor-sort-pill:hover { border-color: var(--rust); color: var(--rust); }
+.vendor-sort-pill.active { background: var(--rust); border-color: var(--rust); color: #fff; }
 
 /* Vendor chip on item row */
 .vendor-chip {
@@ -2041,6 +2058,10 @@ body.dark .filter-select { background: #2a1f18; color: var(--ink); }
               <label class="form-label" for="v-ppp">Price Per Person (AED)</label>
               <input id="v-ppp" class="form-input" type="number" min="0" placeholder="0">
             </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="v-min-spend">Minimum Spend Required (AED)</label>
+            <input id="v-min-spend" class="form-input" type="number" min="0" placeholder="e.g. 15000">
           </div>
           <div class="form-group">
             <label class="form-label" for="v-quote">Quote — 100 Guests (AED)</label>
@@ -3949,7 +3970,8 @@ function getCatType(itemId) {
 
 /* ── Decision tracking ─────────────────────────────── */
 let _decItemId    = null; // category the decision sheet is open for
-let _decOptionId = null; // option being edited (null = new)
+let _decOptionId  = null; // option being edited (null = new)
+let _vendorSort   = 'status'; // shared sort across item sheet + overlay
 
 const DEC_STATUS_LABEL = {
   proposal: 'Proposal Requested',
@@ -4018,6 +4040,7 @@ function showDecFormPanel(optionId) {
   // Populate venue fields
   const _v = (id, val) => { const el = document.getElementById(id); if (el) el.value = val ?? ''; };
   _v('v-min-guests', opt?.minGuests ?? '');
+  _v('v-min-spend',  opt?.minSpend ?? '');
   _v('v-ppp',        opt?.pricePerPerson ?? '');
   _v('v-quote',      opt?.quoteFor100 ?? '');
   _v('v-agent',      opt?.agentName ?? '');
@@ -4058,6 +4081,40 @@ function showDecFormPanel(optionId) {
   setTimeout(() => document.getElementById('opt-name').focus(), 80);
 }
 
+const VENDOR_GROUP_ORDER = ['visited','quoted','considering','contacted','proposal','declined'];
+const VENDOR_GROUP_LABEL = { visited:'Visited', quoted:'Quoted', considering:'Considering', contacted:'Contacted', proposal:'Proposal Requested', declined:'Declined' };
+
+function applyVendorSort(options) {
+  const byPrice = (dir) => options.slice().sort((a, b) => {
+    const aP = a.price != null, bP = b.price != null;
+    if (aP && bP) return dir === 'asc' ? a.price - b.price : b.price - a.price;
+    if (aP) return -1; if (bP) return 1;
+    return a.name.localeCompare(b.name);
+  });
+  if (_vendorSort === 'price-asc')  return [{ label: null, items: byPrice('asc') }];
+  if (_vendorSort === 'price-desc') return [{ label: null, items: byPrice('desc') }];
+  if (_vendorSort === 'az') return [{ label: null, items: options.slice().sort((a, b) => a.name.localeCompare(b.name)) }];
+  return VENDOR_GROUP_ORDER.reduce((acc, status) => {
+    const items = options.filter(o => o.status === status)
+      .sort((a, b) => { const aP = a.price != null, bP = b.price != null; if (aP && bP) return b.price - a.price; if (aP) return -1; if (bP) return 1; return a.name.localeCompare(b.name); });
+    if (items.length) acc.push({ label: `${VENDOR_GROUP_LABEL[status]} (${items.length})`, items });
+    return acc;
+  }, []);
+}
+
+function buildVendorSortBar(onSort) {
+  const bar = document.createElement('div');
+  bar.className = 'vendor-sort-bar';
+  [['status','Status'],['price-desc','Price ↓'],['price-asc','Price ↑'],['az','A → Z']].forEach(([val, label]) => {
+    const btn = document.createElement('button');
+    btn.className = 'vendor-sort-pill' + (_vendorSort === val ? ' active' : '');
+    btn.textContent = label;
+    btn.addEventListener('click', () => { _vendorSort = val; onSort(); });
+    bar.appendChild(btn);
+  });
+  return bar;
+}
+
 function renderDecOptionsList() {
   const dec = getDecision(_decItemId);
   const options = dec ? dec.options : [];
@@ -4081,25 +4138,8 @@ function renderDecOptionsList() {
     list.innerHTML = '<p style="font-size:13px;opacity:0.5;text-align:center;padding:24px 0;font-style:italic">No options yet — add your first one below.</p>';
     return;
   }
-  const DEC_GROUP_ORDER = ['visited','quoted','considering','contacted','proposal','declined'];
-  const DEC_GROUP_LABEL = {
-    visited:     'Visited',
-    quoted:      'Quoted',
-    considering: 'Considering',
-    contacted:   'Contacted',
-    proposal:    'Proposal Requested',
-    declined:    'Declined',
-  };
 
-  function sortDecGroup(arr) {
-    return arr.slice().sort((a, b) => {
-      const aP = a.price != null, bP = b.price != null;
-      if (aP && bP) return a.price - b.price;
-      if (aP) return -1;
-      if (bP) return  1;
-      return a.name.localeCompare(b.name);
-    });
-  }
+  list.appendChild(buildVendorSortBar(renderDecOptionsList));
 
   function renderDecCard(opt) {
     const isFinal = opt.id === finalId;
@@ -4112,12 +4152,13 @@ function renderDecOptionsList() {
       const parts = [];
       const ct = getCatType(_decItemId);
       if (ct === 'venue') {
-        if (opt.agentName)        parts.push(`Agent: ${escHtml(opt.agentName)}`);
-        if (opt.pricePerPerson != null) parts.push(`AED ${Number(opt.pricePerPerson).toLocaleString('en-AE')}/pax`);
+        if (opt.agentName)              parts.push(`Agent: ${escHtml(opt.agentName)}`);
+        if (opt.pricePerPerson != null) parts.push(`${fmtAED(opt.pricePerPerson)}/pax`);
+        if (opt.minSpend != null)       parts.push(`Min. spend: ${fmtAED(opt.minSpend)}`);
         if (opt.quoteFor100 != null)    parts.push(`100-pax: ${fmtAED(opt.quoteFor100)}`);
         if (opt.minGuests != null)      parts.push(`Min. ${opt.minGuests} guests`);
-        if (opt.mobile)           parts.push(escHtml(opt.mobile));
-        if (opt.email)            parts.push(escHtml(opt.email));
+        if (opt.mobile)                 parts.push(escHtml(opt.mobile));
+        if (opt.email)                  parts.push(escHtml(opt.email));
       } else if (ct === 'photo') {
         if (opt.photoPackage)     parts.push(escHtml(opt.photoPackage));
         if (opt.coverageHours != null)  parts.push(`${opt.coverageHours} hrs`);
@@ -4158,14 +4199,14 @@ function renderDecOptionsList() {
     return card;
   }
 
-  DEC_GROUP_ORDER.forEach(status => {
-    const group = sortDecGroup(options.filter(o => o.status === status));
-    if (!group.length) return;
-    const hdr = document.createElement('div');
-    hdr.style.cssText = 'font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--rust);opacity:0.6;padding:12px 0 6px;';
-    hdr.textContent = `${DEC_GROUP_LABEL[status]} (${group.length})`;
-    list.appendChild(hdr);
-    group.forEach(opt => list.appendChild(renderDecCard(opt)));
+  applyVendorSort(options).forEach(({ label, items }) => {
+    if (label) {
+      const hdr = document.createElement('div');
+      hdr.style.cssText = 'font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--rust);opacity:0.6;padding:12px 0 6px;';
+      hdr.textContent = label;
+      list.appendChild(hdr);
+    }
+    items.forEach(opt => list.appendChild(renderDecCard(opt)));
   });
 }
 
@@ -4191,7 +4232,7 @@ function saveDecOption() {
       const gv  = id => { const el = document.getElementById(id); return el ? el.value.trim() : ''; };
       const gn  = id => { const el = document.getElementById(id); return el && el.value !== '' ? Number(el.value) : null; };
       const ct  = getCatType(_decItemId);
-      if (ct === 'venue')    return { price: gn('v-quote'), minGuests: gn('v-min-guests'), pricePerPerson: gn('v-ppp'), quoteFor100: gn('v-quote'), agentName: gv('v-agent'), mobile: gv('v-mobile'), telephone: gv('v-tel'), email: gv('v-email') };
+      if (ct === 'venue')    return { price: gn('v-quote'), minGuests: gn('v-min-guests'), minSpend: gn('v-min-spend'), pricePerPerson: gn('v-ppp'), quoteFor100: gn('v-quote'), agentName: gv('v-agent'), mobile: gv('v-mobile'), telephone: gv('v-tel'), email: gv('v-email') };
       if (ct === 'photo')    return { price: null, photoPackage: gv('ph-package'), coverageHours: gn('ph-hours'), deliverables: gv('ph-deliverables'), travelFee: gn('ph-travel-fee'), contactPerson: gv('ph-contact'), mobile: gv('ph-mobile'), email: gv('ph-email') };
       if (ct === 'supplier') return { price: null, serviceType: gv('sp-service-type'), packageName: gv('sp-package'), inclusions: gv('sp-inclusions'), trialDate: gv('sp-trial-date'), contactPerson: gv('sp-contact'), mobile: gv('sp-mobile'), email: gv('sp-email') };
       if (ct === 'attire')   return { price: null, shopType: gv('at-shop-type'), alterationFee: gn('at-alteration-fee'), firstFittingDate: gv('at-first-fitting'), finalFittingDate: gv('at-final-fitting'), deliveryDate: gv('at-delivery'), contactPerson: gv('at-contact'), mobile: gv('at-mobile'), email: gv('at-email') };
@@ -4294,36 +4335,16 @@ function renderItemSheetVendors(itemId) {
     empty.textContent = 'No options yet — compare vendors before deciding.';
     container.appendChild(empty);
   } else {
-    const SHEET_GROUP_ORDER = ['visited','quoted','considering','contacted','proposal','declined'];
-    const SHEET_GROUP_LABEL = {
-      visited:     'Visited',
-      quoted:      'Quoted',
-      considering: 'Considering',
-      contacted:   'Contacted',
-      proposal:    'Proposal Requested',
-      declined:    'Declined',
-    };
+    container.appendChild(buildVendorSortBar(() => renderItemSheetVendors(itemId)));
 
-    function sortHighLow(arr) {
-      return arr.slice().sort((a, b) => {
-        const aP = a.price != null, bP = b.price != null;
-        if (aP && bP) return b.price - a.price;
-        if (aP) return -1;
-        if (bP) return  1;
-        return a.name.localeCompare(b.name);
-      });
-    }
-
-    SHEET_GROUP_ORDER.forEach(status => {
-      const group = sortHighLow(options.filter(o => o.status === status));
-      if (!group.length) return;
-
-      const hdr = document.createElement('div');
-      hdr.style.cssText = 'font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--rust);opacity:0.6;padding:10px 0 5px;';
-      hdr.textContent = `${SHEET_GROUP_LABEL[status]} (${group.length})`;
-      container.appendChild(hdr);
-
-      group.forEach(opt => {
+    applyVendorSort(options).forEach(({ label, items }) => {
+      if (label) {
+        const hdr = document.createElement('div');
+        hdr.style.cssText = 'font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--rust);opacity:0.6;padding:10px 0 5px;';
+        hdr.textContent = label;
+        container.appendChild(hdr);
+      }
+      items.forEach(opt => {
         const isFinal = opt.id === finalId;
         const card = document.createElement('div');
         card.className = 'item-vendor-mini' + (isFinal ? ' is-final' : '');
