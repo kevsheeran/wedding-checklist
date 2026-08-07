@@ -1007,8 +1007,8 @@ a { color: inherit; text-decoration: none; }
     background: rgba(34,29,23,0.18);
   }
   #modal-sheet {
-    width: 380px;
-    max-width: 380px;
+    width: 460px;
+    max-width: 460px;
     border-radius: 0;
     height: 100%;
     max-height: 100%;
@@ -4294,21 +4294,51 @@ function renderItemSheetVendors(itemId) {
     empty.textContent = 'No options yet — compare vendors before deciding.';
     container.appendChild(empty);
   } else {
-    options.forEach(opt => {
-      const isFinal = opt.id === finalId;
-      const card = document.createElement('div');
-      card.className = 'item-vendor-mini' + (isFinal ? ' is-final' : '');
-      card.setAttribute('data-action', 'open-vendor-detail');
-      card.setAttribute('data-opt-id', opt.id);
-      card.style.cursor = 'pointer';
-      const statusCls = 'vst-' + (isFinal ? 'selected' : opt.status);
-      card.innerHTML = `
-        <div class="item-vendor-mini-name">${escHtml(opt.name)}</div>
-        ${opt.price != null ? `<div class="item-vendor-mini-price">${fmtAED(opt.price)}</div>` : ''}
-        <span class="vendor-status ${statusCls}">${isFinal ? 'Selected' : DEC_STATUS_LABEL[opt.status] || opt.status}</span>
-        <svg style="flex-shrink:0;opacity:0.35" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
-      `;
-      container.appendChild(card);
+    const SHEET_GROUP_ORDER = ['visited','quoted','considering','contacted','proposal','declined'];
+    const SHEET_GROUP_LABEL = {
+      visited:     'Visited',
+      quoted:      'Quoted',
+      considering: 'Considering',
+      contacted:   'Contacted',
+      proposal:    'Proposal Requested',
+      declined:    'Declined',
+    };
+
+    function sortHighLow(arr) {
+      return arr.slice().sort((a, b) => {
+        const aP = a.price != null, bP = b.price != null;
+        if (aP && bP) return b.price - a.price;
+        if (aP) return -1;
+        if (bP) return  1;
+        return a.name.localeCompare(b.name);
+      });
+    }
+
+    SHEET_GROUP_ORDER.forEach(status => {
+      const group = sortHighLow(options.filter(o => o.status === status));
+      if (!group.length) return;
+
+      const hdr = document.createElement('div');
+      hdr.style.cssText = 'font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--rust);opacity:0.6;padding:10px 0 5px;';
+      hdr.textContent = `${SHEET_GROUP_LABEL[status]} (${group.length})`;
+      container.appendChild(hdr);
+
+      group.forEach(opt => {
+        const isFinal = opt.id === finalId;
+        const card = document.createElement('div');
+        card.className = 'item-vendor-mini' + (isFinal ? ' is-final' : '');
+        card.setAttribute('data-action', 'open-vendor-detail');
+        card.setAttribute('data-opt-id', opt.id);
+        card.style.cursor = 'pointer';
+        const statusCls = 'vst-' + (isFinal ? 'selected' : opt.status);
+        card.innerHTML = `
+          <div class="item-vendor-mini-name">${escHtml(opt.name)}</div>
+          ${opt.price != null ? `<div class="item-vendor-mini-price">${fmtAED(opt.price)}</div>` : ''}
+          <span class="vendor-status ${statusCls}">${isFinal ? 'Selected' : DEC_STATUS_LABEL[opt.status] || opt.status}</span>
+          <svg style="flex-shrink:0;opacity:0.35" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+        `;
+        container.appendChild(card);
+      });
     });
   }
 
