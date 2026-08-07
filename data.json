@@ -1716,13 +1716,21 @@
         {
           "id": "2cbc39ca-59de-49eb-96d7-f4cd0312a262",
           "name": "Palazzo Versace Dubai",
-          "status": "quoted",
+          "status": "contacted",
           "price": null,
           "notes": "",
           "conversation": "",
           "details": "",
           "link": "https://www.palazzoversace.ae/special-offers/wedding-packages",
-          "updatedAt": "2026-08-04"
+          "updatedAt": "2026-08-04",
+          "minGuests": null,
+          "minSpend": null,
+          "pricePerPerson": null,
+          "quoteFor100": null,
+          "agentName": "",
+          "mobile": "",
+          "telephone": "",
+          "email": ""
         },
         {
           "id": "efb8c5e7-3413-4ea2-a33b-9278110306e8",
