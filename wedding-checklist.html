@@ -1936,6 +1936,114 @@ body.dark .board-card { background: #2a1f18; }
 body.dark .item-vendor-mini { background: var(--panel); }
 body.dark .filter-select { background: #2a1f18; color: var(--ink); }
 
+/* ── Vendor form header action buttons ──────────────── */
+.dec-back-row {
+  display: flex; align-items: center; gap: 8px;
+  margin-bottom: 16px; flex-wrap: nowrap;
+}
+.opt-hdr-btn {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 11px; font-weight: 600; font-family: 'Raleway',sans-serif;
+  padding: 5px 10px; border-radius: 20px; flex-shrink: 0;
+  border: 1px solid var(--hairline); background: #fff;
+  color: var(--ink); cursor: pointer; transition: all 0.15s;
+  letter-spacing: 0.02em;
+}
+.opt-hdr-btn:hover { border-color: var(--rust); color: var(--rust); background: var(--rust-pale); }
+.opt-hdr-btn.danger { color: #b01e1e; border-color: rgba(176,30,30,0.3); background: rgba(176,30,30,0.05); }
+.opt-hdr-btn.danger:hover { background: rgba(176,30,30,0.12); }
+
+/* Draft email — standalone action button */
+.opt-email-action-btn {
+  display: flex; align-items: center; justify-content: center; gap: 7px;
+  width: 100%; padding: 10px 0; margin: 12px 0 4px;
+  border: 1px solid rgba(122,26,46,0.3); border-radius: var(--radius-sm);
+  background: var(--rust-pale); color: var(--rust);
+  font-family: 'Raleway',sans-serif; font-size: 13px; font-weight: 600;
+  letter-spacing: 0.03em; cursor: pointer; transition: all 0.15s;
+}
+.opt-email-action-btn:hover { background: rgba(122,26,46,0.15); border-color: var(--rust); }
+
+/* Vendor form footer */
+.opt-form-footer {
+  display: flex; align-items: center; gap: 8px;
+  padding: 14px 0 4px; border-top: 1px solid var(--hairline); margin-top: 14px;
+  flex-wrap: wrap;
+}
+.opt-footer-secondary {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 10px 14px; border-radius: 50px;
+  font-family: 'Raleway',sans-serif; font-size: 13px; font-weight: 500;
+  border: 1px solid var(--hairline); background: #fff; color: var(--ink);
+  cursor: pointer; transition: background 0.15s; white-space: nowrap; min-height: 44px;
+}
+.opt-footer-secondary:hover { background: rgba(255,255,255,0.9); }
+.opt-footer-select {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 10px 16px; border-radius: 50px;
+  font-family: 'Raleway',sans-serif; font-size: 13px; font-weight: 600;
+  background: rgba(46,125,50,0.12); color: #2e7d32;
+  border: 1px solid rgba(46,125,50,0.3); cursor: pointer;
+  transition: all 0.15s; white-space: nowrap; min-height: 44px;
+}
+.opt-footer-select:hover { background: rgba(46,125,50,0.2); }
+
+/* ── What's New modal ────────────────────────────────── */
+#whats-new-overlay {
+  display: none; position: fixed; inset: 0; z-index: 9991;
+  background: rgba(34,29,23,0.45); align-items: flex-end; justify-content: center;
+}
+#whats-new-overlay.open { display: flex; }
+.whats-new-sheet {
+  background: var(--cream); width: 100%; max-width: 560px;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  border-top: 1px solid rgba(255,255,255,0.6);
+  padding: 0 0 env(safe-area-inset-bottom,20px);
+  max-height: 88vh; overflow-y: auto;
+  box-shadow: var(--shadow-lg);
+  animation: slide-up 0.22s ease;
+}
+@media (min-width: 768px) {
+  .whats-new-sheet { border-radius: var(--radius-lg); max-height: 80vh; margin: 20px; }
+}
+.whats-new-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 20px 0;
+}
+.whats-new-title {
+  font-family: 'Gilda Display', serif; font-size: 22px; font-weight: 400; color: var(--ink);
+}
+.whats-new-body { padding: 16px 20px 24px; }
+.whats-new-section {
+  margin-bottom: 20px;
+}
+.whats-new-section-title {
+  font-size: 9px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--rust); margin-bottom: 10px; padding-bottom: 6px;
+  border-bottom: 1px solid var(--hairline);
+}
+.whats-new-item {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 7px 0; border-bottom: 1px solid rgba(221,209,184,0.4);
+  font-family: 'Raleway',sans-serif;
+}
+.whats-new-item:last-child { border-bottom: none; }
+.whats-new-icon {
+  font-size: 16px; flex-shrink: 0; line-height: 1.4; width: 22px; text-align: center;
+}
+.whats-new-text { flex: 1; }
+.whats-new-name { font-size: 13px; font-weight: 600; color: var(--ink); }
+.whats-new-desc { font-size: 11px; color: var(--ink); opacity: 0.55; margin-top: 1px; line-height: 1.4; }
+.new-badge {
+  position: relative;
+}
+.new-badge::after {
+  content: '';
+  position: absolute; top: 4px; right: 4px;
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--rust); border: 1.5px solid var(--cream);
+}
+
 /* Print */
 @media print {
   #header, #cat-nav, #view-tabs, #sidebar, #budget-strip, #filter-bar,
@@ -2010,6 +2118,9 @@ body.dark .filter-select { background: #2a1f18; color: var(--ink); }
         </button>
         <button class="icon-btn" id="share-btn" aria-label="Share via WhatsApp" title="Share pending tasks via WhatsApp">
           <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+        </button>
+        <button class="icon-btn new-badge" id="whats-new-btn" aria-label="What's New" title="What's New">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
         </button>
         <button class="icon-btn" id="settings-btn" aria-label="Settings">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -2445,7 +2556,16 @@ body.dark .filter-select { background: #2a1f18; color: var(--ink); }
           <button class="dec-back-btn" id="dec-back-btn" aria-label="Back to options list">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
           </button>
-          <h3 id="dec-form-title" style="font-size:14px;font-weight:600;font-family:'Raleway',sans-serif">New Option</h3>
+          <h3 id="dec-form-title" style="font-size:14px;font-weight:600;font-family:'Raleway',sans-serif;flex:1">New Option</h3>
+          <!-- Edit-only icon actions in header -->
+          <button id="opt-duplicate-btn" class="opt-hdr-btn" style="display:none" title="Duplicate this option">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            Duplicate
+          </button>
+          <button id="opt-delete-btn" class="opt-hdr-btn danger" style="display:none" title="Delete this option">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+            Delete
+          </button>
         </div>
         <div class="form-group">
           <label class="form-label" for="opt-name">Name / Vendor *</label>
@@ -2692,25 +2812,25 @@ body.dark .filter-select { background: #2a1f18; color: var(--ink); }
           <label class="form-label" for="opt-link">Attachment link <span style="opacity:0.45;font-weight:400">(Google Drive, iCloud, photo…)</span></label>
           <input id="opt-link" class="form-input" type="url" placeholder="https://drive.google.com/…" autocomplete="off" inputmode="url">
         </div>
-        <div class="form-group">
-          <label class="form-label" for="opt-updated">Last updated</label>
-          <input id="opt-updated" class="form-input" type="date">
-        </div>
-        <div class="sheet-footer" style="padding:16px 0 4px;margin-top:4px">
-          <button id="opt-delete-btn" class="btn-danger" style="display:none">Delete</button>
-          <button id="opt-duplicate-btn" class="btn-secondary" style="display:none">Duplicate</button>
-          <button id="opt-email-btn" class="btn-secondary" style="display:none">Draft email</button>
-          <div style="flex:1;display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap">
-            <button id="opt-unselect-btn" class="btn-secondary" style="display:none">
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-              Unselect
-            </button>
-            <button id="opt-select-btn" class="btn-secondary" style="display:none">
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
-              Select as Final
-            </button>
-            <button id="opt-save-btn" class="btn-primary">Save Option</button>
-          </div>
+        <!-- Last updated: hidden input, auto-set on save -->
+        <input id="opt-updated" type="hidden">
+        <div id="opt-updated-display" style="display:none;font-size:11px;opacity:0.38;font-family:'Raleway',sans-serif;text-align:right;padding-bottom:4px"></div>
+        <!-- Draft email — full-width action -->
+        <button id="opt-email-btn" class="opt-email-action-btn" style="display:none">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          Draft enquiry email
+        </button>
+        <!-- Primary footer actions -->
+        <div class="opt-form-footer">
+          <button id="opt-unselect-btn" class="opt-footer-secondary" style="display:none">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            Unselect
+          </button>
+          <button id="opt-select-btn" class="opt-footer-select" style="display:none">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+            Select as Final
+          </button>
+          <button id="opt-save-btn" class="btn-primary" style="flex:1;min-width:120px">Save Option</button>
         </div>
       </div>
     </div>
@@ -2833,6 +2953,51 @@ body.dark .filter-select { background: #2a1f18; color: var(--ink); }
       <div style="display:flex;flex-direction:column;gap:8px">
         <button id="sync-prompt-save-btn" class="btn-primary" style="width:100%">Enable Sync</button>
         <button id="sync-prompt-skip-btn" class="btn-secondary" style="width:100%;opacity:0.7">Skip for now — save locally only</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- What's New modal -->
+  <div id="whats-new-overlay" role="dialog" aria-modal="true" aria-label="What's New">
+    <div class="whats-new-sheet">
+      <div class="whats-new-header">
+        <span class="whats-new-title">What's New</span>
+        <button class="icon-btn" id="whats-new-close" aria-label="Close">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="whats-new-body">
+        <div class="whats-new-section">
+          <div class="whats-new-section-title">Vendor Management</div>
+          <div class="whats-new-item"><span class="whats-new-icon">📊</span><div class="whats-new-text"><div class="whats-new-name">7 vendor statuses</div><div class="whats-new-desc">Contacted · Proposal Requested · Quoted · Waiting for Feedback · Shortlisted · Visited · Declined</div></div></div>
+          <div class="whats-new-item"><span class="whats-new-icon">⭐</span><div class="whats-new-text"><div class="whats-new-name">Star ratings per vendor</div><div class="whats-new-desc">Rate each option 1–5 stars to help you decide</div></div></div>
+          <div class="whats-new-item"><span class="whats-new-icon">⏳</span><div class="whats-new-text"><div class="whats-new-name">Waiting badge</div><div class="whats-new-desc">Days elapsed shown on Proposal Requested & Waiting for Feedback cards</div></div></div>
+          <div class="whats-new-item"><span class="whats-new-icon">📋</span><div class="whats-new-text"><div class="whats-new-name">Duplicate vendor option</div><div class="whats-new-desc">Copy an option and tweak it — no re-entering</div></div></div>
+          <div class="whats-new-item"><span class="whats-new-icon">🔍</span><div class="whats-new-text"><div class="whats-new-name">Vendor search + sort</div><div class="whats-new-desc">Search vendors by name or notes; sort by status, rating, or price</div></div></div>
+          <div class="whats-new-item"><span class="whats-new-icon">⚖️</span><div class="whats-new-text"><div class="whats-new-name">Side-by-side comparison</div><div class="whats-new-desc">Tap Compare to see all options in a scrollable table</div></div></div>
+          <div class="whats-new-item"><span class="whats-new-icon">✉️</span><div class="whats-new-text"><div class="whats-new-name">Email draft generator</div><div class="whats-new-desc">One tap to generate a professional enquiry email ready to copy</div></div></div>
+        </div>
+        <div class="whats-new-section">
+          <div class="whats-new-section-title">Budget & Payments</div>
+          <div class="whats-new-item"><span class="whats-new-icon">💰</span><div class="whats-new-text"><div class="whats-new-name">Per-category budget caps</div><div class="whats-new-desc">Set a spending limit per category — turns red when over</div></div></div>
+          <div class="whats-new-item"><span class="whats-new-icon">💳</span><div class="whats-new-text"><div class="whats-new-name">Payment tracker</div><div class="whats-new-desc">Track deposit & balance per vendor — due dates, paid status, overdue alerts</div></div></div>
+        </div>
+        <div class="whats-new-section">
+          <div class="whats-new-section-title">Task Management</div>
+          <div class="whats-new-item"><span class="whats-new-icon">☑️</span><div class="whats-new-text"><div class="whats-new-name">Batch status update</div><div class="whats-new-desc">Long-press any item to enter select mode — mark multiple items at once</div></div></div>
+          <div class="whats-new-item"><span class="whats-new-icon">🔒</span><div class="whats-new-text"><div class="whats-new-name">Task dependencies</div><div class="whats-new-desc">Block a task until another is done — shown with a 🔒 badge</div></div></div>
+          <div class="whats-new-item"><span class="whats-new-icon">↕️</span><div class="whats-new-text"><div class="whats-new-name">Drag to reorder</div><div class="whats-new-desc">Grab the ⠿ handle on any row to drag items into your preferred order</div></div></div>
+        </div>
+        <div class="whats-new-section">
+          <div class="whats-new-section-title">Planning Tools</div>
+          <div class="whats-new-item"><span class="whats-new-icon">🗓️</span><div class="whats-new-text"><div class="whats-new-name">Wedding Day Timeline</div><div class="whats-new-desc">Build your minute-by-minute schedule — switch to the Day tab</div></div></div>
+          <div class="whats-new-item"><span class="whats-new-icon">🎊</span><div class="whats-new-text"><div class="whats-new-name">Milestone banners</div><div class="whats-new-desc">Countdown banners appear at 6 months, 3 months, 1 month, and 1 week</div></div></div>
+        </div>
+        <div class="whats-new-section">
+          <div class="whats-new-section-title">App & Mobile</div>
+          <div class="whats-new-item"><span class="whats-new-icon">📱</span><div class="whats-new-text"><div class="whats-new-name">Add to Home Screen (PWA)</div><div class="whats-new-desc">Install as an app on iOS (Safari Share → Add to Home Screen) or Android</div></div></div>
+          <div class="whats-new-item"><span class="whats-new-icon">👆</span><div class="whats-new-text"><div class="whats-new-name">Swipe to done</div><div class="whats-new-desc">Swipe right on any task card to mark it done instantly</div></div></div>
+        </div>
       </div>
     </div>
   </div>
@@ -4655,7 +4820,14 @@ function showDecFormPanel(optionId) {
   document.getElementById('opt-convo').value   = opt ? opt.conversation : '';
   document.getElementById('opt-details').value = opt ? opt.details : '';
   document.getElementById('opt-link').value    = opt ? (opt.link || '') : '';
-  document.getElementById('opt-updated').value = opt ? (opt.updatedAt || '') : new Date().toISOString().slice(0,10);
+  // Last updated: hidden value — auto-set on save; show as read-only display if editing
+  const updDisplay = document.getElementById('opt-updated-display');
+  if (opt && opt.updatedAt) {
+    updDisplay.textContent = 'Last updated: ' + fmtDate(opt.updatedAt);
+    updDisplay.style.display = '';
+  } else {
+    updDisplay.style.display = 'none';
+  }
 
   // Show/hide the right category-specific section
   const catType = getCatType(_decItemId);
@@ -4928,7 +5100,7 @@ function saveDecOption() {
     conversation:   document.getElementById('opt-convo').value.trim(),
     details:        document.getElementById('opt-details').value.trim(),
     link:           document.getElementById('opt-link').value.trim(),
-    updatedAt:      document.getElementById('opt-updated').value || new Date().toISOString().slice(0,10),
+    updatedAt:      new Date().toISOString().slice(0,10),
     ...(() => {
       const gv  = id => { const el = document.getElementById(id); return el ? el.value.trim() : ''; };
       const gn  = id => { const el = document.getElementById(id); return el && el.value !== '' ? Number(el.value) : null; };
@@ -5520,6 +5692,8 @@ function wireEvents() {
       closeCatModal();
       closeSettings();
       closeDecisionSheet();
+      document.getElementById('whats-new-overlay').classList.remove('open');
+      document.getElementById('email-draft-modal').classList.remove('open');
     }
   });
 
@@ -5882,6 +6056,25 @@ function wireEvents() {
     const guests = Number(document.getElementById('v-min-guests').value) || 100;
     if (ppp > 0) document.getElementById('v-quote').value = Math.round(ppp * guests);
   });
+
+  // What's New
+  document.getElementById('whats-new-btn').addEventListener('click', () => {
+    document.getElementById('whats-new-overlay').classList.add('open');
+    // Remove the red dot once seen
+    document.getElementById('whats-new-btn').classList.remove('new-badge');
+    localStorage.setItem('wn-seen-v1', '1');
+  });
+  document.getElementById('whats-new-close').addEventListener('click', () => {
+    document.getElementById('whats-new-overlay').classList.remove('open');
+  });
+  document.getElementById('whats-new-overlay').addEventListener('click', e => {
+    if (e.target === document.getElementById('whats-new-overlay'))
+      document.getElementById('whats-new-overlay').classList.remove('open');
+  });
+  // Hide badge if already seen
+  if (localStorage.getItem('wn-seen-v1')) {
+    document.getElementById('whats-new-btn').classList.remove('new-badge');
+  }
 }
 
 /* ── Confetti ──────────────────────────────────────── */
