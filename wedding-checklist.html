@@ -272,9 +272,9 @@ a { color: inherit; text-decoration: none; }
 /* Category section */
 .cat-section { margin-bottom: 28px; }
 .cat-section-header {
-  display: flex; align-items: center; gap: 10px;
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
   margin-bottom: 0;
-  padding: 12px 14px;
+  padding: 10px 12px;
   background: var(--panel);
   border-radius: var(--radius-md) var(--radius-md) 0 0;
   border: 1px solid var(--hairline);
@@ -310,7 +310,7 @@ a { color: inherit; text-decoration: none; }
   border-radius: 2px;
   transition: width 0.3s ease;
 }
-.cat-section-actions { display: flex; gap: 4px; }
+.cat-section-actions { display: flex; gap: 4px; align-items: center; flex-shrink: 0; }
 .cat-action-btn {
   width: 28px; height: 28px; border-radius: 4px;
   display: flex; align-items: center; justify-content: center;
@@ -3040,7 +3040,7 @@ function applyFilters(items) {
     if (filters.search) {
       const q = filters.search.toLowerCase();
       const inTitle = item.title.toLowerCase().includes(q);
-      const inNotes = item.notes.toLowerCase().includes(q);
+      const inNotes = (item.notes || '').toLowerCase().includes(q);
       if (!inTitle && !inNotes) return false;
     }
     return true;
@@ -3065,6 +3065,8 @@ function loadState() {
       state = JSON.parse(raw);
       if (!state.fianceeName) state.fianceeName = '';
       if (!state.decisions) state.decisions = [];
+      if (!state.timeline) state.timeline = [];
+      if (!state.dismissedMilestones) state.dismissedMilestones = [];
     }
     catch(e) { state = buildSeedData(); saveState(); }
   }
@@ -3439,9 +3441,11 @@ function renderPriorityFlat(main) {
   if (hasActiveFilters()) priorityItems = applyFilters(priorityItems);
 
   if (priorityItems.length === 0) {
-    main.innerHTML = `<p class="empty-state" style="font-size:16px;padding-top:60px;"><em>${
-      hasActiveFilters() ? 'No priority tasks match your filters.' : 'All required tasks are done!'
-    }</em></p>`;
+    const ep = document.createElement('p');
+    ep.className = 'empty-state';
+    ep.style.cssText = 'font-size:16px;padding-top:60px;';
+    ep.innerHTML = `<em>${hasActiveFilters() ? 'No priority tasks match your filters.' : 'All required tasks are done!'}</em>`;
+    main.appendChild(ep);
     return;
   }
 
@@ -5865,6 +5869,18 @@ function wireEvents() {
   // Clear search on Escape when input is focused
   document.getElementById('search-input').addEventListener('keydown', e => {
     if (e.key === 'Escape') { filters.search = ''; render(); e.target.blur(); }
+  });
+
+  // Venue auto-compute: price per person × guest count → 100-pax quote
+  document.getElementById('v-ppp').addEventListener('input', () => {
+    const ppp = Number(document.getElementById('v-ppp').value) || 0;
+    const guests = Number(document.getElementById('v-min-guests').value) || 100;
+    if (ppp > 0) document.getElementById('v-quote').value = Math.round(ppp * guests);
+  });
+  document.getElementById('v-min-guests').addEventListener('input', () => {
+    const ppp = Number(document.getElementById('v-ppp').value) || 0;
+    const guests = Number(document.getElementById('v-min-guests').value) || 100;
+    if (ppp > 0) document.getElementById('v-quote').value = Math.round(ppp * guests);
   });
 }
 
