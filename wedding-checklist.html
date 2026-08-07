@@ -3167,11 +3167,23 @@ function renderItem(item) {
     if (finalOpt) {
       vc.className = 'vendor-chip final';
       vc.innerHTML = `<svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> ${escHtml(finalOpt.name)}`;
+      statusRow.appendChild(vc);
     } else {
-      vc.className = 'vendor-chip comparing';
-      vc.textContent = `${dec.options.length} option${dec.options.length > 1 ? 's' : ''} comparing`;
+      const activeOpts = dec.options.filter(o => o.status !== 'quoted' && o.status !== 'declined');
+      const lowestPrice = dec.options
+        .filter(o => o.price != null)
+        .sort((a, b) => a.price - b.price)[0]?.price ?? null;
+      if (activeOpts.length || lowestPrice != null) {
+        vc.className = 'vendor-chip comparing';
+        const parts = [];
+        if (activeOpts.length)
+          parts.push(`${activeOpts.length} option${activeOpts.length > 1 ? 's' : ''} comparing`);
+        if (lowestPrice != null)
+          parts.push(`lowest ${fmtAED(lowestPrice)}`);
+        vc.textContent = parts.join(' · ');
+        statusRow.appendChild(vc);
+      }
     }
-    statusRow.appendChild(vc);
   }
 
   body.appendChild(statusRow);
@@ -4069,7 +4081,27 @@ function renderDecOptionsList() {
     list.innerHTML = '<p style="font-size:13px;opacity:0.5;text-align:center;padding:24px 0;font-style:italic">No options yet — add your first one below.</p>';
     return;
   }
-  options.forEach(opt => {
+  const DEC_GROUP_ORDER = ['visited','quoted','considering','contacted','proposal','declined'];
+  const DEC_GROUP_LABEL = {
+    visited:     'Visited',
+    quoted:      'Quoted',
+    considering: 'Considering',
+    contacted:   'Contacted',
+    proposal:    'Proposal Requested',
+    declined:    'Declined',
+  };
+
+  function sortDecGroup(arr) {
+    return arr.slice().sort((a, b) => {
+      const aP = a.price != null, bP = b.price != null;
+      if (aP && bP) return a.price - b.price;
+      if (aP) return -1;
+      if (bP) return  1;
+      return a.name.localeCompare(b.name);
+    });
+  }
+
+  function renderDecCard(opt) {
     const isFinal = opt.id === finalId;
     const card = document.createElement('div');
     card.className = 'vendor-card' + (isFinal ? ' is-final' : '');
@@ -4108,8 +4140,8 @@ function renderDecOptionsList() {
       }
       return parts.length ? `<div class="vendor-card-meta" style="margin-top:5px;line-height:1.6">${parts.join(' · ')}</div>` : '';
     })();
-    const updHtml   = opt.updatedAt ? `<div style="font-size:10px;opacity:0.4;margin-top:4px">${fmtDate(opt.updatedAt)}</div>` : '';
-    const linkHtml  = opt.link ? `<a href="${escHtml(opt.link)}" target="_blank" rel="noopener" class="vendor-link-btn">
+    const updHtml  = opt.updatedAt ? `<div style="font-size:10px;opacity:0.4;margin-top:4px">${fmtDate(opt.updatedAt)}</div>` : '';
+    const linkHtml = opt.link ? `<a href="${escHtml(opt.link)}" target="_blank" rel="noopener" class="vendor-link-btn">
       <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
       Open attachment</a>` : '';
     card.innerHTML = `
@@ -4123,7 +4155,17 @@ function renderDecOptionsList() {
         <button class="vendor-btn" data-dec-action="edit-option" data-opt="${opt.id}">Edit</button>
         ${!isFinal ? `<button class="vendor-btn primary" data-dec-action="select-final" data-opt="${opt.id}">Select as final</button>` : `<button class="vendor-btn danger" data-dec-action="clear-final">Remove selection</button>`}
       </div>`;
-    list.appendChild(card);
+    return card;
+  }
+
+  DEC_GROUP_ORDER.forEach(status => {
+    const group = sortDecGroup(options.filter(o => o.status === status));
+    if (!group.length) return;
+    const hdr = document.createElement('div');
+    hdr.style.cssText = 'font-size:9px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--rust);opacity:0.6;padding:12px 0 6px;';
+    hdr.textContent = `${DEC_GROUP_LABEL[status]} (${group.length})`;
+    list.appendChild(hdr);
+    group.forEach(opt => list.appendChild(renderDecCard(opt)));
   });
 }
 
