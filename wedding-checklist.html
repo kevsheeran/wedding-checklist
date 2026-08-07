@@ -1816,20 +1816,6 @@ a { color: inherit; text-decoration: none; }
 .item-row.drag-over-top    { border-top: 2px solid var(--rust); }
 .item-row.drag-over-bottom { border-bottom: 2px solid var(--rust); }
 
-/* Lock badge (blocked tasks) */
-.lock-badge {
-  display: inline-flex; align-items: center; gap: 3px;
-  font-size: 10px; font-weight: 600; font-family: 'Raleway',sans-serif;
-  color: #92600f; background: #fef3c7; border: 1px solid #f59e0b;
-  border-radius: 20px; padding: 1px 6px;
-}
-
-/* Dependencies section */
-.deps-list { max-height: 120px; overflow-y: auto; border: 1px solid var(--hairline); border-radius: var(--radius-sm); padding: 4px 0; }
-.deps-item { display: flex; align-items: center; gap: 8px; padding: 5px 10px; font-size: 13px; font-family: 'Raleway',sans-serif; cursor: pointer; line-height: 1.4; }
-.deps-item:hover { background: var(--rust-pale); }
-.deps-item input[type="checkbox"] { accent-color: var(--rust); width: 14px; height: 14px; flex-shrink: 0; }
-
 /* Timeline view */
 .timeline-header-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
 .timeline-header-title { font-size: 18px; font-weight: 400; font-family: 'Gilda Display',serif; font-style: italic; color: var(--ink); }
@@ -2436,10 +2422,6 @@ body.dark .filter-select { background: #2a1f18; color: var(--ink); }
           </div>
         </div>
         <div id="item-vendors-section" class="item-vendors-section"></div>
-        <div class="form-group" id="item-deps-section" style="display:none">
-          <label class="form-label">Blocked by <span style="opacity:0.45;font-weight:400">(must be done first)</span></label>
-          <div class="deps-list" id="item-deps-list"></div>
-        </div>
       </div>
       <div id="sheet-extra-row" style="display:none;padding:0 20px 10px;gap:8px;flex-wrap:wrap;display:none">
         <button class="btn-ghost" id="sheet-duplicate-btn">
@@ -3961,21 +3943,6 @@ function renderItem(item) {
     row.appendChild(dh);
   }
 
-  // Lock badge for blocked items
-  const blockedBy = item.blockedBy || [];
-  if (blockedBy.length > 0) {
-    const unfinished = blockedBy.filter(depId => {
-      const dep = state.items.find(i => i.id === depId);
-      return dep && dep.status !== 'done';
-    });
-    if (unfinished.length > 0) {
-      const lb = document.createElement('span');
-      lb.className = 'lock-badge';
-      lb.innerHTML = `🔒 Blocked`;
-      statusRow.appendChild(lb);
-    }
-  }
-
   row.addEventListener('keydown', e => {
     if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openItemModal(item.id); }
   });
@@ -4231,14 +4198,6 @@ function updateReorderBtns() {
 function toggleItemCheck(itemId) {
   const item = state.items.find(i=>i.id===itemId);
   if (!item || item.status === 'na') return;
-  const blockedBy = item.blockedBy || [];
-  if (blockedBy.length > 0 && item.status !== 'done') {
-    const blockers = blockedBy.map(id => state.items.find(i => i.id === id)).filter(i => i && i.status !== 'done');
-    if (blockers.length > 0) {
-      showToast(`🔒 Blocked by: ${blockers.map(i => i.title).join(', ')}`);
-      return;
-    }
-  }
   const cycle = { todo: 'doing', doing: 'done', done: 'todo' };
   item.status = cycle[item.status] || 'todo';
   saveState();
@@ -4289,33 +4248,6 @@ function openItemModal(itemId, defaultCatId) {
   extraRow.style.display = item ? 'flex' : 'none';
   document.getElementById('sheet-calendar-btn').style.display = (item && item.dueDate) ? '' : 'none';
 
-  // Populate dependencies list (other items in the same category)
-  const depsSection = document.getElementById('item-deps-section');
-  const depsList = document.getElementById('item-deps-list');
-  const catId = item ? item.categoryId : (defaultCatId || null);
-  const otherItems = state.items.filter(i => i.id !== itemId && i.categoryId === catId);
-  if (otherItems.length > 0) {
-    depsList.innerHTML = '';
-    const blockedBy = (item && item.blockedBy) ? item.blockedBy : [];
-    otherItems.forEach(dep => {
-      const label = document.createElement('label');
-      label.className = 'deps-item';
-      const cb = document.createElement('input');
-      cb.type = 'checkbox';
-      cb.value = dep.id;
-      cb.checked = blockedBy.includes(dep.id);
-      label.appendChild(cb);
-      const txt = document.createElement('span');
-      txt.textContent = dep.title;
-      if (dep.status === 'done') txt.style.textDecoration = 'line-through';
-      label.appendChild(txt);
-      depsList.appendChild(label);
-    });
-    depsSection.style.display = '';
-  } else {
-    depsSection.style.display = 'none';
-  }
-
   renderItemSheetVendors(item ? item.id : null);
   overlay.classList.add('open');
   setTimeout(() => document.getElementById('item-title-input').focus(), 100);
@@ -4348,7 +4280,6 @@ function saveItemModal() {
     tag: document.getElementById('item-tag-input').value || null,
     categoryId: document.getElementById('item-cat-input').value,
     starred: _editingItemId ? (state.items.find(i=>i.id===_editingItemId)?.starred || false) : false,
-    blockedBy: [...document.querySelectorAll('#item-deps-list input[type="checkbox"]:checked')].map(cb => cb.value),
   };
 
   if (_editingItemId) {
