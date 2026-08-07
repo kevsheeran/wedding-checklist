@@ -1928,6 +1928,25 @@
           "telephone": "",
           "email": "",
           "minSpend": null
+        },
+        {
+          "id": "45c5a82f-84c3-46f2-9521-2861cb9e4ad2",
+          "name": "Movenpick Hotel & Apartments Bur Dubai",
+          "status": "quoted",
+          "notes": "",
+          "conversation": "",
+          "details": "",
+          "link": "",
+          "updatedAt": "2026-08-07",
+          "price": 23000,
+          "minGuests": 100,
+          "minSpend": 30000,
+          "pricePerPerson": 230,
+          "quoteFor100": 23000,
+          "agentName": "Hanif Miah",
+          "mobile": "0503003796",
+          "telephone": "",
+          "email": ""
         }
       ]
     },
