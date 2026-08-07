@@ -1716,13 +1716,21 @@
         {
           "id": "2cbc39ca-59de-49eb-96d7-f4cd0312a262",
           "name": "Palazzo Versace Dubai",
-          "status": "quoted",
+          "status": "contacted",
           "price": null,
           "notes": "",
           "conversation": "",
           "details": "",
           "link": "https://www.palazzoversace.ae/special-offers/wedding-packages",
-          "updatedAt": "2026-08-04"
+          "updatedAt": "2026-08-04",
+          "minGuests": null,
+          "minSpend": null,
+          "pricePerPerson": null,
+          "quoteFor100": null,
+          "agentName": "",
+          "mobile": "",
+          "telephone": "",
+          "email": ""
         },
         {
           "id": "efb8c5e7-3413-4ea2-a33b-9278110306e8",
@@ -1928,6 +1936,25 @@
           "telephone": "",
           "email": "",
           "minSpend": null
+        },
+        {
+          "id": "45c5a82f-84c3-46f2-9521-2861cb9e4ad2",
+          "name": "Movenpick Hotel & Apartments Bur Dubai",
+          "status": "quoted",
+          "notes": "",
+          "conversation": "",
+          "details": "",
+          "link": "",
+          "updatedAt": "2026-08-07",
+          "price": 23000,
+          "minGuests": 100,
+          "minSpend": 30000,
+          "pricePerPerson": 230,
+          "quoteFor100": 23000,
+          "agentName": "Hanif Miah",
+          "mobile": "0503003796",
+          "telephone": "",
+          "email": ""
         }
       ]
     },
