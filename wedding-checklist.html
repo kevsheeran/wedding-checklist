@@ -1639,6 +1639,25 @@ a { color: inherit; text-decoration: none; }
   font-family: 'Raleway',sans-serif; letter-spacing: 0.03em;
 }
 
+/* Per-category budget cap */
+.cat-budget-chip.over { color: #b01e1e; font-weight: 700; }
+.cat-over-badge {
+  font-size: 10px; font-weight: 700;
+  background: rgba(176,30,30,0.09); color: #b01e1e;
+  border: 1px solid rgba(176,30,30,0.22); border-radius: 20px;
+  padding: 1px 7px; white-space: nowrap; font-family: 'Raleway',sans-serif;
+}
+
+/* Payment tracker pills on vendor card */
+.payment-row { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 6px; align-items: center; }
+.payment-pill {
+  font-size: 10px; font-weight: 600; font-family: 'Raleway',sans-serif;
+  padding: 2px 8px; border-radius: 20px; white-space: nowrap; border: 1px solid;
+}
+.payment-pill.paid  { background: rgba(46,125,50,0.1);  color: #2e7d32; border-color: rgba(46,125,50,0.3); }
+.payment-pill.unpaid{ background: rgba(230,81,0,0.08);  color: #bf4000; border-color: rgba(230,81,0,0.28); }
+.payment-pill.overdue{ background: rgba(176,30,30,0.09); color: #b01e1e; border-color: rgba(176,30,30,0.28); }
+
 /* Vendor search in overlay */
 .vendor-search-wrap { margin-bottom: 10px; }
 .vendor-search-input {
@@ -2051,6 +2070,10 @@ body.dark .filter-select { background: #2a1f18; color: var(--ink); }
           <label class="form-label" for="cat-name-input">Category Name</label>
           <input type="text" id="cat-name-input" class="form-input" placeholder="e.g. Honeymoon Planning" autocomplete="off">
         </div>
+        <div class="form-group">
+          <label class="form-label" for="cat-budget-input">Budget Cap (AED) <span style="opacity:0.45;font-weight:400">(optional)</span></label>
+          <input type="number" id="cat-budget-input" class="form-input" min="0" placeholder="Leave blank for no cap">
+        </div>
         <div class="form-group" id="cat-reorder-group" style="display:none">
           <label class="form-label">Position</label>
           <div class="cat-reorder-row">
@@ -2321,6 +2344,38 @@ body.dark .filter-select { background: #2a1f18; color: var(--ink); }
               <input id="at-email" class="form-input" type="email" placeholder="contact@boutique.com" autocomplete="off">
             </div>
           </div>
+        </div>
+        <!-- Payment Tracker -->
+        <div style="background:var(--panel);border:1px solid var(--hairline);border-radius:var(--radius-sm);padding:14px 14px 10px;margin-bottom:16px">
+          <div style="font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink);opacity:0.5;margin-bottom:12px">Payment Tracker</div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="pay-deposit-amt">Deposit (AED)</label>
+              <input id="pay-deposit-amt" class="form-input" type="number" min="0" placeholder="0">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="pay-deposit-due">Deposit Due</label>
+              <input id="pay-deposit-due" class="form-input" type="date">
+            </div>
+          </div>
+          <label style="display:flex;align-items:center;gap:8px;font-size:13px;font-family:'Raleway',sans-serif;cursor:pointer;margin-bottom:12px">
+            <input type="checkbox" id="pay-deposit-paid" style="width:16px;height:16px;accent-color:var(--rust)">
+            Deposit paid
+          </label>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="pay-balance-amt">Balance (AED)</label>
+              <input id="pay-balance-amt" class="form-input" type="number" min="0" placeholder="0">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="pay-balance-due">Balance Due</label>
+              <input id="pay-balance-due" class="form-input" type="date">
+            </div>
+          </div>
+          <label style="display:flex;align-items:center;gap:8px;font-size:13px;font-family:'Raleway',sans-serif;cursor:pointer;margin-bottom:4px">
+            <input type="checkbox" id="pay-balance-paid" style="width:16px;height:16px;accent-color:var(--rust)">
+            Balance paid
+          </label>
         </div>
         <div class="form-group">
           <label class="form-label" for="opt-notes">Notes</label>
@@ -3165,6 +3220,8 @@ function renderMain() {
     const catBudget   = fullRaw
       .filter(i => i.status !== 'na' && i.estCost != null)
       .reduce((s, i) => s + i.estCost, 0);
+    const catCap = cat.budgetCap != null ? cat.budgetCap : null;
+    const catOverCap = catCap != null && catBudget > catCap;
 
     const section = document.createElement('section');
     section.className = 'cat-section';
@@ -3180,7 +3237,8 @@ function renderMain() {
         <div class="cat-progress-bar"><div class="cat-progress-fill" style="width:${pct}%"></div></div>
       </div>
       <div class="cat-section-actions">
-        ${catBudget > 0 ? `<span class="cat-budget-chip">${fmtAED(catBudget)}</span>` : ''}
+        ${(catBudget > 0 || catCap != null) ? `<span class="cat-budget-chip${catOverCap ? ' over' : ''}">${fmtAED(catBudget)}${catCap != null ? ` / ${fmtAED(catCap)}` : ''}</span>` : ''}
+        ${catOverCap ? `<span class="cat-over-badge">Over budget</span>` : ''}
         <button class="cat-action-btn" data-action="add-item" data-cat="${cat.id}" aria-label="Add item to ${escHtml(cat.name)}">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
         </button>
@@ -3400,11 +3458,13 @@ function renderBudgetBreakdown() {
       .filter(i => i.categoryId === cat.id && i.status !== 'na' && i.estCost != null)
       .reduce((s, i) => s + i.estCost, 0);
     total += catTotal;
+    const cap = cat.budgetCap != null ? cat.budgetCap : null;
+    const over = cap != null && catTotal > cap;
     const row = document.createElement('div');
     row.className = 'budget-row';
     row.innerHTML = `
-      <span class="budget-row-name">${escHtml(cat.name)}</span>
-      <span class="budget-row-amount${catTotal === 0 ? ' zero' : ''}">${fmtAED(catTotal)}</span>
+      <span class="budget-row-name">${escHtml(cat.name)}${over ? ' <span class="cat-over-badge">⚠</span>' : ''}</span>
+      <span class="budget-row-amount${catTotal === 0 ? ' zero' : ''}" style="${over ? 'color:#b01e1e' : ''}">${fmtAED(catTotal)}${cap != null ? `<span style="opacity:0.45;font-weight:400"> / ${fmtAED(cap)}</span>` : ''}</span>
     `;
     rows.appendChild(row);
   });
@@ -3794,6 +3854,7 @@ function openCatModal(catId) {
 
   document.getElementById('cat-modal-title').textContent = cat ? 'Edit Category' : 'New Category';
   document.getElementById('cat-name-input').value = cat ? cat.name : '';
+  document.getElementById('cat-budget-input').value = (cat && cat.budgetCap != null) ? cat.budgetCap : '';
   document.getElementById('cat-delete-btn').style.display = cat ? '' : 'none';
   // Show reorder buttons only in edit mode
   document.getElementById('cat-reorder-group').style.display = cat ? '' : 'none';
@@ -3819,13 +3880,15 @@ function closeCatModal() {
 function saveCatModal() {
   const name = document.getElementById('cat-name-input').value.trim();
   if (!name) { document.getElementById('cat-name-input').focus(); return; }
+  const budgetCapRaw = document.getElementById('cat-budget-input').value;
+  const budgetCap = budgetCapRaw !== '' ? Number(budgetCapRaw) : null;
 
   if (_catModalId) {
     const cat = state.categories.find(c=>c.id===_catModalId);
-    if (cat) { cat.name = name; cat.icon = _catSelectedIcon; }
+    if (cat) { cat.name = name; cat.icon = _catSelectedIcon; cat.budgetCap = budgetCap; }
   } else {
     const maxOrder = state.categories.reduce((m,c)=>Math.max(m,c.order),0);
-    state.categories.push({ id: uid(), name, order: maxOrder+1, icon: _catSelectedIcon });
+    state.categories.push({ id: uid(), name, order: maxOrder+1, icon: _catSelectedIcon, budgetCap });
   }
   saveState();
   closeCatModal();
@@ -4214,6 +4277,16 @@ function showDecFormPanel(optionId) {
   _v('at-mobile',          opt?.mobile ?? '');
   _v('at-email',           opt?.email ?? '');
 
+  // Payment tracker
+  const _sv = (id, val) => { const el = document.getElementById(id); if (el) el.value = val ?? ''; };
+  const _sc = (id, val) => { const el = document.getElementById(id); if (el) el.checked = !!val; };
+  _sv('pay-deposit-amt', opt?.depositAmt ?? '');
+  _sv('pay-deposit-due', opt?.depositDue ?? '');
+  _sc('pay-deposit-paid', opt?.depositPaid);
+  _sv('pay-balance-amt', opt?.balanceAmt ?? '');
+  _sv('pay-balance-due', opt?.balanceDue ?? '');
+  _sc('pay-balance-paid', opt?.balancePaid);
+
   // Star rating
   const ratingWrap = document.getElementById('opt-rating-input');
   const savedRating = opt?.rating || 0;
@@ -4354,6 +4427,23 @@ function renderDecOptionsList() {
       }
       return parts.length ? `<div class="vendor-card-meta" style="margin-top:5px;line-height:1.6">${parts.join(' · ')}</div>` : '';
     })();
+    const today = new Date().toISOString().slice(0,10);
+    const paymentHtml = (() => {
+      const pills = [];
+      if (opt.depositAmt != null) {
+        const overdue = !opt.depositPaid && opt.depositDue && opt.depositDue < today;
+        const cls = opt.depositPaid ? 'paid' : overdue ? 'overdue' : 'unpaid';
+        const label = opt.depositPaid ? `✓ Deposit ${fmtAED(opt.depositAmt)}` : `Deposit ${fmtAED(opt.depositAmt)}${opt.depositDue ? ` · due ${fmtDate(opt.depositDue)}` : ''}`;
+        pills.push(`<span class="payment-pill ${cls}">${label}</span>`);
+      }
+      if (opt.balanceAmt != null) {
+        const overdue = !opt.balancePaid && opt.balanceDue && opt.balanceDue < today;
+        const cls = opt.balancePaid ? 'paid' : overdue ? 'overdue' : 'unpaid';
+        const label = opt.balancePaid ? `✓ Balance ${fmtAED(opt.balanceAmt)}` : `Balance ${fmtAED(opt.balanceAmt)}${opt.balanceDue ? ` · due ${fmtDate(opt.balanceDue)}` : ''}`;
+        pills.push(`<span class="payment-pill ${cls}">${label}</span>`);
+      }
+      return pills.length ? `<div class="payment-row">${pills.join('')}</div>` : '';
+    })();
     const updHtml  = opt.updatedAt ? `<div style="font-size:10px;opacity:0.4;margin-top:4px">${fmtDate(opt.updatedAt)}</div>` : '';
     const linkHtml = opt.link ? `<a href="${escHtml(opt.link)}" target="_blank" rel="noopener" class="vendor-link-btn">
       <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
@@ -4363,7 +4453,7 @@ function renderDecOptionsList() {
         <div class="vendor-card-name">${escHtml(opt.name)}</div>
         <span class="vendor-status ${statusCls}">${isFinal ? 'Final' : DEC_STATUS_LABEL[opt.status] || opt.status}</span>
       </div>
-      ${starsHtml}${priceHtml}${metaHtml}${extraMeta}${waitingBadge}${updHtml}
+      ${starsHtml}${priceHtml}${metaHtml}${extraMeta}${paymentHtml}${waitingBadge}${updHtml}
       ${linkHtml}
       <div class="vendor-card-actions">
         <button class="vendor-btn" data-dec-action="edit-option" data-opt="${opt.id}">Edit</button>
@@ -4393,10 +4483,19 @@ function saveDecOption() {
     return;
   }
   const dec = getOrCreateDecision(_decItemId);
+  const _gn = id => { const el = document.getElementById(id); return el && el.value !== '' ? Number(el.value) : null; };
+  const _gv = id => { const el = document.getElementById(id); return el ? el.value.trim() : ''; };
+  const _gc = id => { const el = document.getElementById(id); return el ? el.checked : false; };
   const payload = {
     name,
     status:         document.getElementById('opt-status').value,
     rating:         parseInt(document.getElementById('opt-rating-input')?.dataset.value || '0') || 0,
+    depositAmt:     _gn('pay-deposit-amt'),
+    depositDue:     _gv('pay-deposit-due') || null,
+    depositPaid:    _gc('pay-deposit-paid'),
+    balanceAmt:     _gn('pay-balance-amt'),
+    balanceDue:     _gv('pay-balance-due') || null,
+    balancePaid:    _gc('pay-balance-paid'),
     notes:          document.getElementById('opt-notes').value.trim(),
     conversation:   document.getElementById('opt-convo').value.trim(),
     details:        document.getElementById('opt-details').value.trim(),
