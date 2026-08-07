@@ -658,7 +658,7 @@ a { color: inherit; text-decoration: none; }
   border-color: var(--rust);
   outline: none;
 }
-.form-textarea { resize: vertical; min-height: 80px; line-height: 1.5; }
+.form-textarea { resize: vertical; min-height: 140px; line-height: 1.65; }
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .sheet-footer {
   display: flex; gap: 10px;
@@ -1356,6 +1356,7 @@ a { color: inherit; text-decoration: none; }
 .vst-visited     { background: #e8f5e9; color: #2e7d32; }
 .vst-declined    { background: #fce4ec; color: #c62828; }
 .vst-selected    { background: var(--rust); color: #fff; }
+.vst-waiting     { background: #fff8e1; color: #c17000; }
 
 /* Decision summary strip in category */
 .decision-summary {
@@ -1564,10 +1565,12 @@ a { color: inherit; text-decoration: none; }
 
 /* Vendor sort bar */
 .vendor-sort-bar {
-  display: flex; gap: 5px; flex-wrap: wrap;
+  display: flex; gap: 5px; flex-wrap: nowrap; overflow-x: auto;
   margin-bottom: 12px; padding-bottom: 12px;
   border-bottom: 1px solid var(--hairline);
+  scrollbar-width: none;
 }
+.vendor-sort-bar::-webkit-scrollbar { display: none; }
 .vendor-sort-pill {
   font-family: 'Raleway', sans-serif;
   font-size: 11px; font-weight: 500; letter-spacing: 0.04em;
@@ -1578,6 +1581,74 @@ a { color: inherit; text-decoration: none; }
 }
 .vendor-sort-pill:hover { border-color: var(--rust); color: var(--rust); }
 .vendor-sort-pill.active { background: var(--rust); border-color: var(--rust); color: #fff; }
+
+/* Success modal */
+#success-modal {
+  position: fixed; inset: 0; z-index: 9990;
+  display: flex; align-items: center; justify-content: center;
+  pointer-events: none; opacity: 0; transition: opacity 0.2s;
+}
+#success-modal.open { opacity: 1; }
+.success-modal-inner {
+  background: #fff; border-radius: var(--radius-lg);
+  padding: 22px 32px; text-align: center;
+  box-shadow: 0 8px 40px rgba(34,29,23,0.22);
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+  animation: slide-up 0.2s ease;
+}
+.success-modal-msg { font-size: 15px; font-weight: 600; color: var(--ink); font-family: 'Raleway',sans-serif; }
+
+/* Confirm modal */
+#confirm-modal {
+  position: fixed; inset: 0; z-index: 9991;
+  display: none; align-items: center; justify-content: center;
+  background: rgba(34,29,23,0.5);
+}
+#confirm-modal.open { display: flex; }
+.confirm-modal-inner {
+  background: var(--cream); border-radius: var(--radius-lg);
+  padding: 24px 24px 18px; max-width: 320px; width: 90%;
+  box-shadow: 0 8px 40px rgba(34,29,23,0.25);
+  animation: slide-up 0.18s ease;
+}
+.confirm-modal-title { font-size: 16px; font-weight: 700; color: var(--ink); margin-bottom: 7px; font-family: 'Raleway',sans-serif; }
+.confirm-modal-msg { font-size: 13px; color: var(--ink); opacity: 0.65; margin-bottom: 20px; line-height: 1.5; }
+.confirm-modal-actions { display: flex; gap: 8px; }
+.confirm-modal-actions button { flex: 1; }
+
+/* Star rating input */
+.star-rating-input { display: flex; align-items: center; gap: 2px; }
+.star-btn-input {
+  background: none; border: none; padding: 2px 3px;
+  font-size: 22px; cursor: pointer; color: var(--hairline); line-height: 1;
+  transition: color 0.1s; outline: none;
+}
+.star-btn-input.lit { color: #f0a500; }
+.star-btn-input:hover { color: #f0a500; }
+.star-clear { font-size: 11px !important; color: var(--ink) !important; opacity: 0.4; margin-left: 6px; font-family: 'Raleway',sans-serif; }
+.star-clear:hover { opacity: 0.75 !important; }
+
+/* Vendor card stars display */
+.vendor-card-stars { font-size: 13px; color: #f0a500; letter-spacing: 1px; margin-top: 2px; }
+
+/* Waiting timer badge */
+.waiting-badge {
+  display: inline-block; font-size: 10px; font-weight: 600;
+  background: #fff8e1; color: #c17000; border: 1px solid #ffe082;
+  border-radius: 20px; padding: 1px 7px; margin-top: 5px;
+  font-family: 'Raleway',sans-serif; letter-spacing: 0.03em;
+}
+
+/* Vendor search in overlay */
+.vendor-search-wrap { margin-bottom: 10px; }
+.vendor-search-input {
+  width: 100%; box-sizing: border-box;
+  font-size: 13px; font-family: 'Raleway',sans-serif;
+  padding: 8px 12px; border-radius: var(--radius-sm);
+  border: 1px solid var(--hairline); background: #fff;
+  outline: none; color: var(--ink);
+}
+.vendor-search-input:focus { border-color: var(--rust); }
 
 /* Vendor chip on item row */
 .vendor-chip {
@@ -1858,6 +1929,26 @@ body.dark .filter-select { background: #2a1f18; color: var(--ink); }
   <!-- Toast container -->
   <div id="toast-container" aria-live="polite" aria-atomic="false"></div>
 
+  <!-- Save success modal -->
+  <div id="success-modal" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="success-modal-inner">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#2a7a45" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="9 12 11 14 15 10"/></svg>
+      <div class="success-modal-msg" id="success-modal-msg">Saved successfully</div>
+    </div>
+  </div>
+
+  <!-- Confirm dialog modal -->
+  <div id="confirm-modal" role="dialog" aria-modal="true">
+    <div class="confirm-modal-inner">
+      <div class="confirm-modal-title" id="confirm-modal-title"></div>
+      <div class="confirm-modal-msg" id="confirm-modal-msg"></div>
+      <div class="confirm-modal-actions">
+        <button class="btn-secondary" id="confirm-modal-cancel">Cancel</button>
+        <button class="btn-danger" id="confirm-modal-ok">Confirm</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Item modal / bottom sheet -->
   <div id="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="sheet-title-text">
     <div id="modal-sheet">
@@ -2017,6 +2108,9 @@ body.dark .filter-select { background: #2a1f18; color: var(--ink); }
           </div>
           <button class="dec-clear-btn" id="dec-clear-btn">Change</button>
         </div>
+        <div class="vendor-search-wrap" id="dec-search-wrap" style="display:none">
+          <input id="dec-search-input" class="vendor-search-input" type="search" placeholder="Search vendors…" autocomplete="off">
+        </div>
         <div id="dec-options-list"></div>
         <button id="dec-add-btn" class="btn-secondary" style="width:100%;margin-top:4px">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
@@ -2038,13 +2132,25 @@ body.dark .filter-select { background: #2a1f18; color: var(--ink); }
         <div class="form-group">
           <label class="form-label" for="opt-status">Status</label>
           <select id="opt-status" class="form-input">
+            <option value="contacted">Contacted</option>
             <option value="proposal">Proposal Requested</option>
             <option value="quoted">Quoted</option>
-            <option value="contacted">Contacted</option>
-            <option value="considering">Considering</option>
+            <option value="waiting">Waiting for Feedback</option>
+            <option value="considering">Shortlisted</option>
             <option value="visited">Visited</option>
             <option value="declined">Declined</option>
           </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Rating</label>
+          <div class="star-rating-input" id="opt-rating-input" data-value="0">
+            <button type="button" class="star-btn-input" data-val="1">★</button>
+            <button type="button" class="star-btn-input" data-val="2">★</button>
+            <button type="button" class="star-btn-input" data-val="3">★</button>
+            <button type="button" class="star-btn-input" data-val="4">★</button>
+            <button type="button" class="star-btn-input" data-val="5">★</button>
+            <button type="button" class="star-btn-input star-clear" data-val="0">clear</button>
+          </div>
         </div>
         <!-- Venue & Reception — Hotel Details -->
         <div id="section-venue" class="vendor-extra-section" style="display:none;background:var(--rust-pale);border:1px solid rgba(122,26,46,0.18);border-radius:var(--radius-sm);padding:14px 14px 4px;margin-bottom:16px">
@@ -2065,7 +2171,7 @@ body.dark .filter-select { background: #2a1f18; color: var(--ink); }
           </div>
           <div class="form-group">
             <label class="form-label" for="v-quote">Quote — 100 Guests (AED)</label>
-            <input id="v-quote" class="form-input" type="number" min="0" placeholder="Auto-calculated from price per person" style="background:#fff">
+            <input id="v-quote" class="form-input" type="number" min="0" placeholder="e.g. 180000">
           </div>
           <div class="form-group">
             <label class="form-label" for="v-agent">Agent Name</label>
@@ -2238,6 +2344,7 @@ body.dark .filter-select { background: #2a1f18; color: var(--ink); }
         </div>
         <div class="sheet-footer" style="padding:16px 0 4px;margin-top:4px">
           <button id="opt-delete-btn" class="btn-danger" style="display:none">Delete</button>
+          <button id="opt-duplicate-btn" class="btn-secondary" style="display:none">Duplicate</button>
           <div style="flex:1;display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap">
             <button id="opt-unselect-btn" class="btn-secondary" style="display:none">
               <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
@@ -3604,6 +3711,7 @@ function saveItemModal() {
   saveState();
   closeItemModal();
   render();
+  showSuccessModal('Saved successfully');
 }
 
 function deleteItemModal() {
@@ -3969,14 +4077,44 @@ function getCatType(itemId) {
 }
 
 /* ── Decision tracking ─────────────────────────────── */
-let _decItemId    = null; // category the decision sheet is open for
-let _decOptionId  = null; // option being edited (null = new)
-let _vendorSort   = 'status'; // shared sort across item sheet + overlay
+let _decItemId    = null;
+let _decOptionId  = null;
+let _vendorSort   = 'status';
+let _vendorSearch = '';
+
+let _confirmCallback = null;
+
+function showSuccessModal(msg = 'Saved successfully') {
+  const el = document.getElementById('success-modal');
+  document.getElementById('success-modal-msg').textContent = msg;
+  el.classList.add('open');
+  setTimeout(() => el.classList.remove('open'), 1800);
+}
+
+function showConfirmModal(title, msg, confirmLabel, onConfirm, danger = true) {
+  document.getElementById('confirm-modal-title').textContent = title;
+  document.getElementById('confirm-modal-msg').textContent = msg;
+  const ok = document.getElementById('confirm-modal-ok');
+  ok.textContent = confirmLabel;
+  ok.className = danger ? 'btn-danger' : 'btn-primary';
+  _confirmCallback = onConfirm;
+  document.getElementById('confirm-modal').classList.add('open');
+}
+
+function closeConfirmModal() {
+  document.getElementById('confirm-modal').classList.remove('open');
+  _confirmCallback = null;
+}
 
 const DEC_STATUS_LABEL = {
+  contacted: 'Contacted',
   proposal: 'Proposal Requested',
-  considering: 'Considering', contacted: 'Contacted', quoted: 'Quoted',
-  visited: 'Visited', declined: 'Declined', selected: 'Selected',
+  quoted: 'Quoted',
+  waiting: 'Waiting for Feedback',
+  considering: 'Shortlisted',
+  visited: 'Visited',
+  declined: 'Declined',
+  selected: 'Selected',
 };
 
 function getDecision(itemId) {
@@ -4000,6 +4138,9 @@ function openDecisionSheet(itemId) {
   document.getElementById('decision-overlay').classList.add('open');
 }
 function closeDecisionSheet() {
+  _vendorSearch = '';
+  const searchInput = document.getElementById('dec-search-input');
+  if (searchInput) searchInput.value = '';
   document.getElementById('decision-overlay').classList.remove('open');
   const closedItemId = _decItemId;
   _decItemId = null;
@@ -4073,7 +4214,17 @@ function showDecFormPanel(optionId) {
   _v('at-mobile',          opt?.mobile ?? '');
   _v('at-email',           opt?.email ?? '');
 
+  // Star rating
+  const ratingWrap = document.getElementById('opt-rating-input');
+  const savedRating = opt?.rating || 0;
+  ratingWrap.dataset.value = savedRating;
+  ratingWrap.querySelectorAll('.star-btn-input[data-val]').forEach(btn => {
+    const v = parseInt(btn.dataset.val);
+    if (v > 0) btn.classList.toggle('lit', v <= savedRating);
+  });
+
   document.getElementById('opt-delete-btn').style.display = opt ? '' : 'none';
+  document.getElementById('opt-duplicate-btn').style.display = opt ? '' : 'none';
   const dec2 = getDecision(_decItemId);
   const isFinal = opt && dec2 && dec2.finalOptionId === optionId;
   document.getElementById('opt-select-btn').style.display = (opt && !isFinal) ? '' : 'none';
@@ -4081,8 +4232,8 @@ function showDecFormPanel(optionId) {
   setTimeout(() => document.getElementById('opt-name').focus(), 80);
 }
 
-const VENDOR_GROUP_ORDER = ['visited','quoted','considering','contacted','proposal','declined'];
-const VENDOR_GROUP_LABEL = { visited:'Visited', quoted:'Quoted', considering:'Considering', contacted:'Contacted', proposal:'Proposal Requested', declined:'Declined' };
+const VENDOR_GROUP_ORDER = ['contacted','proposal','quoted','waiting','considering','visited','declined'];
+const VENDOR_GROUP_LABEL = { contacted:'Contacted', proposal:'Proposal Requested', quoted:'Quoted', waiting:'Waiting for Feedback', considering:'Shortlisted', visited:'Visited', declined:'Declined' };
 
 function applyVendorSort(options) {
   const byPrice = (dir) => options.slice().sort((a, b) => {
@@ -4117,8 +4268,18 @@ function buildVendorSortBar(onSort) {
 
 function renderDecOptionsList() {
   const dec = getDecision(_decItemId);
-  const options = dec ? dec.options : [];
+  const allOptions = dec ? dec.options : [];
   const finalId = dec ? dec.finalOptionId : null;
+
+  // Show/hide search wrap
+  const searchWrap = document.getElementById('dec-search-wrap');
+  if (searchWrap) searchWrap.style.display = allOptions.length > 0 ? '' : 'none';
+
+  // Apply search filter
+  const sq = _vendorSearch.trim().toLowerCase();
+  const options = sq
+    ? allOptions.filter(o => o.name.toLowerCase().includes(sq) || (o.notes || '').toLowerCase().includes(sq))
+    : allOptions;
 
   // Final banner
   const banner = document.getElementById('dec-final-banner');
@@ -4134,20 +4295,32 @@ function renderDecOptionsList() {
 
   const list = document.getElementById('dec-options-list');
   list.innerHTML = '';
-  if (!options.length) {
+  if (!allOptions.length) {
     list.innerHTML = '<p style="font-size:13px;opacity:0.5;text-align:center;padding:24px 0;font-style:italic">No options yet — add your first one below.</p>';
     return;
   }
 
   list.appendChild(buildVendorSortBar(renderDecOptionsList));
+  if (!options.length) {
+    const p = document.createElement('p');
+    p.style.cssText = 'font-size:13px;opacity:0.5;text-align:center;padding:16px 0;font-style:italic';
+    p.textContent = 'No vendors match your search.';
+    list.appendChild(p);
+    return;
+  }
 
   function renderDecCard(opt) {
     const isFinal = opt.id === finalId;
     const card = document.createElement('div');
     card.className = 'vendor-card' + (isFinal ? ' is-final' : '');
     const statusCls = 'vst-' + (isFinal ? 'selected' : opt.status);
+    const starsHtml = opt.rating ? `<div class="vendor-card-stars">${'★'.repeat(opt.rating)}${'☆'.repeat(5 - opt.rating)}</div>` : '';
     const priceHtml = opt.price != null ? `<div class="vendor-card-price">${fmtAED(opt.price)}</div>` : '';
     const metaHtml  = opt.notes ? `<div class="vendor-card-meta">${escHtml(opt.notes.slice(0,90))}${opt.notes.length > 90 ? '…' : ''}</div>` : '';
+    const waitingDays = (opt.status === 'proposal' || opt.status === 'waiting') && opt.updatedAt
+      ? Math.max(0, Math.floor((Date.now() - new Date(opt.updatedAt).getTime()) / 86400000))
+      : null;
+    const waitingBadge = waitingDays !== null && waitingDays > 0 ? `<span class="waiting-badge">⏳ ${waitingDays}d waiting</span>` : '';
     const extraMeta = (() => {
       const parts = [];
       const ct = getCatType(_decItemId);
@@ -4190,7 +4363,7 @@ function renderDecOptionsList() {
         <div class="vendor-card-name">${escHtml(opt.name)}</div>
         <span class="vendor-status ${statusCls}">${isFinal ? 'Final' : DEC_STATUS_LABEL[opt.status] || opt.status}</span>
       </div>
-      ${priceHtml}${metaHtml}${extraMeta}${updHtml}
+      ${starsHtml}${priceHtml}${metaHtml}${extraMeta}${waitingBadge}${updHtml}
       ${linkHtml}
       <div class="vendor-card-actions">
         <button class="vendor-btn" data-dec-action="edit-option" data-opt="${opt.id}">Edit</button>
@@ -4223,6 +4396,7 @@ function saveDecOption() {
   const payload = {
     name,
     status:         document.getElementById('opt-status').value,
+    rating:         parseInt(document.getElementById('opt-rating-input')?.dataset.value || '0') || 0,
     notes:          document.getElementById('opt-notes').value.trim(),
     conversation:   document.getElementById('opt-convo').value.trim(),
     details:        document.getElementById('opt-details').value.trim(),
@@ -4248,6 +4422,19 @@ function saveDecOption() {
   saveState();
   render();
   showDecListPanel();
+  showSuccessModal('Option saved');
+}
+
+function duplicateDecOption() {
+  if (!_decOptionId) return;
+  const dec = getDecision(_decItemId);
+  if (!dec) return;
+  const orig = dec.options.find(o => o.id === _decOptionId);
+  if (!orig) return;
+  dec.options.push({ ...orig, id: uid(), name: orig.name + ' (Copy)' });
+  saveState(); render();
+  showDecListPanel();
+  showToast('Option duplicated');
 }
 
 function deleteDecOption() {
@@ -4441,7 +4628,11 @@ function wireEvents() {
   });
   document.getElementById('sheet-close-btn').addEventListener('click', closeItemModal);
   document.getElementById('sheet-save-btn').addEventListener('click', saveItemModal);
-  document.getElementById('sheet-delete-btn').addEventListener('click', deleteItemModal);
+  document.getElementById('sheet-delete-btn').addEventListener('click', () => {
+    const item = _editingItemId ? state.items.find(i => i.id === _editingItemId) : null;
+    const label = item ? `"${item.title}"` : 'this item';
+    showConfirmModal('Delete item?', `Remove ${label}? You'll have a brief moment to undo after.`, 'Delete', deleteItemModal, true);
+  });
   document.getElementById('sheet-na-btn').addEventListener('click', toggleNaModal);
   document.getElementById('sheet-duplicate-btn').addEventListener('click', duplicateItem);
   document.getElementById('sheet-calendar-btn').addEventListener('click', addToCalendar);
@@ -4616,11 +4807,10 @@ function wireEvents() {
   document.getElementById('dec-back-btn').addEventListener('click', showDecListPanel);
   document.getElementById('dec-clear-btn').addEventListener('click', clearFinalOption);
   document.getElementById('opt-save-btn').addEventListener('click', saveDecOption);
-  document.getElementById('opt-delete-btn').addEventListener('click', deleteDecOption);
-  document.getElementById('v-ppp').addEventListener('input', e => {
-    const ppp = Number(e.target.value) || 0;
-    document.getElementById('v-quote').value = ppp ? ppp * 100 : '';
+  document.getElementById('opt-delete-btn').addEventListener('click', () => {
+    showConfirmModal('Delete option?', 'This will permanently remove this vendor option. This cannot be undone.', 'Delete', deleteDecOption, true);
   });
+  document.getElementById('opt-duplicate-btn').addEventListener('click', duplicateDecOption);
   document.getElementById('opt-select-btn').addEventListener('click', () => {
     if (_decOptionId) selectFinalOption(_decOptionId);
   });
@@ -4630,7 +4820,12 @@ function wireEvents() {
     const btn = e.target.closest('[data-dec-action]');
     if (!btn) return;
     const { decAction, opt } = btn.dataset;
-    if (decAction === 'edit-option')   { showDecFormPanel(opt); return; }
+    if (decAction === 'edit-option') {
+      const dec = getDecision(_decItemId);
+      const o = dec ? dec.options.find(x => x.id === opt) : null;
+      showConfirmModal('Edit vendor option?', `Open and edit "${o ? o.name : 'this option'}"?`, 'Edit', () => showDecFormPanel(opt), false);
+      return;
+    }
     if (decAction === 'select-final')  { selectFinalOption(opt); return; }
     if (decAction === 'clear-final')   { clearFinalOption(); return; }
   });
@@ -4672,6 +4867,35 @@ function wireEvents() {
       ? activeCategory
       : ([...state.categories].sort((a,b)=>a.order-b.order)[0]?.id || null);
     openItemModal(null, catId);
+  });
+
+  // Confirm modal
+  document.getElementById('confirm-modal-ok').addEventListener('click', () => {
+    if (_confirmCallback) _confirmCallback();
+    closeConfirmModal();
+  });
+  document.getElementById('confirm-modal-cancel').addEventListener('click', closeConfirmModal);
+  document.getElementById('confirm-modal').addEventListener('click', e => {
+    if (e.target === document.getElementById('confirm-modal')) closeConfirmModal();
+  });
+
+  // Vendor search in overlay
+  document.getElementById('dec-search-input').addEventListener('input', e => {
+    _vendorSearch = e.target.value;
+    renderDecOptionsList();
+  });
+
+  // Star rating input
+  document.getElementById('opt-rating-input').addEventListener('click', e => {
+    const btn = e.target.closest('.star-btn-input[data-val]');
+    if (!btn) return;
+    const val = parseInt(btn.dataset.val);
+    const wrap = document.getElementById('opt-rating-input');
+    wrap.dataset.value = val;
+    wrap.querySelectorAll('.star-btn-input[data-val]').forEach(b => {
+      const v = parseInt(b.dataset.val);
+      if (v > 0) b.classList.toggle('lit', v <= val);
+    });
   });
 
   // Budget breakdown toggle + DCP
