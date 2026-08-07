@@ -481,7 +481,8 @@
       "dueDate": "2026-09-15",
       "estCost": null,
       "tag": "required",
-      "starred": true
+      "starred": true,
+      "blockedBy": []
     },
     {
       "id": "adc7f3df-d384-4543-8e70-9c532bede5db",
@@ -1838,7 +1839,7 @@
         {
           "id": "b849ce11-e498-43bf-8293-fba8ac0e9078",
           "name": "Vogo Grand Hotel, Academic City",
-          "status": "contacted",
+          "status": "quoted",
           "notes": "Sent an inquiry.",
           "conversation": "Facebook and WhatsApp\n\n135, 150, 175 AED\nGrand Ballroom\n\nShiny:\nRental Min Charge: 7500\n125 per person (100)\nAlcohol: 1500 CID Permit Mandatory + 125 / bottle\n\n2 Halls \nInternational Hall 7500\nGrand Ballroom 15000",
           "details": "",
@@ -1851,7 +1852,15 @@
           "agentName": "Shiny",
           "mobile": "0509825370",
           "telephone": "",
-          "email": ""
+          "email": "",
+          "rating": 0,
+          "depositAmt": null,
+          "depositDue": null,
+          "depositPaid": false,
+          "balanceAmt": null,
+          "balanceDue": null,
+          "balancePaid": false,
+          "minSpend": null
         },
         {
           "id": "b72e5e2e-35c5-47e4-aec3-fb36900eb961",
