@@ -1531,14 +1531,22 @@
         },
         {
           "id": "d4a88763-5a75-4667-9e70-f5bd46144f94",
-          "name": "InterContinental Dubai Festival City",
+          "name": "InterContinental Dubai Festival City (Holiday Inn & Suites)",
           "status": "quoted",
           "price": null,
           "notes": "AED 230 net per person\n200 min guest required. Will need to discuss with them.",
           "conversation": "Email",
           "details": "Welcome Mocktails\n\n Buffet and table set-up\n\nComplimentary three-tiered wedding cake\n\nComplimentary valet service\n\nComplimentary one night stay and breakfast\n\nComplimentary LCD Projector and screen",
           "link": "https://www.dubaifestivalcityhotels.com/weddings",
-          "updatedAt": "2026-08-04"
+          "updatedAt": "2026-08-04",
+          "minGuests": 100,
+          "minSpend": 35000,
+          "pricePerPerson": null,
+          "quoteFor100": null,
+          "agentName": "Bothaina Gamal",
+          "mobile": "0509193908",
+          "telephone": "",
+          "email": ""
         },
         {
           "id": "cefb2abf-8181-4ee9-9c01-8a804b37e150",
