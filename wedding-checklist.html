@@ -2031,135 +2031,109 @@ body.dark .filter-select { background: #2a1f18; color: var(--ink); }
 }
 
 /* ── Guest Seating Chart ─────────────────────────────── */
+/* ── Guest View Layout ───────────────────────────────── */
 #body-wrap.view-guests #sidebar { display: none !important; }
 #body-wrap.view-guests #main-content { padding: 0; }
 
-#guest-view { padding: 20px; min-height: 100%; }
-.seating-layout { display: flex; gap: 0; }
-.seating-map-wrap { flex: 1; min-width: 0; }
+#guest-view { padding: 20px 24px 60px; min-height: 100%; max-width: 900px; margin: 0 auto; }
 
-/* Map / List toggle */
-.guest-mode-toggle {
-  display: flex; gap: 0;
-  background: var(--panel); border: 1px solid var(--hairline);
-  border-radius: var(--radius-sm); overflow: hidden;
-  margin-bottom: 18px; align-self: flex-start;
-}
-.guest-mode-btn {
-  padding: 7px 18px; font-family: 'Raleway', sans-serif;
-  font-size: 12px; font-weight: 600; letter-spacing: 0.04em;
-  color: var(--ink); opacity: 0.55; cursor: pointer;
-  transition: all 0.15s; border: none; background: none;
-  display: flex; align-items: center; gap: 6px;
-}
-.guest-mode-btn.active {
-  background: #fff; color: var(--rust); opacity: 1;
-  box-shadow: 0 1px 4px rgba(34,29,23,0.1);
-  border-radius: calc(var(--radius-sm) - 1px);
-}
-
-/* List view */
-.guest-list-section {
-  margin-bottom: 20px;
-  background: #fff; border: 1px solid var(--hairline);
-  border-radius: var(--radius-md); overflow: hidden;
-  box-shadow: var(--shadow-xs);
-}
-.guest-list-section-header {
+/* Top bar: stats + actions */
+.guest-topbar {
   display: flex; align-items: center; justify-content: space-between;
-  padding: 10px 16px;
-  background: var(--panel); border-bottom: 1px solid var(--hairline);
+  gap: 12px; flex-wrap: wrap; margin-bottom: 20px;
 }
-.guest-list-section-title {
-  font-family: 'Gilda Display', serif; font-size: 16px;
-  font-weight: 400; color: var(--ink);
-}
-.guest-list-section-meta {
-  font-size: 11px; font-weight: 500; color: var(--ink); opacity: 0.45;
-}
-.guest-list-section-badge {
-  font-size: 10px; font-weight: 700; letter-spacing: 0.06em;
-  padding: 2px 8px; border-radius: 10px; white-space: nowrap;
-}
-.badge-full  { background: rgba(42,122,69,0.1); color: #2a7a45; }
-.badge-open  { background: var(--panel); color: var(--ink); opacity: 0.6; }
-.badge-empty { background: var(--panel); color: var(--ink); opacity: 0.4; }
-.guest-list-row {
-  display: flex; align-items: center; gap: 12px;
-  padding: 11px 16px; border-bottom: 1px solid rgba(221,209,184,0.4);
-  cursor: pointer; transition: background 0.12s;
-}
-.guest-list-row:last-child { border-bottom: none; }
-.guest-list-row:hover { background: var(--rust-pale); }
-.guest-list-num {
-  font-size: 11px; font-weight: 600; color: var(--ink);
-  opacity: 0.3; width: 18px; flex-shrink: 0; text-align: right;
-}
-.guest-list-name { flex: 1; font-size: 14px; font-weight: 500; color: var(--ink); }
-.guest-list-note {
-  font-size: 11px; color: var(--ink); opacity: 0.45;
-  max-width: 160px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-}
-.guest-list-empty {
-  padding: 14px 16px; font-size: 13px; color: var(--ink);
-  opacity: 0.35; font-style: italic;
-}
-.guest-list-add {
-  display: flex; align-items: center; gap: 6px;
-  padding: 10px 16px; font-family: 'Raleway', sans-serif;
-  font-size: 12px; font-weight: 600; color: var(--rust);
-  cursor: pointer; border: none; background: none; width: 100%;
-  text-align: left; transition: background 0.12s; min-height: 40px;
-  border-top: 1px dashed rgba(122,26,46,0.25);
-}
-.guest-list-add:hover { background: var(--rust-pale); }
-
-/* Sponsor section title accent */
-.guest-list-section.sponsor .guest-list-section-header { background: rgba(212,168,67,0.08); }
-.guest-list-section.sponsor .guest-list-section-title { color: #8a6a00; }
-
 .guest-stats-strip {
-  display: flex; gap: 0; flex-wrap: wrap;
-  margin-bottom: 24px;
+  display: flex; gap: 0; flex: 1;
   background: #fff; border: 1px solid var(--hairline);
   border-radius: var(--radius-md); box-shadow: var(--shadow-xs);
-  overflow: hidden;
+  overflow: hidden; min-width: 0;
 }
 .guest-stat {
   display: flex; flex-direction: column; align-items: center;
-  gap: 3px; flex: 1; min-width: 60px; padding: 14px 8px;
+  gap: 2px; flex: 1; padding: 12px 6px;
   border-right: 1px solid var(--hairline);
 }
 .guest-stat:last-child { border-right: none; }
 .guest-stat-val {
-  font-size: 26px; font-weight: 700; font-family: 'Gilda Display', serif;
+  font-size: 22px; font-weight: 700; font-family: 'Gilda Display', serif;
   color: var(--ink); line-height: 1;
 }
 .guest-stat-label {
-  font-size: 9px; font-weight: 600; letter-spacing: 0.1em;
-  text-transform: uppercase; color: var(--ink); opacity: 0.45;
+  font-size: 9px; font-weight: 600; letter-spacing: 0.09em;
+  text-transform: uppercase; color: var(--ink); opacity: 0.4;
 }
-.guest-stat.confirmed .guest-stat-val { color: #2a7a45; }
-.guest-stat.tentative .guest-stat-val { color: var(--rust); }
-.guest-stat.declined  .guest-stat-val { color: #a89e90; }
+.guest-stat.s-confirmed .guest-stat-val { color: #2a7a45; }
+.guest-stat.s-tentative .guest-stat-val { color: var(--rust); }
+.guest-stat.s-declined  .guest-stat-val { color: #a89e90; }
 
+/* Top-right: toggle + add button */
+.guest-topbar-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.guest-mode-toggle {
+  display: flex; gap: 0;
+  background: var(--panel); border: 1px solid var(--hairline);
+  border-radius: var(--radius-sm); overflow: hidden; padding: 3px;
+}
+.guest-mode-btn {
+  padding: 6px 14px; font-family: 'Raleway', sans-serif;
+  font-size: 12px; font-weight: 600;
+  color: var(--ink); opacity: 0.5; cursor: pointer;
+  transition: all 0.15s; border: none; background: none;
+  border-radius: calc(var(--radius-sm) - 2px);
+  display: flex; align-items: center; gap: 5px; white-space: nowrap;
+}
+.guest-mode-btn.active { background: #fff; color: var(--rust); opacity: 1; box-shadow: 0 1px 4px rgba(34,29,23,0.1); }
+.guest-add-top-btn {
+  display: flex; align-items: center; gap: 6px;
+  padding: 9px 16px; border-radius: 50px;
+  background: var(--rust); color: #fff;
+  font-family: 'Raleway', sans-serif; font-size: 13px; font-weight: 600;
+  border: none; cursor: pointer; white-space: nowrap;
+  box-shadow: 0 2px 10px rgba(122,26,46,0.28);
+  transition: background 0.15s, transform 0.1s;
+  min-height: 40px;
+}
+.guest-add-top-btn:hover { background: var(--rust-dark); transform: translateY(-1px); }
+
+/* ── RSVP badges ─────────────────────────────────────── */
+.rsvp-badge {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.06em;
+  text-transform: uppercase; padding: 3px 8px;
+  border-radius: 10px; white-space: nowrap; flex-shrink: 0;
+}
+.rsvp-confirmed { background: rgba(42,122,69,0.12); color: #2a7a45; }
+.rsvp-tentative { background: rgba(122,26,46,0.1); color: var(--rust); }
+.rsvp-declined  { background: rgba(168,158,144,0.15); color: #7a7060; }
+.rsvp-pending   { background: var(--panel); color: var(--ink); opacity: 0.45; }
+
+/* ── Guest initials avatar ───────────────────────────── */
+.g-avatar {
+  width: 34px; height: 34px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Raleway', sans-serif; font-size: 12px; font-weight: 700;
+  flex-shrink: 0; letter-spacing: 0.02em; text-transform: uppercase;
+  background: var(--rust-pale); color: var(--rust);
+}
+.g-avatar.av-confirmed { background: rgba(42,122,69,0.1); color: #2a7a45; }
+.g-avatar.av-tentative { background: rgba(122,26,46,0.1); color: var(--rust); }
+.g-avatar.av-declined  { background: rgba(168,158,144,0.12); color: #7a7060; }
+
+/* ── Map view ────────────────────────────────────────── */
+.seating-layout { display: flex; gap: 0; }
+.seating-map-wrap { flex: 1; min-width: 0; padding-bottom: 20px; }
 .seating-area-label {
   font-size: 10px; font-weight: 700; letter-spacing: 0.13em;
   text-transform: uppercase; color: var(--rust);
-  margin-bottom: 12px; padding-bottom: 6px;
+  margin-bottom: 14px; padding-bottom: 7px;
   border-bottom: 1px solid var(--hairline);
 }
 .seating-floor {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
-  gap: 14px; margin-bottom: 8px;
+  gap: 16px; margin-bottom: 8px;
 }
-.table-circle {
-  display: flex; flex-direction: column; align-items: center;
-  gap: 7px; cursor: pointer;
-}
+.table-circle { display: flex; flex-direction: column; align-items: center; gap: 7px; cursor: pointer; }
 .table-top {
-  width: 90px; height: 90px; border-radius: 50%;
+  width: 92px; height: 92px; border-radius: 50%;
   display: flex; flex-direction: column;
   align-items: center; justify-content: center;
   border: 3px solid var(--hairline); background: #fff;
@@ -2168,86 +2142,188 @@ body.dark .filter-select { background: #2a1f18; color: var(--ink); }
 }
 .table-top:hover { border-color: var(--rust); box-shadow: 0 4px 16px rgba(122,26,46,0.15); transform: translateY(-2px); }
 .table-top.tbl-selected { border-color: var(--rust); background: rgba(122,26,46,0.06); box-shadow: 0 4px 20px rgba(122,26,46,0.22); }
+.table-top.tbl-has { border-color: rgba(122,26,46,0.3); }
 .table-top.tbl-full { border-color: #2a7a45; background: rgba(42,122,69,0.06); }
-.table-top.tbl-full:hover { box-shadow: 0 4px 16px rgba(42,122,69,0.15); }
 .table-top.tbl-full.tbl-selected { border-color: var(--rust); background: rgba(122,26,46,0.06); }
 .table-lbl { font-family: 'Gilda Display', serif; font-size: 17px; font-weight: 400; color: var(--ink); }
-.table-cnt { font-size: 11px; font-weight: 600; color: var(--ink); opacity: 0.45; margin-top: 1px; }
-.table-nm  { font-size: 11px; font-weight: 500; color: var(--ink); opacity: 0.6; text-align: center; line-height: 1.3; }
+.table-cnt { font-size: 11px; font-weight: 600; color: var(--ink); opacity: 0.4; margin-top: 1px; }
+.table-nm  { font-size: 11px; font-weight: 500; color: var(--ink); opacity: 0.55; text-align: center; line-height: 1.3; }
 .table-full-dot {
   position: absolute; top: -3px; right: -3px;
-  width: 17px; height: 17px; border-radius: 50%;
+  width: 18px; height: 18px; border-radius: 50%;
   background: #2a7a45; border: 2px solid var(--cream);
   display: flex; align-items: center; justify-content: center;
 }
-/* Sponsor pill shape */
-.table-sponsor .table-top { width: 90px; height: 56px; border-radius: 28px; background: rgba(212,168,67,0.07); border-color: rgba(212,168,67,0.5); }
+/* Sponsor pill */
+.table-sponsor .table-top { width: 92px; height: 58px; border-radius: 29px; background: rgba(212,168,67,0.08); border-color: rgba(212,168,67,0.55); }
 .table-sponsor .table-top:hover { border-color: #c9a020; }
 .table-sponsor .table-top.tbl-selected { border-color: var(--rust); background: rgba(122,26,46,0.06); }
 .table-sponsor .table-lbl { color: #8a6a00; font-size: 15px; }
+
+/* Map legend */
+.map-legend {
+  display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+  margin-top: 20px; padding: 10px 14px;
+  background: var(--panel); border-radius: var(--radius-sm);
+  border: 1px solid var(--hairline);
+}
+.legend-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--ink); opacity: 0.6; }
+.legend-dot { width: 12px; height: 12px; border-radius: 50%; border: 2px solid; flex-shrink: 0; }
+.legend-dot.ld-empty { border-color: var(--hairline); background: #fff; }
+.legend-dot.ld-has   { border-color: rgba(122,26,46,0.3); background: #fff; }
+.legend-dot.ld-full  { border-color: #2a7a45; background: rgba(42,122,69,0.06); }
+.legend-dot.ld-sel   { border-color: var(--rust); background: rgba(122,26,46,0.06); }
+
+/* Map hint */
+.map-hint {
+  text-align: center; padding: 32px 20px;
+  font-size: 14px; color: var(--ink); opacity: 0.38;
+  font-style: italic; font-family: 'Gilda Display', serif;
+}
 
 /* Right panel */
 #guest-table-panel {
   display: none; background: var(--cream);
   border-left: 1px solid var(--hairline);
-  width: 280px; flex-shrink: 0;
+  width: 300px; flex-shrink: 0;
   position: sticky; top: calc(var(--header-h) + var(--tabs-h));
   height: calc(100vh - var(--header-h) - var(--tabs-h));
   overflow-y: auto; padding: 20px;
 }
 #guest-table-panel.open { display: block; }
-.panel-tbl-name { font-family: 'Gilda Display', serif; font-size: 21px; color: var(--ink); margin-bottom: 3px; }
-.panel-tbl-meta { font-size: 12px; color: var(--ink); opacity: 0.45; margin-bottom: 16px; }
-.panel-guest-list { display: flex; flex-direction: column; gap: 7px; margin-bottom: 14px; }
+.panel-tbl-name { font-family: 'Gilda Display', serif; font-size: 20px; color: var(--ink); margin-bottom: 2px; }
+.panel-tbl-meta { font-size: 12px; color: var(--ink); opacity: 0.4; margin-bottom: 16px; }
+.panel-cap-bar { height: 4px; background: var(--hairline); border-radius: 2px; overflow: hidden; margin-bottom: 16px; }
+.panel-cap-fill { height: 100%; background: var(--rust); border-radius: 2px; transition: width 0.3s; }
+.panel-cap-fill.pf-full { background: #2a7a45; }
+.panel-guest-list { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
 .panel-guest-row {
   display: flex; align-items: center; gap: 10px;
   padding: 9px 12px; border-radius: var(--radius-sm);
   background: #fff; border: 1px solid var(--hairline);
-  cursor: pointer; transition: border-color 0.15s;
+  cursor: pointer; transition: border-color 0.15s, box-shadow 0.15s;
 }
-.panel-guest-row:hover { border-color: var(--rust); }
-.panel-guest-name { flex: 1; font-size: 13px; font-weight: 500; color: var(--ink); }
-.rsvp-badge {
-  font-size: 9px; font-weight: 700; letter-spacing: 0.08em;
-  text-transform: uppercase; padding: 2px 7px;
-  border-radius: 10px; white-space: nowrap; flex-shrink: 0;
-}
-.rsvp-confirmed { background: rgba(42,122,69,0.1); color: #2a7a45; }
-.rsvp-tentative { background: rgba(122,26,46,0.1); color: var(--rust); }
-.rsvp-declined  { background: var(--panel); color: var(--ink); opacity: 0.6; }
-.rsvp-pending   { background: var(--panel); color: var(--ink); opacity: 0.4; }
+.panel-guest-row:hover { border-color: var(--rust); box-shadow: 0 2px 8px rgba(122,26,46,0.1); }
+.panel-guest-name { font-size: 13px; font-weight: 500; color: var(--ink); flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.panel-guest-note { font-size: 11px; color: var(--ink); opacity: 0.4; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 100px; }
 .panel-add-guest-btn {
   display: flex; align-items: center; justify-content: center; gap: 7px;
-  width: 100%; padding: 10px;
-  border: 1px dashed rgba(122,26,46,0.4); border-radius: var(--radius-sm);
+  width: 100%; padding: 11px;
+  border: 1px dashed rgba(122,26,46,0.35); border-radius: var(--radius-sm);
   background: none; color: var(--rust);
   font-family: 'Raleway', sans-serif; font-size: 12px; font-weight: 600;
-  letter-spacing: 0.03em; cursor: pointer; transition: all 0.15s;
+  cursor: pointer; transition: all 0.15s; min-height: 44px;
 }
 .panel-add-guest-btn:hover { background: var(--rust-pale); border-style: solid; }
 
 /* Unassigned pool */
-.pool-header {
-  display: flex; align-items: center; justify-content: space-between;
-  margin: 24px 0 10px;
-}
-.pool-title { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink); opacity: 0.45; }
-.pool-add-btn {
-  display: flex; align-items: center; gap: 5px;
-  font-size: 12px; font-weight: 600; color: var(--rust);
-  font-family: 'Raleway', sans-serif; background: none; border: none;
-  cursor: pointer; padding: 4px 8px; border-radius: var(--radius-sm);
-  transition: background 0.15s;
-}
-.pool-add-btn:hover { background: var(--rust-pale); }
+.pool-header { display: flex; align-items: center; justify-content: space-between; margin: 28px 0 10px; }
+.pool-title { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink); opacity: 0.4; }
 .pool-rows { display: flex; flex-direction: column; gap: 6px; }
 .pool-guest-row {
   display: flex; align-items: center; gap: 10px;
-  padding: 9px 12px; border-radius: var(--radius-sm);
-  background: #fff; border: 1px dashed var(--hairline);
+  padding: 10px 12px; border-radius: var(--radius-sm);
+  background: #fff; border: 1px dashed rgba(122,26,46,0.25);
   cursor: pointer; transition: all 0.15s;
 }
-.pool-guest-row:hover { border-color: var(--rust); border-style: solid; }
+.pool-guest-row:hover { border-color: var(--rust); border-style: solid; box-shadow: 0 2px 8px rgba(122,26,46,0.1); }
+.pool-guest-name { flex: 1; font-size: 13px; font-weight: 500; color: var(--ink); }
+
+/* ── List view ───────────────────────────────────────── */
+.guest-list-wrap { display: flex; flex-direction: column; gap: 16px; }
+.guest-tbl-card {
+  background: #fff; border: 1px solid var(--hairline);
+  border-radius: var(--radius-md); overflow: hidden;
+  box-shadow: var(--shadow-xs);
+}
+.guest-tbl-card-hdr {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 16px;
+  background: var(--panel); border-bottom: 1px solid var(--hairline);
+  cursor: default;
+}
+.guest-tbl-card-hdr.is-sponsor { background: rgba(212,168,67,0.08); }
+.guest-tbl-hdr-icon {
+  width: 36px; height: 36px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Gilda Display', serif; font-size: 14px;
+  background: #fff; border: 2px solid var(--hairline);
+  color: var(--ink); flex-shrink: 0;
+}
+.guest-tbl-hdr-icon.is-sponsor { border-color: rgba(212,168,67,0.5); color: #8a6a00; }
+.guest-tbl-hdr-info { flex: 1; min-width: 0; }
+.guest-tbl-hdr-name { font-family: 'Gilda Display', serif; font-size: 16px; color: var(--ink); line-height: 1.2; }
+.guest-tbl-hdr-meta { font-size: 11px; color: var(--ink); opacity: 0.4; margin-top: 1px; }
+.guest-tbl-cap-pill {
+  font-size: 11px; font-weight: 700; padding: 4px 10px;
+  border-radius: 20px; white-space: nowrap; flex-shrink: 0;
+}
+.cap-full  { background: rgba(42,122,69,0.1); color: #2a7a45; }
+.cap-part  { background: rgba(122,26,46,0.09); color: var(--rust); }
+.cap-empty { background: var(--panel); color: var(--ink); opacity: 0.45; }
+
+/* Guest row in list */
+.guest-row {
+  display: flex; align-items: center; gap: 12px;
+  padding: 11px 16px; border-bottom: 1px solid rgba(221,209,184,0.35);
+  cursor: pointer; transition: background 0.12s;
+  min-height: 52px;
+}
+.guest-row:last-of-type { border-bottom: none; }
+.guest-row:hover { background: var(--rust-pale); }
+.guest-row-info { flex: 1; min-width: 0; }
+.guest-row-name { font-size: 14px; font-weight: 500; color: var(--ink); line-height: 1.3; }
+.guest-row-note { font-size: 11px; color: var(--ink); opacity: 0.45; margin-top: 1px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.guest-tbl-empty-row {
+  padding: 16px; font-size: 13px; color: var(--ink);
+  opacity: 0.3; font-style: italic; text-align: center;
+}
+.guest-tbl-add-btn {
+  display: flex; align-items: center; gap: 7px;
+  padding: 11px 16px; font-family: 'Raleway', sans-serif;
+  font-size: 12px; font-weight: 600; color: var(--rust);
+  cursor: pointer; border: none; background: none; width: 100%;
+  text-align: left; transition: background 0.12s; min-height: 44px;
+  border-top: 1px dashed rgba(122,26,46,0.2);
+}
+.guest-tbl-add-btn:hover { background: var(--rust-pale); }
+
+/* Unassigned card in list */
+.guest-unassigned-card {
+  background: #fff; border: 1px dashed rgba(122,26,46,0.3);
+  border-radius: var(--radius-md); overflow: hidden;
+}
+.guest-unassigned-hdr {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 16px; background: rgba(122,26,46,0.04);
+  border-bottom: 1px solid rgba(122,26,46,0.12);
+}
+.guest-unassigned-title { font-size: 12px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--rust); opacity: 0.7; }
+
+/* Empty state for whole guest view */
+.guest-empty-state {
+  text-align: center; padding: 60px 20px 40px;
+  display: flex; flex-direction: column; align-items: center; gap: 12px;
+}
+.guest-empty-icon { font-size: 48px; opacity: 0.35; line-height: 1; }
+.guest-empty-title { font-family: 'Gilda Display', serif; font-size: 22px; color: var(--ink); font-style: italic; }
+.guest-empty-sub { font-size: 14px; color: var(--ink); opacity: 0.45; max-width: 280px; line-height: 1.55; }
+
+/* RSVP chip buttons in modal */
+.rsvp-chips { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 2px; }
+.rsvp-chip {
+  padding: 7px 15px; border-radius: 20px;
+  border: 1.5px solid var(--hairline); background: #fff;
+  font-family: 'Raleway', sans-serif; font-size: 12px; font-weight: 600;
+  color: var(--ink); opacity: 0.55; cursor: pointer;
+  transition: all 0.15s; min-height: 36px; line-height: 1;
+}
+.rsvp-chip:hover:not(.active) { opacity: 0.9; border-color: rgba(122,26,46,0.4); }
+.rsvp-chip.active { opacity: 1; }
+.rsvp-chip.active[data-val=""]          { border-color: var(--hairline); background: var(--panel); color: var(--ink); }
+.rsvp-chip.active[data-val="confirmed"] { border-color: #2a7a45; background: rgba(42,122,69,0.12); color: #2a7a45; }
+.rsvp-chip.active[data-val="tentative"] { border-color: var(--rust); background: rgba(122,26,46,0.09); color: var(--rust); }
+.rsvp-chip.active[data-val="declined"]  { border-color: #7a7060; background: rgba(168,158,144,0.12); color: #7a7060; }
 
 /* Guest modal */
 #guest-modal-overlay {
@@ -2260,7 +2336,7 @@ body.dark .filter-select { background: #2a1f18; color: var(--ink); }
   background: var(--cream);
   backdrop-filter: blur(24px) saturate(160%);
   -webkit-backdrop-filter: blur(24px) saturate(160%);
-  width: 100%; max-width: 500px;
+  width: 100%; max-width: 520px;
   border-radius: var(--radius-lg) var(--radius-lg) 0 0;
   border-top: 1px solid rgba(255,255,255,0.6);
   padding: 0 0 env(safe-area-inset-bottom,16px);
@@ -2268,43 +2344,42 @@ body.dark .filter-select { background: #2a1f18; color: var(--ink); }
   box-shadow: var(--shadow-lg);
 }
 
+/* ── Responsive ──────────────────────────────────────── */
 @media (min-width: 768px) {
-  #guest-view { padding: 28px 24px 80px; }
+  #guest-view { padding: 28px 32px 80px; }
   #guest-modal-overlay { align-items: center; }
   #guest-modal-sheet { border-radius: var(--radius-lg); max-height: 85vh; animation: slide-up 0.2s ease; }
 }
 @media (max-width: 767px) {
-  #guest-view { padding: 14px 12px 32px; }
+  #guest-view { padding: 14px 14px 40px; }
   .seating-layout { flex-direction: column; }
-  /* 3-column grid — safe down to 320px screens */
   .seating-floor { grid-template-columns: repeat(3, 1fr); gap: 12px; }
   .table-top { width: 84px; height: 84px; }
   .table-lbl { font-size: 15px; }
-  .table-cnt { font-size: 11px; }
+  .table-cnt { font-size: 10px; }
   .table-sponsor .table-top { width: 84px; height: 52px; border-radius: 26px; }
-  .table-nm { font-size: 11px; }
-  /* Panel becomes inline section below map */
+  .table-nm { font-size: 10px; }
   #guest-table-panel {
     width: 100%; position: static; height: auto;
-    border-left: none; border-top: 1px solid var(--hairline);
-    padding: 16px 14px; margin-top: 16px;
-    border-radius: var(--radius-md);
-    background: var(--cream);
+    border-left: none; padding: 16px 14px; margin-top: 14px;
+    border-top: 1px solid var(--hairline); border-radius: var(--radius-md);
   }
-  /* Stats strip: tighter on mobile */
-  .guest-stat { padding: 12px 6px; min-width: 52px; }
-  .guest-stat-val { font-size: 20px; }
-  .guest-stat-label { font-size: 8px; letter-spacing: 0.07em; }
-  /* Pool add button — proper touch target */
-  .pool-add-btn { min-height: 44px; padding: 10px 12px; }
-  /* Panel add button */
-  .panel-add-guest-btn { min-height: 48px; }
-  /* Guest modal inputs — 16px prevents iOS zoom */
+  .guest-topbar { flex-direction: column; align-items: stretch; gap: 10px; }
+  .guest-topbar-actions { justify-content: space-between; }
+  .guest-stat { padding: 10px 4px; }
+  .guest-stat-val { font-size: 19px; }
+  .guest-stat-label { font-size: 8px; }
+  .guest-add-top-btn { font-size: 12px; padding: 8px 14px; }
+  .guest-mode-btn { padding: 6px 11px; font-size: 11px; }
   #guest-name-input, #guest-note-input { font-size: 16px !important; }
+  .guest-row { min-height: 56px; padding: 11px 14px; }
+  .g-avatar { width: 32px; height: 32px; font-size: 11px; }
+  .map-legend { gap: 10px; }
 }
 body.dark .table-top { background: #2a1f18; }
-body.dark .panel-guest-row, body.dark .pool-guest-row { background: #2a1f18; }
+body.dark .panel-guest-row, body.dark .pool-guest-row, body.dark .guest-row, body.dark .guest-tbl-card { background: #2a1f18; }
 body.dark .guest-stats-strip { background: #2a1f18; }
+body.dark .guest-tbl-hdr-icon { background: #2a1f18; }
 
 /* Print */
 @media print {
@@ -3277,22 +3352,21 @@ body.dark .guest-stats-strip { background: #2a1f18; }
           <label class="form-label" for="guest-name-input">Name *</label>
           <input type="text" id="guest-name-input" class="form-input" placeholder="Full name" autocomplete="off">
         </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label" for="guest-rsvp-input">RSVP Status</label>
-            <select id="guest-rsvp-input" class="form-select">
-              <option value="">— pending —</option>
-              <option value="confirmed">Confirmed</option>
-              <option value="tentative">Tentative</option>
-              <option value="declined">Declined</option>
-            </select>
+        <div class="form-group">
+          <label class="form-label">RSVP</label>
+          <div class="rsvp-chips" id="guest-rsvp-chips">
+            <button type="button" class="rsvp-chip active" data-val="">Pending</button>
+            <button type="button" class="rsvp-chip" data-val="confirmed">Confirmed</button>
+            <button type="button" class="rsvp-chip" data-val="tentative">Tentative</button>
+            <button type="button" class="rsvp-chip" data-val="declined">Declined</button>
           </div>
-          <div class="form-group">
-            <label class="form-label" for="guest-table-input">Table</label>
-            <select id="guest-table-input" class="form-select">
-              <option value="">— unassigned —</option>
-            </select>
-          </div>
+          <input type="hidden" id="guest-rsvp-input">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="guest-table-input">Table Assignment</label>
+          <select id="guest-table-input" class="form-select">
+            <option value="">— unassigned —</option>
+          </select>
         </div>
         <div class="form-group">
           <label class="form-label" for="guest-note-input">Note <span style="opacity:0.45;font-weight:400">(dietary, relationship…)</span></label>
@@ -5989,6 +6063,14 @@ function wireEvents() {
   document.getElementById('guest-name-input').addEventListener('keydown', e => {
     if (e.key === 'Enter') saveGuestModal();
   });
+  // RSVP chip tap
+  document.getElementById('guest-rsvp-chips').addEventListener('click', e => {
+    const chip = e.target.closest('.rsvp-chip');
+    if (!chip) return;
+    document.querySelectorAll('#guest-rsvp-chips .rsvp-chip').forEach(c => c.classList.remove('active'));
+    chip.classList.add('active');
+    document.getElementById('guest-rsvp-input').value = chip.dataset.val;
+  });
 
   // Settings
   document.getElementById('save-btn').addEventListener('click', () => saveToGitHub(true));
@@ -6465,6 +6547,25 @@ let _editingGuestId   = null;
 let _guestDefaultTable = null;
 let _guestMode        = 'map'; // 'map' | 'list'
 
+/* ── Guest helper ─────────────────────────────────────── */
+function guestInitials(name) {
+  const parts = name.trim().split(/\s+/);
+  if (parts.length >= 2) return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+  return name.slice(0, 2).toUpperCase();
+}
+
+function guestAvatarHTML(name, rsvp) {
+  const cls = rsvp ? `av-${rsvp}` : '';
+  return `<div class="g-avatar ${cls}">${guestInitials(name)}</div>`;
+}
+
+function rsvpBadgeHTML(rsvp) {
+  const label = rsvp || 'pending';
+  const cls   = rsvp ? `rsvp-${rsvp}` : 'rsvp-pending';
+  return `<span class="rsvp-badge ${cls}">${label}</span>`;
+}
+
+/* ── Main guest view ─────────────────────────────────── */
 function renderGuestsView() {
   const main = document.getElementById('main-content');
   main.innerHTML = '';
@@ -6479,42 +6580,53 @@ function renderGuestsView() {
   const view = document.createElement('div');
   view.id = 'guest-view';
 
-  // Stats strip
-  const statsDiv = document.createElement('div');
-  statsDiv.innerHTML = `
+  // Topbar: stats + toggle + add button
+  const topbar = document.createElement('div');
+  topbar.className = 'guest-topbar';
+  topbar.innerHTML = `
     <div class="guest-stats-strip">
-      <div class="guest-stat confirmed"><div class="guest-stat-val">${confirmed}</div><div class="guest-stat-label">Confirmed</div></div>
-      <div class="guest-stat tentative"><div class="guest-stat-val">${tentative}</div><div class="guest-stat-label">Tentative</div></div>
-      <div class="guest-stat declined"><div class="guest-stat-val">${declined}</div><div class="guest-stat-label">Declined</div></div>
-      <div class="guest-stat"><div class="guest-stat-val">${total}</div><div class="guest-stat-label">Guests</div></div>
-      <div class="guest-stat"><div class="guest-stat-val">${seated}/${totalCap}</div><div class="guest-stat-label">Seated</div></div>
+      <div class="guest-stat"><div class="guest-stat-val">${total}</div><div class="guest-stat-label">Total</div></div>
+      <div class="guest-stat s-confirmed"><div class="guest-stat-val">${confirmed}</div><div class="guest-stat-label">Confirmed</div></div>
+      <div class="guest-stat s-tentative"><div class="guest-stat-val">${tentative}</div><div class="guest-stat-label">Tentative</div></div>
+      <div class="guest-stat s-declined"><div class="guest-stat-val">${declined}</div><div class="guest-stat-label">Declined</div></div>
+      <div class="guest-stat"><div class="guest-stat-val">${seated}<span style="font-size:13px;opacity:0.45">/${totalCap}</span></div><div class="guest-stat-label">Seated</div></div>
+    </div>
+    <div class="guest-topbar-actions">
+      <div class="guest-mode-toggle">
+        <button class="guest-mode-btn${_guestMode === 'map' ? ' active' : ''}" data-mode="map">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+          Map
+        </button>
+        <button class="guest-mode-btn${_guestMode === 'list' ? ' active' : ''}" data-mode="list">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="9" y1="6" x2="20" y2="6"/><line x1="9" y1="12" x2="20" y2="12"/><line x1="9" y1="18" x2="20" y2="18"/><circle cx="4" cy="6" r="1.5" fill="currentColor" stroke="none"/><circle cx="4" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="4" cy="18" r="1.5" fill="currentColor" stroke="none"/></svg>
+          List
+        </button>
+      </div>
+      <button class="guest-add-top-btn" id="guest-add-top-btn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Add Guest
+      </button>
     </div>
   `;
-  view.appendChild(statsDiv);
-
-  // Map / List toggle
-  const toggleDiv = document.createElement('div');
-  toggleDiv.innerHTML = `
-    <div class="guest-mode-toggle">
-      <button class="guest-mode-btn${_guestMode === 'map' ? ' active' : ''}" data-mode="map">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
-        Map
-      </button>
-      <button class="guest-mode-btn${_guestMode === 'list' ? ' active' : ''}" data-mode="list">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><circle cx="3" cy="6" r="1" fill="currentColor"/><circle cx="3" cy="12" r="1" fill="currentColor"/><circle cx="3" cy="18" r="1" fill="currentColor"/></svg>
-        List
-      </button>
-    </div>
-  `;
-  toggleDiv.querySelectorAll('.guest-mode-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      _guestMode = btn.dataset.mode;
-      renderGuestsView();
-    });
+  topbar.querySelectorAll('.guest-mode-btn').forEach(btn => {
+    btn.addEventListener('click', () => { _guestMode = btn.dataset.mode; renderGuestsView(); });
   });
-  view.appendChild(toggleDiv);
+  topbar.querySelector('#guest-add-top-btn').addEventListener('click', () => openGuestModal(null, _selectedTableId));
+  view.appendChild(topbar);
 
   main.appendChild(view);
+
+  if (total === 0) {
+    const empty = document.createElement('div');
+    empty.className = 'guest-empty-state';
+    empty.innerHTML = `
+      <div class="guest-empty-icon">🪑</div>
+      <div class="guest-empty-title">No guests yet</div>
+      <div class="guest-empty-sub">Tap "+ Add Guest" to start building your seating list.</div>
+    `;
+    view.appendChild(empty);
+    return;
+  }
 
   if (_guestMode === 'list') {
     renderGuestListView(view);
@@ -6523,6 +6635,7 @@ function renderGuestsView() {
   }
 }
 
+/* ── Map view ────────────────────────────────────────── */
 function renderGuestMapView(view, seated, totalCap) {
   const layout = document.createElement('div');
   layout.className = 'seating-layout';
@@ -6535,7 +6648,6 @@ function renderGuestMapView(view, seated, totalCap) {
   sLbl.className = 'seating-area-label';
   sLbl.textContent = 'Sponsor Tables';
   mapWrap.appendChild(sLbl);
-
   const sFloor = document.createElement('div');
   sFloor.className = 'seating-floor';
   TABLES.filter(t => t.type === 's').forEach(t => sFloor.appendChild(makeTableCircle(t)));
@@ -6544,64 +6656,67 @@ function renderGuestMapView(view, seated, totalCap) {
   // Guest tables
   const cLbl = document.createElement('div');
   cLbl.className = 'seating-area-label';
-  cLbl.style.marginTop = '22px';
+  cLbl.style.marginTop = '24px';
   cLbl.textContent = 'Guest Tables';
   mapWrap.appendChild(cLbl);
-
   const cFloor = document.createElement('div');
   cFloor.className = 'seating-floor';
   TABLES.filter(t => t.type === 'c').forEach(t => cFloor.appendChild(makeTableCircle(t)));
   mapWrap.appendChild(cFloor);
 
+  // Legend
+  const legend = document.createElement('div');
+  legend.className = 'map-legend';
+  legend.innerHTML = `
+    <span class="legend-item"><span class="legend-dot ld-empty"></span>Empty</span>
+    <span class="legend-item"><span class="legend-dot ld-has"></span>Has guests</span>
+    <span class="legend-item"><span class="legend-dot ld-full"></span>Full</span>
+    <span class="legend-item"><span class="legend-dot ld-sel"></span>Selected</span>
+  `;
+  mapWrap.appendChild(legend);
+
   // Unassigned pool
   const unassigned = state.guests.filter(g => !g.tableId);
-  const pool = document.createElement('div');
-  pool.innerHTML = `
-    <div class="pool-header">
-      <div class="pool-title">Unassigned (${unassigned.length})</div>
-      <button class="pool-add-btn" id="pool-add-btn">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-        Add Guest
-      </button>
-    </div>
-    <div class="pool-rows" id="pool-rows"></div>
-  `;
-  mapWrap.appendChild(pool);
-  layout.appendChild(mapWrap);
+  if (unassigned.length) {
+    const pool = document.createElement('div');
+    pool.innerHTML = `
+      <div class="pool-header">
+        <div class="pool-title">Unassigned · ${unassigned.length}</div>
+      </div>
+      <div class="pool-rows" id="pool-rows"></div>
+    `;
+    mapWrap.appendChild(pool);
+  }
 
-  // Right panel
+  // Right panel placeholder
   const panel = document.createElement('div');
   panel.id = 'guest-table-panel';
   if (_selectedTableId) panel.classList.add('open');
+  layout.appendChild(mapWrap);
   layout.appendChild(panel);
-
   view.appendChild(layout);
 
   // Pool rows
   const poolRows = document.getElementById('pool-rows');
   if (poolRows) {
-    if (!unassigned.length) {
-      poolRows.innerHTML = '<div style="font-size:13px;color:var(--ink);opacity:0.38;font-style:italic;padding:8px 0">All guests are seated</div>';
-    } else {
-      unassigned.forEach(g => {
-        const row = document.createElement('div');
-        row.className = 'pool-guest-row';
-        const rsvpLabel = g.rsvp || 'pending';
-        const rsvpClass = g.rsvp ? `rsvp-${g.rsvp}` : 'rsvp-pending';
-        row.innerHTML = `
-          <div class="panel-guest-name">${g.name}</div>
-          ${g.note ? `<div style="font-size:11px;opacity:0.45;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${g.note}</div>` : ''}
-          <span class="rsvp-badge ${rsvpClass}">${rsvpLabel}</span>
-        `;
-        row.addEventListener('click', () => openGuestModal(g.id));
-        poolRows.appendChild(row);
-      });
-    }
+    unassigned.forEach(g => {
+      const row = document.createElement('div');
+      row.className = 'pool-guest-row';
+      row.innerHTML = `
+        ${guestAvatarHTML(g.name, g.rsvp)}
+        <div class="pool-guest-name">${g.name}</div>
+        ${rsvpBadgeHTML(g.rsvp)}
+      `;
+      row.addEventListener('click', () => openGuestModal(g.id));
+      poolRows.appendChild(row);
+    });
   }
 
-  document.getElementById('pool-add-btn').addEventListener('click', () => openGuestModal(null, null));
-
-  if (_selectedTableId) {
+  // Panel hint when nothing selected
+  if (!_selectedTableId) {
+    panel.innerHTML = '<div class="map-hint">Tap a table to view its guests</div>';
+    panel.classList.add('open');
+  } else {
     renderTablePanel(_selectedTableId);
     if (window.innerWidth < 768) {
       setTimeout(() => {
@@ -6612,114 +6727,111 @@ function renderGuestMapView(view, seated, totalCap) {
   }
 }
 
+/* ── List view ───────────────────────────────────────── */
 function renderGuestListView(view) {
   const wrap = document.createElement('div');
+  wrap.className = 'guest-list-wrap';
 
-  // Render each table as a card section
-  TABLES.forEach(table => {
-    const guests = state.guests.filter(g => g.tableId === table.id);
-    const count  = guests.length;
-    const full   = count >= table.capacity;
-    const empty  = count === 0;
-
-    const badgeClass = full ? 'badge-full' : empty ? 'badge-empty' : 'badge-open';
-    const badgeText  = full ? 'Full' : `${table.capacity - count} open`;
-
-    const section = document.createElement('div');
-    section.className = `guest-list-section${table.type === 's' ? ' sponsor' : ''}`;
-
-    let rows = '';
-    guests.forEach((g, i) => {
-      const rsvpLabel = g.rsvp || 'pending';
-      const rsvpClass = g.rsvp ? `rsvp-${g.rsvp}` : 'rsvp-pending';
-      rows += `
-        <div class="guest-list-row" data-gid="${g.id}">
-          <div class="guest-list-num">${i + 1}</div>
-          <div class="guest-list-name">${g.name}</div>
-          ${g.note ? `<div class="guest-list-note">${g.note}</div>` : ''}
-          <span class="rsvp-badge ${rsvpClass}">${rsvpLabel}</span>
-        </div>
-      `;
-    });
-
-    if (!rows) {
-      rows = `<div class="guest-list-empty">No guests assigned to this table</div>`;
-    }
-
-    section.innerHTML = `
-      <div class="guest-list-section-header">
-        <div>
-          <div class="guest-list-section-title">${table.name}</div>
-          <div class="guest-list-section-meta">${count} of ${table.capacity} seats filled</div>
-        </div>
-        <span class="guest-list-section-badge ${badgeClass}">${badgeText}</span>
+  // Unassigned at top if any
+  const unassigned = state.guests.filter(g => !g.tableId);
+  if (unassigned.length) {
+    const uCard = document.createElement('div');
+    uCard.className = 'guest-unassigned-card';
+    uCard.innerHTML = `
+      <div class="guest-unassigned-hdr">
+        <span class="guest-unassigned-title">Unassigned · ${unassigned.length}</span>
       </div>
-      ${rows}
-      ${count < table.capacity ? `<button class="guest-list-add" data-tid="${table.id}">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-        Add guest to ${table.label}
-      </button>` : ''}
     `;
-    wrap.appendChild(section);
+    unassigned.forEach(g => {
+      const row = makeGuestRow(g);
+      uCard.appendChild(row);
+    });
+    const addBtn = document.createElement('button');
+    addBtn.className = 'guest-tbl-add-btn';
+    addBtn.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Add unassigned guest`;
+    addBtn.addEventListener('click', () => openGuestModal(null, null));
+    uCard.appendChild(addBtn);
+    wrap.appendChild(uCard);
+  }
+
+  // Tables with guests — skip empty ones
+  const tablesWithGuests = TABLES.filter(t => state.guests.some(g => g.tableId === t.id));
+  tablesWithGuests.forEach(table => {
+    const guests  = state.guests.filter(g => g.tableId === table.id);
+    const count   = guests.length;
+    const full    = count >= table.capacity;
+    const capCls  = full ? 'cap-full' : count > 0 ? 'cap-part' : 'cap-empty';
+    const capTxt  = full ? `Full · ${count}/${table.capacity}` : `${count}/${table.capacity} seats`;
+    const isSpons = table.type === 's';
+
+    const card = document.createElement('div');
+    card.className = 'guest-tbl-card';
+    const hdr = document.createElement('div');
+    hdr.className = `guest-tbl-card-hdr${isSpons ? ' is-sponsor' : ''}`;
+    hdr.innerHTML = `
+      <div class="guest-tbl-hdr-icon${isSpons ? ' is-sponsor' : ''}">${table.label}</div>
+      <div class="guest-tbl-hdr-info">
+        <div class="guest-tbl-hdr-name">${table.name}</div>
+        <div class="guest-tbl-hdr-meta">${isSpons ? 'Sponsor table' : 'Guest table'} · capacity ${table.capacity}</div>
+      </div>
+      <span class="guest-tbl-cap-pill ${capCls}">${capTxt}</span>
+    `;
+    card.appendChild(hdr);
+
+    guests.forEach(g => card.appendChild(makeGuestRow(g)));
+
+    if (!full) {
+      const addBtn = document.createElement('button');
+      addBtn.className = 'guest-tbl-add-btn';
+      addBtn.dataset.tid = table.id;
+      addBtn.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Add guest to ${table.label}`;
+      addBtn.addEventListener('click', () => openGuestModal(null, table.id));
+      card.appendChild(addBtn);
+    }
+    wrap.appendChild(card);
   });
 
-  // Unassigned section
-  const unassigned = state.guests.filter(g => !g.tableId);
-  if (unassigned.length || !state.guests.length) {
-    const uSection = document.createElement('div');
-    uSection.className = 'guest-list-section';
-    let uRows = unassigned.map((g, i) => {
-      const rsvpLabel = g.rsvp || 'pending';
-      const rsvpClass = g.rsvp ? `rsvp-${g.rsvp}` : 'rsvp-pending';
-      return `
-        <div class="guest-list-row" data-gid="${g.id}">
-          <div class="guest-list-num">${i + 1}</div>
-          <div class="guest-list-name">${g.name}</div>
-          ${g.note ? `<div class="guest-list-note">${g.note}</div>` : ''}
-          <span class="rsvp-badge ${rsvpClass}">${rsvpLabel}</span>
-        </div>
-      `;
-    }).join('');
-    if (!uRows) uRows = `<div class="guest-list-empty">No unassigned guests</div>`;
-    uSection.innerHTML = `
-      <div class="guest-list-section-header" style="background:rgba(122,26,46,0.05)">
-        <div>
-          <div class="guest-list-section-title" style="font-size:14px;font-family:'Raleway',sans-serif;font-weight:700;letter-spacing:0.04em">Unassigned</div>
-          <div class="guest-list-section-meta">${unassigned.length} guest${unassigned.length !== 1 ? 's' : ''} without a table</div>
-        </div>
-      </div>
-      ${uRows}
-      <button class="guest-list-add" data-tid="">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-        Add guest
-      </button>
-    `;
-    wrap.appendChild(uSection);
+  // If no tables have guests yet (but guests exist, they're all unassigned)
+  if (tablesWithGuests.length === 0 && unassigned.length === 0) {
+    const emptyNote = document.createElement('div');
+    emptyNote.style.cssText = 'text-align:center;padding:24px;font-size:14px;opacity:0.4;font-style:italic;';
+    emptyNote.textContent = 'No guests assigned to tables yet.';
+    wrap.appendChild(emptyNote);
   }
 
   view.appendChild(wrap);
-
-  // Wire row clicks (edit) and add buttons
-  wrap.querySelectorAll('.guest-list-row').forEach(row => {
-    row.addEventListener('click', () => openGuestModal(row.dataset.gid));
-  });
-  wrap.querySelectorAll('.guest-list-add').forEach(btn => {
-    btn.addEventListener('click', () => openGuestModal(null, btn.dataset.tid || null));
-  });
 }
 
+function makeGuestRow(g) {
+  const row = document.createElement('div');
+  row.className = 'guest-row';
+  row.dataset.gid = g.id;
+  row.innerHTML = `
+    ${guestAvatarHTML(g.name, g.rsvp)}
+    <div class="guest-row-info">
+      <div class="guest-row-name">${g.name}</div>
+      ${g.note ? `<div class="guest-row-note">${g.note}</div>` : ''}
+    </div>
+    ${rsvpBadgeHTML(g.rsvp)}
+  `;
+  row.addEventListener('click', () => openGuestModal(g.id));
+  return row;
+}
+
+/* ── Table circle (map) ──────────────────────────────── */
 function makeTableCircle(table) {
   const guests = state.guests.filter(g => g.tableId === table.id);
   const count  = guests.length;
   const full   = count >= table.capacity;
+  const has    = count > 0;
   const sel    = _selectedTableId === table.id;
 
   const wrap = document.createElement('div');
   wrap.className = `table-circle${table.type === 's' ? ' table-sponsor' : ''}`;
 
-  const cls = ['table-top', full ? 'tbl-full' : '', sel ? 'tbl-selected' : ''].filter(Boolean).join(' ');
+  const cls = ['table-top', full ? 'tbl-full' : has ? 'tbl-has' : '', sel ? 'tbl-selected' : ''].filter(Boolean).join(' ');
   const fullDot = full
-    ? `<div class="table-full-dot"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg></div>`
+    ? `<div class="table-full-dot"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg></div>`
     : '';
 
   wrap.innerHTML = `
@@ -6738,28 +6850,29 @@ function makeTableCircle(table) {
   return wrap;
 }
 
+/* ── Right panel ─────────────────────────────────────── */
 function renderTablePanel(tableId) {
   const panel = document.getElementById('guest-table-panel');
   if (!panel) return;
-  const table   = TABLES.find(t => t.id === tableId);
+  const table     = TABLES.find(t => t.id === tableId);
   if (!table) return;
   const guests    = state.guests.filter(g => g.tableId === tableId);
   const remaining = table.capacity - guests.length;
+  const fillPct   = Math.round((guests.length / table.capacity) * 100);
 
   let rows = '';
   if (!guests.length) {
-    rows = '<div style="font-size:13px;color:var(--ink);opacity:0.38;font-style:italic;padding:8px 0">No guests assigned yet</div>';
+    rows = '<div style="font-size:13px;color:var(--ink);opacity:0.38;font-style:italic;padding:10px 0;text-align:center">No guests yet — add the first one</div>';
   } else {
     guests.forEach(g => {
-      const rsvpLabel = g.rsvp || 'pending';
-      const rsvpClass = g.rsvp ? `rsvp-${g.rsvp}` : 'rsvp-pending';
       rows += `
         <div class="panel-guest-row" data-gid="${g.id}">
+          ${guestAvatarHTML(g.name, g.rsvp)}
           <div style="flex:1;min-width:0">
             <div class="panel-guest-name">${g.name}</div>
-            ${g.note ? `<div style="font-size:11px;opacity:0.45;margin-top:1px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${g.note}</div>` : ''}
+            ${g.note ? `<div class="panel-guest-note">${g.note}</div>` : ''}
           </div>
-          <span class="rsvp-badge ${rsvpClass}">${rsvpLabel}</span>
+          ${rsvpBadgeHTML(g.rsvp)}
         </div>
       `;
     });
@@ -6767,21 +6880,22 @@ function renderTablePanel(tableId) {
 
   const addBtn = remaining > 0
     ? `<button class="panel-add-guest-btn" id="panel-add-btn">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
         Add Guest to ${table.label}
        </button>`
-    : `<div style="text-align:center;font-size:11px;font-weight:700;color:#2a7a45;font-family:'Raleway',sans-serif;padding:8px 0">Table is full</div>`;
+    : `<div style="text-align:center;font-size:11px;font-weight:700;color:#2a7a45;letter-spacing:0.05em;font-family:'Raleway',sans-serif;padding:10px 0">TABLE IS FULL</div>`;
 
   panel.innerHTML = `
-    <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px">
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:6px">
       <div>
         <div class="panel-tbl-name">${table.name}</div>
-        <div class="panel-tbl-meta">${guests.length} of ${table.capacity} seats · ${remaining > 0 ? remaining + ' remaining' : 'Full'}</div>
+        <div class="panel-tbl-meta">${guests.length} of ${table.capacity} seats · ${remaining > 0 ? remaining + ' open' : 'Full'}</div>
       </div>
-      <button class="icon-btn" id="panel-close-btn" aria-label="Close">
+      <button class="icon-btn" id="panel-close-btn" aria-label="Close" style="flex-shrink:0">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
     </div>
+    <div class="panel-cap-bar"><div class="panel-cap-fill${remaining === 0 ? ' pf-full' : ''}" style="width:${fillPct}%"></div></div>
     <div class="panel-guest-list">${rows}</div>
     ${addBtn}
   `;
@@ -6797,6 +6911,7 @@ function renderTablePanel(tableId) {
   });
 }
 
+/* ── Guest modal ─────────────────────────────────────── */
 function openGuestModal(guestId, defaultTableId) {
   _editingGuestId    = guestId || null;
   _guestDefaultTable = defaultTableId || null;
@@ -6805,13 +6920,23 @@ function openGuestModal(guestId, defaultTableId) {
   document.getElementById('guest-modal-title').textContent = guest ? 'Edit Guest' : 'Add Guest';
   document.getElementById('guest-edit-id').value    = guest ? guest.id : '';
   document.getElementById('guest-name-input').value = guest ? guest.name : '';
-  document.getElementById('guest-rsvp-input').value = guest ? (guest.rsvp || '') : '';
   document.getElementById('guest-note-input').value = guest ? (guest.note || '') : '';
   document.getElementById('guest-name-input').classList.remove('error');
 
-  // Build table select
+  // RSVP chips
+  const rsvpVal = guest ? (guest.rsvp || '') : '';
+  document.getElementById('guest-rsvp-input').value = rsvpVal;
+  document.querySelectorAll('#guest-rsvp-chips .rsvp-chip').forEach(chip => {
+    chip.classList.toggle('active', chip.dataset.val === rsvpVal);
+  });
+
+  // Table select — grouped by type
   const sel = document.getElementById('guest-table-input');
   sel.innerHTML = '<option value="">— unassigned —</option>';
+  const sGroup = document.createElement('optgroup');
+  sGroup.label = 'Sponsor Tables';
+  const cGroup = document.createElement('optgroup');
+  cGroup.label = 'Guest Tables';
   TABLES.forEach(t => {
     const seatedCount = state.guests.filter(g => g.tableId === t.id && g.id !== (guest && guest.id)).length;
     const isFull = seatedCount >= t.capacity;
@@ -6820,8 +6945,10 @@ function openGuestModal(guestId, defaultTableId) {
     opt.textContent = `${t.name} (${seatedCount}/${t.capacity})${isFull ? ' — Full' : ''}`;
     if (isFull) opt.disabled = true;
     opt.selected = guest ? guest.tableId === t.id : defaultTableId === t.id;
-    sel.appendChild(opt);
+    (t.type === 's' ? sGroup : cGroup).appendChild(opt);
   });
+  sel.appendChild(sGroup);
+  sel.appendChild(cGroup);
 
   document.getElementById('guest-delete-btn').style.display = guest ? '' : 'none';
   document.getElementById('guest-modal-overlay').classList.add('open');
