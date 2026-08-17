@@ -2194,15 +2194,33 @@ body.dark .filter-select { background: #2a1f18; color: var(--ink); }
   #guest-modal-sheet { border-radius: var(--radius-lg); max-height: 85vh; animation: slide-up 0.2s ease; }
 }
 @media (max-width: 767px) {
-  #guest-view { padding: 14px 12px 100px; }
+  #guest-view { padding: 14px 12px 32px; }
   .seating-layout { flex-direction: column; }
-  .seating-floor { grid-template-columns: repeat(4, 1fr); gap: 10px; }
-  .table-top { width: 72px; height: 72px; }
-  .table-lbl { font-size: 14px; }
-  .table-cnt { font-size: 10px; }
-  .table-sponsor .table-top { width: 72px; height: 46px; border-radius: 23px; }
-  .table-nm { font-size: 10px; }
-  #guest-table-panel { width: 100%; position: static; height: auto; border-left: none; border-top: 1px solid var(--hairline); padding: 16px 14px; margin-top: 16px; }
+  /* 3-column grid — safe down to 320px screens */
+  .seating-floor { grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .table-top { width: 84px; height: 84px; }
+  .table-lbl { font-size: 15px; }
+  .table-cnt { font-size: 11px; }
+  .table-sponsor .table-top { width: 84px; height: 52px; border-radius: 26px; }
+  .table-nm { font-size: 11px; }
+  /* Panel becomes inline section below map */
+  #guest-table-panel {
+    width: 100%; position: static; height: auto;
+    border-left: none; border-top: 1px solid var(--hairline);
+    padding: 16px 14px; margin-top: 16px;
+    border-radius: var(--radius-md);
+    background: var(--cream);
+  }
+  /* Stats strip: tighter on mobile */
+  .guest-stat { padding: 12px 6px; min-width: 52px; }
+  .guest-stat-val { font-size: 20px; }
+  .guest-stat-label { font-size: 8px; letter-spacing: 0.07em; }
+  /* Pool add button — proper touch target */
+  .pool-add-btn { min-height: 44px; padding: 10px 12px; }
+  /* Panel add button */
+  .panel-add-guest-btn { min-height: 48px; }
+  /* Guest modal inputs — 16px prevents iOS zoom */
+  #guest-name-input, #guest-note-input { font-size: 16px !important; }
 }
 body.dark .table-top { background: #2a1f18; }
 body.dark .panel-guest-row, body.dark .pool-guest-row { background: #2a1f18; }
@@ -3684,6 +3702,12 @@ function renderViewTabs() {
   // Category chips (mobile): only show in 'all' view
   const catNav = document.getElementById('cat-nav');
   catNav.style.display = activeView === 'all' ? '' : 'none';
+
+  // Guests view: hide budget strip and FAB (wrong context)
+  const budgetStrip = document.getElementById('budget-strip');
+  if (budgetStrip) budgetStrip.style.display = activeView === 'guests' ? 'none' : '';
+  const fab = document.getElementById('fab-add');
+  if (fab) fab.style.display = activeView === 'guests' ? 'none' : '';
 }
 
 /* ── Render: Board View ────────────────────────────── */
@@ -6463,7 +6487,16 @@ function renderGuestsView() {
 
   document.getElementById('pool-add-btn').addEventListener('click', () => openGuestModal(null, null));
 
-  if (_selectedTableId) renderTablePanel(_selectedTableId);
+  if (_selectedTableId) {
+    renderTablePanel(_selectedTableId);
+    // On mobile, scroll the panel into view after render
+    if (window.innerWidth < 768) {
+      setTimeout(() => {
+        const p = document.getElementById('guest-table-panel');
+        if (p) p.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 50);
+    }
+  }
 }
 
 function makeTableCircle(table) {
