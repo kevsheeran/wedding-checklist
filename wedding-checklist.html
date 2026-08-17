@@ -2030,6 +2030,184 @@ body.dark .filter-select { background: #2a1f18; color: var(--ink); }
   background: var(--rust); border: 1.5px solid var(--cream);
 }
 
+/* ── Guest Seating Chart ─────────────────────────────── */
+#body-wrap.view-guests #sidebar { display: none !important; }
+#body-wrap.view-guests #main-content { padding: 0; }
+
+#guest-view { padding: 20px; min-height: 100%; }
+.seating-layout { display: flex; gap: 0; }
+.seating-map-wrap { flex: 1; min-width: 0; }
+
+.guest-stats-strip {
+  display: flex; gap: 0; flex-wrap: wrap;
+  margin-bottom: 24px;
+  background: #fff; border: 1px solid var(--hairline);
+  border-radius: var(--radius-md); box-shadow: var(--shadow-xs);
+  overflow: hidden;
+}
+.guest-stat {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 3px; flex: 1; min-width: 60px; padding: 14px 8px;
+  border-right: 1px solid var(--hairline);
+}
+.guest-stat:last-child { border-right: none; }
+.guest-stat-val {
+  font-size: 26px; font-weight: 700; font-family: 'Gilda Display', serif;
+  color: var(--ink); line-height: 1;
+}
+.guest-stat-label {
+  font-size: 9px; font-weight: 600; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--ink); opacity: 0.45;
+}
+.guest-stat.confirmed .guest-stat-val { color: #2a7a45; }
+.guest-stat.tentative .guest-stat-val { color: var(--rust); }
+.guest-stat.declined  .guest-stat-val { color: #a89e90; }
+
+.seating-area-label {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.13em;
+  text-transform: uppercase; color: var(--rust);
+  margin-bottom: 12px; padding-bottom: 6px;
+  border-bottom: 1px solid var(--hairline);
+}
+.seating-floor {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 14px; margin-bottom: 8px;
+}
+.table-circle {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 7px; cursor: pointer;
+}
+.table-top {
+  width: 90px; height: 90px; border-radius: 50%;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  border: 3px solid var(--hairline); background: #fff;
+  box-shadow: var(--shadow-xs);
+  transition: all 0.18s; position: relative;
+}
+.table-top:hover { border-color: var(--rust); box-shadow: 0 4px 16px rgba(122,26,46,0.15); transform: translateY(-2px); }
+.table-top.tbl-selected { border-color: var(--rust); background: rgba(122,26,46,0.06); box-shadow: 0 4px 20px rgba(122,26,46,0.22); }
+.table-top.tbl-full { border-color: #2a7a45; background: rgba(42,122,69,0.06); }
+.table-top.tbl-full:hover { box-shadow: 0 4px 16px rgba(42,122,69,0.15); }
+.table-top.tbl-full.tbl-selected { border-color: var(--rust); background: rgba(122,26,46,0.06); }
+.table-lbl { font-family: 'Gilda Display', serif; font-size: 17px; font-weight: 400; color: var(--ink); }
+.table-cnt { font-size: 11px; font-weight: 600; color: var(--ink); opacity: 0.45; margin-top: 1px; }
+.table-nm  { font-size: 11px; font-weight: 500; color: var(--ink); opacity: 0.6; text-align: center; line-height: 1.3; }
+.table-full-dot {
+  position: absolute; top: -3px; right: -3px;
+  width: 17px; height: 17px; border-radius: 50%;
+  background: #2a7a45; border: 2px solid var(--cream);
+  display: flex; align-items: center; justify-content: center;
+}
+/* Sponsor pill shape */
+.table-sponsor .table-top { width: 90px; height: 56px; border-radius: 28px; background: rgba(212,168,67,0.07); border-color: rgba(212,168,67,0.5); }
+.table-sponsor .table-top:hover { border-color: #c9a020; }
+.table-sponsor .table-top.tbl-selected { border-color: var(--rust); background: rgba(122,26,46,0.06); }
+.table-sponsor .table-lbl { color: #8a6a00; font-size: 15px; }
+
+/* Right panel */
+#guest-table-panel {
+  display: none; background: var(--cream);
+  border-left: 1px solid var(--hairline);
+  width: 280px; flex-shrink: 0;
+  position: sticky; top: calc(var(--header-h) + var(--tabs-h));
+  height: calc(100vh - var(--header-h) - var(--tabs-h));
+  overflow-y: auto; padding: 20px;
+}
+#guest-table-panel.open { display: block; }
+.panel-tbl-name { font-family: 'Gilda Display', serif; font-size: 21px; color: var(--ink); margin-bottom: 3px; }
+.panel-tbl-meta { font-size: 12px; color: var(--ink); opacity: 0.45; margin-bottom: 16px; }
+.panel-guest-list { display: flex; flex-direction: column; gap: 7px; margin-bottom: 14px; }
+.panel-guest-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 12px; border-radius: var(--radius-sm);
+  background: #fff; border: 1px solid var(--hairline);
+  cursor: pointer; transition: border-color 0.15s;
+}
+.panel-guest-row:hover { border-color: var(--rust); }
+.panel-guest-name { flex: 1; font-size: 13px; font-weight: 500; color: var(--ink); }
+.rsvp-badge {
+  font-size: 9px; font-weight: 700; letter-spacing: 0.08em;
+  text-transform: uppercase; padding: 2px 7px;
+  border-radius: 10px; white-space: nowrap; flex-shrink: 0;
+}
+.rsvp-confirmed { background: rgba(42,122,69,0.1); color: #2a7a45; }
+.rsvp-tentative { background: rgba(122,26,46,0.1); color: var(--rust); }
+.rsvp-declined  { background: var(--panel); color: var(--ink); opacity: 0.6; }
+.rsvp-pending   { background: var(--panel); color: var(--ink); opacity: 0.4; }
+.panel-add-guest-btn {
+  display: flex; align-items: center; justify-content: center; gap: 7px;
+  width: 100%; padding: 10px;
+  border: 1px dashed rgba(122,26,46,0.4); border-radius: var(--radius-sm);
+  background: none; color: var(--rust);
+  font-family: 'Raleway', sans-serif; font-size: 12px; font-weight: 600;
+  letter-spacing: 0.03em; cursor: pointer; transition: all 0.15s;
+}
+.panel-add-guest-btn:hover { background: var(--rust-pale); border-style: solid; }
+
+/* Unassigned pool */
+.pool-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin: 24px 0 10px;
+}
+.pool-title { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink); opacity: 0.45; }
+.pool-add-btn {
+  display: flex; align-items: center; gap: 5px;
+  font-size: 12px; font-weight: 600; color: var(--rust);
+  font-family: 'Raleway', sans-serif; background: none; border: none;
+  cursor: pointer; padding: 4px 8px; border-radius: var(--radius-sm);
+  transition: background 0.15s;
+}
+.pool-add-btn:hover { background: var(--rust-pale); }
+.pool-rows { display: flex; flex-direction: column; gap: 6px; }
+.pool-guest-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 12px; border-radius: var(--radius-sm);
+  background: #fff; border: 1px dashed var(--hairline);
+  cursor: pointer; transition: all 0.15s;
+}
+.pool-guest-row:hover { border-color: var(--rust); border-style: solid; }
+
+/* Guest modal */
+#guest-modal-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(34,29,23,0.45); z-index: 210;
+  align-items: flex-end; justify-content: center;
+}
+#guest-modal-overlay.open { display: flex; }
+#guest-modal-sheet {
+  background: var(--cream);
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  width: 100%; max-width: 500px;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  border-top: 1px solid rgba(255,255,255,0.6);
+  padding: 0 0 env(safe-area-inset-bottom,16px);
+  max-height: 92vh; overflow-y: auto;
+  box-shadow: var(--shadow-lg);
+}
+
+@media (min-width: 768px) {
+  #guest-view { padding: 28px 24px 80px; }
+  #guest-modal-overlay { align-items: center; }
+  #guest-modal-sheet { border-radius: var(--radius-lg); max-height: 85vh; animation: slide-up 0.2s ease; }
+}
+@media (max-width: 767px) {
+  #guest-view { padding: 14px 12px 100px; }
+  .seating-layout { flex-direction: column; }
+  .seating-floor { grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  .table-top { width: 72px; height: 72px; }
+  .table-lbl { font-size: 14px; }
+  .table-cnt { font-size: 10px; }
+  .table-sponsor .table-top { width: 72px; height: 46px; border-radius: 23px; }
+  .table-nm { font-size: 10px; }
+  #guest-table-panel { width: 100%; position: static; height: auto; border-left: none; border-top: 1px solid var(--hairline); padding: 16px 14px; margin-top: 16px; }
+}
+body.dark .table-top { background: #2a1f18; }
+body.dark .panel-guest-row, body.dark .pool-guest-row { background: #2a1f18; }
+body.dark .guest-stats-strip { background: #2a1f18; }
+
 /* Print */
 @media print {
   #header, #cat-nav, #view-tabs, #sidebar, #budget-strip, #filter-bar,
@@ -2125,6 +2303,7 @@ body.dark .filter-select { background: #2a1f18; color: var(--ink); }
     <button class="view-tab" data-view="done" role="tab" aria-selected="false">Done <span class="view-tab-count">0</span></button>
     <button class="view-tab" data-view="board" role="tab" aria-selected="false">Board</button>
     <button class="view-tab" data-view="day" role="tab" aria-selected="false">Day</button>
+    <button class="view-tab" data-view="guests" role="tab" aria-selected="false">Guests <span class="view-tab-count" id="guest-tab-count">0</span></button>
   </div>
 
   <!-- Category Nav (mobile) -->
@@ -2983,6 +3162,52 @@ body.dark .filter-select { background: #2a1f18; color: var(--ink); }
       </div>
     </div>
   </div>
+
+  <!-- Guest add/edit modal -->
+  <div id="guest-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="guest-modal-title">
+    <div id="guest-modal-sheet">
+      <div class="sheet-handle"></div>
+      <div class="sheet-header">
+        <h2 class="sheet-title" id="guest-modal-title">Add Guest</h2>
+        <button class="sheet-close icon-btn" id="guest-modal-close" aria-label="Close">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="sheet-body">
+        <input type="hidden" id="guest-edit-id">
+        <div class="form-group">
+          <label class="form-label" for="guest-name-input">Name *</label>
+          <input type="text" id="guest-name-input" class="form-input" placeholder="Full name" autocomplete="off">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="guest-rsvp-input">RSVP Status</label>
+            <select id="guest-rsvp-input" class="form-select">
+              <option value="">— pending —</option>
+              <option value="confirmed">Confirmed</option>
+              <option value="tentative">Tentative</option>
+              <option value="declined">Declined</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="guest-table-input">Table</label>
+            <select id="guest-table-input" class="form-select">
+              <option value="">— unassigned —</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="guest-note-input">Note <span style="opacity:0.45;font-weight:400">(dietary, relationship…)</span></label>
+          <input type="text" id="guest-note-input" class="form-input" placeholder="e.g. Vegetarian, Father of the groom" autocomplete="off">
+        </div>
+      </div>
+      <div class="sheet-footer">
+        <button class="btn-danger" id="guest-delete-btn" style="display:none">Remove</button>
+        <button class="btn-primary" id="guest-save-btn">Save Guest</button>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <script>
@@ -2996,6 +3221,11 @@ const GH_FILE      = 'data.json';
 const DEFAULT_BUDGET = 24900;
 const CHECKMARK_SVG = `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`;
 const MINUS_SVG = `<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>`;
+const TABLES = [
+  ...Array.from({length:10}, (_,i) => ({id:`C${i+1}`, label:`C${i+1}`, name:`Table ${i+1}`, type:'c', capacity:10})),
+  {id:'S1', label:'S1', name:'Sponsor S1', type:'s', capacity:5},
+  {id:'S2', label:'S2', name:'Sponsor S2', type:'s', capacity:5},
+];
 
 /* ── Seed data ─────────────────────────────────────── */
 function buildSeedData() {
@@ -3171,7 +3401,7 @@ function buildSeedData() {
 }
 
 /* ── State ─────────────────────────────────────────── */
-let state = { categories: [], items: [], weddingDate: '2027-03-15', budget: DEFAULT_BUDGET, fianceeName: '', decisions: [], timeline: [], dismissedMilestones: [] };
+let state = { categories: [], items: [], weddingDate: '2027-03-15', budget: DEFAULT_BUDGET, fianceeName: '', decisions: [], timeline: [], dismissedMilestones: [], guests: [] };
 let activeCategory    = 'all';
 let activeView        = 'all';
 let _prevCatProgress  = {};
@@ -3214,6 +3444,7 @@ function loadState() {
       if (!state.decisions) state.decisions = [];
       if (!state.timeline) state.timeline = [];
       if (!state.dismissedMilestones) state.dismissedMilestones = [];
+      if (!state.guests) state.guests = [];
     }
     catch(e) { state = buildSeedData(); saveState(); }
   }
@@ -3433,6 +3664,7 @@ function renderViewTabs() {
     priority: state.items.filter(i => i.tag === 'required' && i.status !== 'done' && i.status !== 'na').length,
     todo:     state.items.filter(i => i.status === 'todo' || i.status === 'doing').length,
     done:     state.items.filter(i => i.status === 'done').length,
+    guests:   state.guests.filter(g => g.rsvp !== 'declined').length,
   };
   document.querySelectorAll('.view-tab').forEach(btn => {
     const v = btn.dataset.view;
@@ -3442,12 +3674,12 @@ function renderViewTabs() {
     const countEl = btn.querySelector('.view-tab-count');
     if (countEl && counts[v] !== undefined) countEl.textContent = counts[v];
   });
-  // Board: hide sidebar via class, hide filter bar (board has own search)
   const bodyWrap = document.getElementById('body-wrap');
-  bodyWrap.classList.toggle('view-board', activeView === 'board');
+  bodyWrap.classList.toggle('view-board',  activeView === 'board');
+  bodyWrap.classList.toggle('view-guests', activeView === 'guests');
 
   const filterBar = document.getElementById('filter-bar');
-  if (filterBar) filterBar.style.display = activeView === 'board' ? 'none' : '';
+  if (filterBar) filterBar.style.display = (activeView === 'board' || activeView === 'guests') ? 'none' : '';
 
   // Category chips (mobile): only show in 'all' view
   const catNav = document.getElementById('cat-nav');
@@ -3672,8 +3904,9 @@ function renderMilestoneBanner(container) {
 }
 
 function renderMain() {
-  if (activeView === 'board') { renderBoard(); return; }
-  if (activeView === 'day')   { renderTimelineView(); return; }
+  if (activeView === 'board')  { renderBoard(); return; }
+  if (activeView === 'day')    { renderTimelineView(); return; }
+  if (activeView === 'guests') { renderGuestsView(); return; }
 
   const main = document.getElementById('main-content');
   const sorted = [...state.categories].sort((a,b)=>a.order-b.order);
@@ -5623,6 +5856,7 @@ function wireEvents() {
       closeCatModal();
       closeSettings();
       closeDecisionSheet();
+      closeGuestModal();
       document.getElementById('whats-new-overlay').classList.remove('open');
       document.getElementById('email-draft-modal').classList.remove('open');
     }
@@ -5640,6 +5874,17 @@ function wireEvents() {
     loadFromGitHub();
   });
   document.getElementById('sync-prompt-skip-btn').addEventListener('click', () => closeSyncPrompt(true));
+
+  // Guest modal
+  document.getElementById('guest-modal-close').addEventListener('click', closeGuestModal);
+  document.getElementById('guest-modal-overlay').addEventListener('click', e => {
+    if (e.target === document.getElementById('guest-modal-overlay')) closeGuestModal();
+  });
+  document.getElementById('guest-save-btn').addEventListener('click', saveGuestModal);
+  document.getElementById('guest-delete-btn').addEventListener('click', deleteGuest);
+  document.getElementById('guest-name-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') saveGuestModal();
+  });
 
   // Settings
   document.getElementById('save-btn').addEventListener('click', () => saveToGitHub(true));
@@ -6108,6 +6353,279 @@ function toggleDarkMode() {
   localStorage.setItem(DARK_KEY, on?'1':'0');
   const btn = document.getElementById('dark-mode-btn');
   if (btn) btn.textContent = on ? 'On' : 'Off';
+}
+
+/* ── Guest Seating Chart ───────────────────────────── */
+let _selectedTableId = null;
+let _editingGuestId  = null;
+let _guestDefaultTable = null;
+
+function renderGuestsView() {
+  const main = document.getElementById('main-content');
+  main.innerHTML = '';
+
+  const confirmed = state.guests.filter(g => g.rsvp === 'confirmed').length;
+  const tentative = state.guests.filter(g => g.rsvp === 'tentative').length;
+  const declined  = state.guests.filter(g => g.rsvp === 'declined').length;
+  const total     = state.guests.length;
+  const seated    = state.guests.filter(g => g.tableId).length;
+  const totalCap  = TABLES.reduce((s, t) => s + t.capacity, 0);
+
+  const view = document.createElement('div');
+  view.id = 'guest-view';
+
+  // Stats strip
+  view.innerHTML = `
+    <div class="guest-stats-strip">
+      <div class="guest-stat confirmed"><div class="guest-stat-val">${confirmed}</div><div class="guest-stat-label">Confirmed</div></div>
+      <div class="guest-stat tentative"><div class="guest-stat-val">${tentative}</div><div class="guest-stat-label">Tentative</div></div>
+      <div class="guest-stat declined"><div class="guest-stat-val">${declined}</div><div class="guest-stat-label">Declined</div></div>
+      <div class="guest-stat"><div class="guest-stat-val">${total}</div><div class="guest-stat-label">Guests</div></div>
+      <div class="guest-stat"><div class="guest-stat-val">${seated}/${totalCap}</div><div class="guest-stat-label">Seated</div></div>
+    </div>
+  `;
+
+  const layout = document.createElement('div');
+  layout.className = 'seating-layout';
+
+  const mapWrap = document.createElement('div');
+  mapWrap.className = 'seating-map-wrap';
+
+  // Sponsor tables
+  const sLbl = document.createElement('div');
+  sLbl.className = 'seating-area-label';
+  sLbl.textContent = 'Sponsor Tables';
+  mapWrap.appendChild(sLbl);
+
+  const sFloor = document.createElement('div');
+  sFloor.className = 'seating-floor';
+  TABLES.filter(t => t.type === 's').forEach(t => sFloor.appendChild(makeTableCircle(t)));
+  mapWrap.appendChild(sFloor);
+
+  // Guest tables
+  const cLbl = document.createElement('div');
+  cLbl.className = 'seating-area-label';
+  cLbl.style.marginTop = '22px';
+  cLbl.textContent = 'Guest Tables';
+  mapWrap.appendChild(cLbl);
+
+  const cFloor = document.createElement('div');
+  cFloor.className = 'seating-floor';
+  TABLES.filter(t => t.type === 'c').forEach(t => cFloor.appendChild(makeTableCircle(t)));
+  mapWrap.appendChild(cFloor);
+
+  // Unassigned pool
+  const unassigned = state.guests.filter(g => !g.tableId);
+  const pool = document.createElement('div');
+  pool.innerHTML = `
+    <div class="pool-header">
+      <div class="pool-title">Unassigned (${unassigned.length})</div>
+      <button class="pool-add-btn" id="pool-add-btn">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Add Guest
+      </button>
+    </div>
+    <div class="pool-rows" id="pool-rows"></div>
+  `;
+  mapWrap.appendChild(pool);
+  layout.appendChild(mapWrap);
+
+  // Right panel
+  const panel = document.createElement('div');
+  panel.id = 'guest-table-panel';
+  if (_selectedTableId) panel.classList.add('open');
+  layout.appendChild(panel);
+
+  view.appendChild(layout);
+  main.appendChild(view);
+
+  // Pool rows
+  const poolRows = document.getElementById('pool-rows');
+  if (poolRows) {
+    if (!unassigned.length) {
+      poolRows.innerHTML = '<div style="font-size:13px;color:var(--ink);opacity:0.38;font-style:italic;padding:8px 0">All guests are seated</div>';
+    } else {
+      unassigned.forEach(g => {
+        const row = document.createElement('div');
+        row.className = 'pool-guest-row';
+        const rsvpLabel = g.rsvp ? g.rsvp : 'pending';
+        const rsvpClass = g.rsvp ? `rsvp-${g.rsvp}` : 'rsvp-pending';
+        row.innerHTML = `
+          <div class="panel-guest-name">${g.name}</div>
+          ${g.note ? `<div style="font-size:11px;opacity:0.45;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${g.note}</div>` : ''}
+          <span class="rsvp-badge ${rsvpClass}">${rsvpLabel}</span>
+        `;
+        row.addEventListener('click', () => openGuestModal(g.id));
+        poolRows.appendChild(row);
+      });
+    }
+  }
+
+  document.getElementById('pool-add-btn').addEventListener('click', () => openGuestModal(null, null));
+
+  if (_selectedTableId) renderTablePanel(_selectedTableId);
+}
+
+function makeTableCircle(table) {
+  const guests = state.guests.filter(g => g.tableId === table.id);
+  const count  = guests.length;
+  const full   = count >= table.capacity;
+  const sel    = _selectedTableId === table.id;
+
+  const wrap = document.createElement('div');
+  wrap.className = `table-circle${table.type === 's' ? ' table-sponsor' : ''}`;
+
+  const cls = ['table-top', full ? 'tbl-full' : '', sel ? 'tbl-selected' : ''].filter(Boolean).join(' ');
+  const fullDot = full
+    ? `<div class="table-full-dot"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg></div>`
+    : '';
+
+  wrap.innerHTML = `
+    <div class="${cls}">
+      ${fullDot}
+      <div class="table-lbl">${table.label}</div>
+      <div class="table-cnt">${count}/${table.capacity}</div>
+    </div>
+    <div class="table-nm">${table.name}</div>
+  `;
+
+  wrap.addEventListener('click', () => {
+    _selectedTableId = sel ? null : table.id;
+    renderGuestsView();
+  });
+  return wrap;
+}
+
+function renderTablePanel(tableId) {
+  const panel = document.getElementById('guest-table-panel');
+  if (!panel) return;
+  const table   = TABLES.find(t => t.id === tableId);
+  if (!table) return;
+  const guests    = state.guests.filter(g => g.tableId === tableId);
+  const remaining = table.capacity - guests.length;
+
+  let rows = '';
+  if (!guests.length) {
+    rows = '<div style="font-size:13px;color:var(--ink);opacity:0.38;font-style:italic;padding:8px 0">No guests assigned yet</div>';
+  } else {
+    guests.forEach(g => {
+      const rsvpLabel = g.rsvp || 'pending';
+      const rsvpClass = g.rsvp ? `rsvp-${g.rsvp}` : 'rsvp-pending';
+      rows += `
+        <div class="panel-guest-row" data-gid="${g.id}">
+          <div style="flex:1;min-width:0">
+            <div class="panel-guest-name">${g.name}</div>
+            ${g.note ? `<div style="font-size:11px;opacity:0.45;margin-top:1px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${g.note}</div>` : ''}
+          </div>
+          <span class="rsvp-badge ${rsvpClass}">${rsvpLabel}</span>
+        </div>
+      `;
+    });
+  }
+
+  const addBtn = remaining > 0
+    ? `<button class="panel-add-guest-btn" id="panel-add-btn">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Add Guest to ${table.label}
+       </button>`
+    : `<div style="text-align:center;font-size:11px;font-weight:700;color:#2a7a45;font-family:'Raleway',sans-serif;padding:8px 0">Table is full</div>`;
+
+  panel.innerHTML = `
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px">
+      <div>
+        <div class="panel-tbl-name">${table.name}</div>
+        <div class="panel-tbl-meta">${guests.length} of ${table.capacity} seats · ${remaining > 0 ? remaining + ' remaining' : 'Full'}</div>
+      </div>
+      <button class="icon-btn" id="panel-close-btn" aria-label="Close">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="panel-guest-list">${rows}</div>
+    ${addBtn}
+  `;
+
+  document.getElementById('panel-close-btn').addEventListener('click', () => {
+    _selectedTableId = null;
+    renderGuestsView();
+  });
+  const addEl = document.getElementById('panel-add-btn');
+  if (addEl) addEl.addEventListener('click', () => openGuestModal(null, tableId));
+  panel.querySelectorAll('.panel-guest-row').forEach(row => {
+    row.addEventListener('click', () => openGuestModal(row.dataset.gid));
+  });
+}
+
+function openGuestModal(guestId, defaultTableId) {
+  _editingGuestId    = guestId || null;
+  _guestDefaultTable = defaultTableId || null;
+  const guest = guestId ? state.guests.find(g => g.id === guestId) : null;
+
+  document.getElementById('guest-modal-title').textContent = guest ? 'Edit Guest' : 'Add Guest';
+  document.getElementById('guest-edit-id').value    = guest ? guest.id : '';
+  document.getElementById('guest-name-input').value = guest ? guest.name : '';
+  document.getElementById('guest-rsvp-input').value = guest ? (guest.rsvp || '') : '';
+  document.getElementById('guest-note-input').value = guest ? (guest.note || '') : '';
+  document.getElementById('guest-name-input').classList.remove('error');
+
+  // Build table select
+  const sel = document.getElementById('guest-table-input');
+  sel.innerHTML = '<option value="">— unassigned —</option>';
+  TABLES.forEach(t => {
+    const seatedCount = state.guests.filter(g => g.tableId === t.id && g.id !== (guest && guest.id)).length;
+    const isFull = seatedCount >= t.capacity;
+    const opt = document.createElement('option');
+    opt.value = t.id;
+    opt.textContent = `${t.name} (${seatedCount}/${t.capacity})${isFull ? ' — Full' : ''}`;
+    if (isFull) opt.disabled = true;
+    opt.selected = guest ? guest.tableId === t.id : defaultTableId === t.id;
+    sel.appendChild(opt);
+  });
+
+  document.getElementById('guest-delete-btn').style.display = guest ? '' : 'none';
+  document.getElementById('guest-modal-overlay').classList.add('open');
+  setTimeout(() => document.getElementById('guest-name-input').focus(), 80);
+}
+
+function closeGuestModal() {
+  document.getElementById('guest-modal-overlay').classList.remove('open');
+  _editingGuestId    = null;
+  _guestDefaultTable = null;
+}
+
+function saveGuestModal() {
+  const nameEl = document.getElementById('guest-name-input');
+  const name   = nameEl.value.trim();
+  if (!name) { nameEl.classList.add('error'); nameEl.focus(); return; }
+  nameEl.classList.remove('error');
+
+  const tableId = document.getElementById('guest-table-input').value || null;
+  const rsvp    = document.getElementById('guest-rsvp-input').value || '';
+  const note    = document.getElementById('guest-note-input').value.trim();
+
+  if (_editingGuestId) {
+    const g = state.guests.find(g => g.id === _editingGuestId);
+    if (g) { g.name = name; g.tableId = tableId; g.rsvp = rsvp; g.note = note; }
+  } else {
+    state.guests.push({ id: uid(), name, tableId, rsvp, note });
+  }
+
+  saveState();
+  closeGuestModal();
+  renderGuestsView();
+  renderViewTabs();
+  showToast((_editingGuestId ? 'Guest updated' : `${name} added`) + ' ✓');
+}
+
+function deleteGuest() {
+  if (!_editingGuestId) return;
+  const g = state.guests.find(g => g.id === _editingGuestId);
+  const name = g ? g.name : 'Guest';
+  state.guests = state.guests.filter(g => g.id !== _editingGuestId);
+  saveState();
+  closeGuestModal();
+  renderGuestsView();
+  renderViewTabs();
+  showToast(`Removed: ${name}`);
 }
 
 /* ── Boot ──────────────────────────────────────────── */
