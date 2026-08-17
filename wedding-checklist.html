@@ -2038,6 +2038,86 @@ body.dark .filter-select { background: #2a1f18; color: var(--ink); }
 .seating-layout { display: flex; gap: 0; }
 .seating-map-wrap { flex: 1; min-width: 0; }
 
+/* Map / List toggle */
+.guest-mode-toggle {
+  display: flex; gap: 0;
+  background: var(--panel); border: 1px solid var(--hairline);
+  border-radius: var(--radius-sm); overflow: hidden;
+  margin-bottom: 18px; align-self: flex-start;
+}
+.guest-mode-btn {
+  padding: 7px 18px; font-family: 'Raleway', sans-serif;
+  font-size: 12px; font-weight: 600; letter-spacing: 0.04em;
+  color: var(--ink); opacity: 0.55; cursor: pointer;
+  transition: all 0.15s; border: none; background: none;
+  display: flex; align-items: center; gap: 6px;
+}
+.guest-mode-btn.active {
+  background: #fff; color: var(--rust); opacity: 1;
+  box-shadow: 0 1px 4px rgba(34,29,23,0.1);
+  border-radius: calc(var(--radius-sm) - 1px);
+}
+
+/* List view */
+.guest-list-section {
+  margin-bottom: 20px;
+  background: #fff; border: 1px solid var(--hairline);
+  border-radius: var(--radius-md); overflow: hidden;
+  box-shadow: var(--shadow-xs);
+}
+.guest-list-section-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 16px;
+  background: var(--panel); border-bottom: 1px solid var(--hairline);
+}
+.guest-list-section-title {
+  font-family: 'Gilda Display', serif; font-size: 16px;
+  font-weight: 400; color: var(--ink);
+}
+.guest-list-section-meta {
+  font-size: 11px; font-weight: 500; color: var(--ink); opacity: 0.45;
+}
+.guest-list-section-badge {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.06em;
+  padding: 2px 8px; border-radius: 10px; white-space: nowrap;
+}
+.badge-full  { background: rgba(42,122,69,0.1); color: #2a7a45; }
+.badge-open  { background: var(--panel); color: var(--ink); opacity: 0.6; }
+.badge-empty { background: var(--panel); color: var(--ink); opacity: 0.4; }
+.guest-list-row {
+  display: flex; align-items: center; gap: 12px;
+  padding: 11px 16px; border-bottom: 1px solid rgba(221,209,184,0.4);
+  cursor: pointer; transition: background 0.12s;
+}
+.guest-list-row:last-child { border-bottom: none; }
+.guest-list-row:hover { background: var(--rust-pale); }
+.guest-list-num {
+  font-size: 11px; font-weight: 600; color: var(--ink);
+  opacity: 0.3; width: 18px; flex-shrink: 0; text-align: right;
+}
+.guest-list-name { flex: 1; font-size: 14px; font-weight: 500; color: var(--ink); }
+.guest-list-note {
+  font-size: 11px; color: var(--ink); opacity: 0.45;
+  max-width: 160px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.guest-list-empty {
+  padding: 14px 16px; font-size: 13px; color: var(--ink);
+  opacity: 0.35; font-style: italic;
+}
+.guest-list-add {
+  display: flex; align-items: center; gap: 6px;
+  padding: 10px 16px; font-family: 'Raleway', sans-serif;
+  font-size: 12px; font-weight: 600; color: var(--rust);
+  cursor: pointer; border: none; background: none; width: 100%;
+  text-align: left; transition: background 0.12s; min-height: 40px;
+  border-top: 1px dashed rgba(122,26,46,0.25);
+}
+.guest-list-add:hover { background: var(--rust-pale); }
+
+/* Sponsor section title accent */
+.guest-list-section.sponsor .guest-list-section-header { background: rgba(212,168,67,0.08); }
+.guest-list-section.sponsor .guest-list-section-title { color: #8a6a00; }
+
 .guest-stats-strip {
   display: flex; gap: 0; flex-wrap: wrap;
   margin-bottom: 24px;
@@ -6380,9 +6460,10 @@ function toggleDarkMode() {
 }
 
 /* ── Guest Seating Chart ───────────────────────────── */
-let _selectedTableId = null;
-let _editingGuestId  = null;
+let _selectedTableId  = null;
+let _editingGuestId   = null;
 let _guestDefaultTable = null;
+let _guestMode        = 'map'; // 'map' | 'list'
 
 function renderGuestsView() {
   const main = document.getElementById('main-content');
@@ -6399,7 +6480,8 @@ function renderGuestsView() {
   view.id = 'guest-view';
 
   // Stats strip
-  view.innerHTML = `
+  const statsDiv = document.createElement('div');
+  statsDiv.innerHTML = `
     <div class="guest-stats-strip">
       <div class="guest-stat confirmed"><div class="guest-stat-val">${confirmed}</div><div class="guest-stat-label">Confirmed</div></div>
       <div class="guest-stat tentative"><div class="guest-stat-val">${tentative}</div><div class="guest-stat-label">Tentative</div></div>
@@ -6408,7 +6490,40 @@ function renderGuestsView() {
       <div class="guest-stat"><div class="guest-stat-val">${seated}/${totalCap}</div><div class="guest-stat-label">Seated</div></div>
     </div>
   `;
+  view.appendChild(statsDiv);
 
+  // Map / List toggle
+  const toggleDiv = document.createElement('div');
+  toggleDiv.innerHTML = `
+    <div class="guest-mode-toggle">
+      <button class="guest-mode-btn${_guestMode === 'map' ? ' active' : ''}" data-mode="map">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        Map
+      </button>
+      <button class="guest-mode-btn${_guestMode === 'list' ? ' active' : ''}" data-mode="list">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><circle cx="3" cy="6" r="1" fill="currentColor"/><circle cx="3" cy="12" r="1" fill="currentColor"/><circle cx="3" cy="18" r="1" fill="currentColor"/></svg>
+        List
+      </button>
+    </div>
+  `;
+  toggleDiv.querySelectorAll('.guest-mode-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      _guestMode = btn.dataset.mode;
+      renderGuestsView();
+    });
+  });
+  view.appendChild(toggleDiv);
+
+  main.appendChild(view);
+
+  if (_guestMode === 'list') {
+    renderGuestListView(view);
+  } else {
+    renderGuestMapView(view, seated, totalCap);
+  }
+}
+
+function renderGuestMapView(view, seated, totalCap) {
   const layout = document.createElement('div');
   layout.className = 'seating-layout';
 
@@ -6461,7 +6576,6 @@ function renderGuestsView() {
   layout.appendChild(panel);
 
   view.appendChild(layout);
-  main.appendChild(view);
 
   // Pool rows
   const poolRows = document.getElementById('pool-rows');
@@ -6472,7 +6586,7 @@ function renderGuestsView() {
       unassigned.forEach(g => {
         const row = document.createElement('div');
         row.className = 'pool-guest-row';
-        const rsvpLabel = g.rsvp ? g.rsvp : 'pending';
+        const rsvpLabel = g.rsvp || 'pending';
         const rsvpClass = g.rsvp ? `rsvp-${g.rsvp}` : 'rsvp-pending';
         row.innerHTML = `
           <div class="panel-guest-name">${g.name}</div>
@@ -6489,7 +6603,6 @@ function renderGuestsView() {
 
   if (_selectedTableId) {
     renderTablePanel(_selectedTableId);
-    // On mobile, scroll the panel into view after render
     if (window.innerWidth < 768) {
       setTimeout(() => {
         const p = document.getElementById('guest-table-panel');
@@ -6497,6 +6610,102 @@ function renderGuestsView() {
       }, 50);
     }
   }
+}
+
+function renderGuestListView(view) {
+  const wrap = document.createElement('div');
+
+  // Render each table as a card section
+  TABLES.forEach(table => {
+    const guests = state.guests.filter(g => g.tableId === table.id);
+    const count  = guests.length;
+    const full   = count >= table.capacity;
+    const empty  = count === 0;
+
+    const badgeClass = full ? 'badge-full' : empty ? 'badge-empty' : 'badge-open';
+    const badgeText  = full ? 'Full' : `${table.capacity - count} open`;
+
+    const section = document.createElement('div');
+    section.className = `guest-list-section${table.type === 's' ? ' sponsor' : ''}`;
+
+    let rows = '';
+    guests.forEach((g, i) => {
+      const rsvpLabel = g.rsvp || 'pending';
+      const rsvpClass = g.rsvp ? `rsvp-${g.rsvp}` : 'rsvp-pending';
+      rows += `
+        <div class="guest-list-row" data-gid="${g.id}">
+          <div class="guest-list-num">${i + 1}</div>
+          <div class="guest-list-name">${g.name}</div>
+          ${g.note ? `<div class="guest-list-note">${g.note}</div>` : ''}
+          <span class="rsvp-badge ${rsvpClass}">${rsvpLabel}</span>
+        </div>
+      `;
+    });
+
+    if (!rows) {
+      rows = `<div class="guest-list-empty">No guests assigned to this table</div>`;
+    }
+
+    section.innerHTML = `
+      <div class="guest-list-section-header">
+        <div>
+          <div class="guest-list-section-title">${table.name}</div>
+          <div class="guest-list-section-meta">${count} of ${table.capacity} seats filled</div>
+        </div>
+        <span class="guest-list-section-badge ${badgeClass}">${badgeText}</span>
+      </div>
+      ${rows}
+      ${count < table.capacity ? `<button class="guest-list-add" data-tid="${table.id}">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Add guest to ${table.label}
+      </button>` : ''}
+    `;
+    wrap.appendChild(section);
+  });
+
+  // Unassigned section
+  const unassigned = state.guests.filter(g => !g.tableId);
+  if (unassigned.length || !state.guests.length) {
+    const uSection = document.createElement('div');
+    uSection.className = 'guest-list-section';
+    let uRows = unassigned.map((g, i) => {
+      const rsvpLabel = g.rsvp || 'pending';
+      const rsvpClass = g.rsvp ? `rsvp-${g.rsvp}` : 'rsvp-pending';
+      return `
+        <div class="guest-list-row" data-gid="${g.id}">
+          <div class="guest-list-num">${i + 1}</div>
+          <div class="guest-list-name">${g.name}</div>
+          ${g.note ? `<div class="guest-list-note">${g.note}</div>` : ''}
+          <span class="rsvp-badge ${rsvpClass}">${rsvpLabel}</span>
+        </div>
+      `;
+    }).join('');
+    if (!uRows) uRows = `<div class="guest-list-empty">No unassigned guests</div>`;
+    uSection.innerHTML = `
+      <div class="guest-list-section-header" style="background:rgba(122,26,46,0.05)">
+        <div>
+          <div class="guest-list-section-title" style="font-size:14px;font-family:'Raleway',sans-serif;font-weight:700;letter-spacing:0.04em">Unassigned</div>
+          <div class="guest-list-section-meta">${unassigned.length} guest${unassigned.length !== 1 ? 's' : ''} without a table</div>
+        </div>
+      </div>
+      ${uRows}
+      <button class="guest-list-add" data-tid="">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Add guest
+      </button>
+    `;
+    wrap.appendChild(uSection);
+  }
+
+  view.appendChild(wrap);
+
+  // Wire row clicks (edit) and add buttons
+  wrap.querySelectorAll('.guest-list-row').forEach(row => {
+    row.addEventListener('click', () => openGuestModal(row.dataset.gid));
+  });
+  wrap.querySelectorAll('.guest-list-add').forEach(btn => {
+    btn.addEventListener('click', () => openGuestModal(null, btn.dataset.tid || null));
+  });
 }
 
 function makeTableCircle(table) {
