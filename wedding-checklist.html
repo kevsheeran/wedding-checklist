@@ -2031,6 +2031,37 @@ body.dark .filter-select { background: #2a1f18; color: var(--ink); }
 }
 
 /* ── Guest Seating Chart ─────────────────────────────── */
+/* ── Plan View ───────────────────────────────────────── */
+.plan-wrap { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 16px; padding-bottom: 40px; }
+.plan-card { background: #fff; border: 1px solid var(--hairline); border-radius: 14px; overflow: hidden; box-shadow: 0 1px 4px rgba(34,29,23,0.05); }
+.plan-card-hdr { padding: 14px 16px 12px; border-bottom: 1px solid var(--hairline); }
+.plan-card-code { font-family: 'Gilda Display', serif; font-size: 24px; font-weight: 400; line-height: 1; }
+.plan-card-name { font-size: 11px; font-weight: 700; letter-spacing: 0.05em; margin-top: 3px; text-transform: uppercase; opacity: 0.7; }
+.plan-hdr-wc  { background: rgba(184,87,51,0.07); }
+.plan-hdr-wc  .plan-card-code { color: var(--rust); }
+.plan-hdr-s   { background: rgba(212,168,67,0.08); }
+.plan-hdr-s   .plan-card-code { color: #8a6a00; }
+.plan-hdr-gb  { background: rgba(90,60,120,0.07); }
+.plan-hdr-gb  .plan-card-code { color: #5a3c78; }
+.plan-hdr-c   { background: var(--panel); }
+.plan-hdr-c   .plan-card-code { color: var(--ink); }
+.plan-hdr-tg  { background: rgba(34,29,23,0.04); border-bottom: 1px dashed var(--hairline); }
+.plan-hdr-tg  .plan-card-code { color: #6b5c4a; }
+.plan-seats { padding: 4px 0; }
+.plan-seat { display: flex; align-items: center; gap: 10px; padding: 9px 16px; border-bottom: 1px solid var(--hairline); cursor: pointer; transition: background 0.12s; min-height: 40px; }
+.plan-seat:last-child { border-bottom: none; }
+.plan-seat:hover { background: var(--panel); }
+.plan-seat-num { font-size: 10px; font-weight: 700; color: var(--ink); opacity: 0.28; min-width: 18px; text-align: right; font-family: 'Raleway', sans-serif; flex-shrink: 0; }
+.plan-seat.filled .plan-seat-num { opacity: 0.45; }
+.plan-seat-name { flex: 1; font-size: 13px; font-weight: 500; color: var(--ink); }
+.plan-seat-empty { flex: 1; font-size: 12px; color: var(--ink); opacity: 0.28; font-style: italic; }
+.plan-seat.plan-add-row { border-top: 1px dashed var(--hairline); border-bottom: none; }
+.plan-seat.plan-add-row .plan-seat-num { font-size: 15px; opacity: 0.35; }
+.plan-seat.plan-add-row:hover { background: rgba(184,87,51,0.05); }
+body.dark .plan-card { background: #2a1f18; border-color: rgba(255,255,255,0.08); }
+body.dark .plan-hdr-c { background: #1e1510; }
+body.dark .plan-hdr-tg { background: rgba(255,255,255,0.03); }
+
 /* ── Guest View Layout ───────────────────────────────── */
 #body-wrap.view-guests #sidebar { display: none !important; }
 #body-wrap.view-guests #main-content { padding: 0; }
@@ -6566,7 +6597,7 @@ function toggleDarkMode() {
 let _selectedTableId  = null;
 let _editingGuestId   = null;
 let _guestDefaultTable = null;
-let _guestMode        = 'map'; // 'map' | 'list'
+let _guestMode        = 'plan'; // 'plan' | 'map' | 'list'
 
 /* ── Guest helper ─────────────────────────────────────── */
 function guestInitials(name) {
@@ -6614,6 +6645,10 @@ function renderGuestsView() {
     </div>
     <div class="guest-topbar-actions">
       <div class="guest-mode-toggle">
+        <button class="guest-mode-btn${_guestMode === 'plan' ? ' active' : ''}" data-mode="plan">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="8" height="5" rx="1"/><rect x="13" y="3" width="8" height="5" rx="1"/><rect x="3" y="11" width="8" height="5" rx="1"/><rect x="13" y="11" width="8" height="5" rx="1"/><rect x="3" y="19" width="8" height="2" rx="1"/><rect x="13" y="19" width="8" height="2" rx="1"/></svg>
+          Plan
+        </button>
         <button class="guest-mode-btn${_guestMode === 'map' ? ' active' : ''}" data-mode="map">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
           Map
@@ -6637,6 +6672,12 @@ function renderGuestsView() {
 
   main.appendChild(view);
 
+  // Plan view always renders (tables exist even with no guests)
+  if (_guestMode === 'plan') {
+    renderGuestPlanView(view);
+    return;
+  }
+
   if (total === 0) {
     const empty = document.createElement('div');
     empty.className = 'guest-empty-state';
@@ -6654,6 +6695,68 @@ function renderGuestsView() {
   } else {
     renderGuestMapView(view, seated, totalCap);
   }
+}
+
+/* ── Plan view ───────────────────────────────────────── */
+function renderGuestPlanView(view) {
+  const wrap = document.createElement('div');
+  wrap.className = 'plan-wrap';
+
+  TABLES.forEach(table => {
+    const tableGuests = state.guests.filter(g => g.tableId === table.id);
+    const isTG = table.type === 'tg';
+    const typeLabel = {wc:'Wedding Couple', s:'Family / Sponsor Table', gb:'Groomsmen & Bridesmaids', c:'Guest Table', tg:'Tentative Guests'}[table.type] || 'Guest Table';
+
+    const card = document.createElement('div');
+    card.className = 'plan-card';
+
+    // Header
+    const hdr = document.createElement('div');
+    hdr.className = `plan-card-hdr plan-hdr-${table.type}`;
+    hdr.innerHTML = `<div class="plan-card-code">${table.label}</div><div class="plan-card-name">${table.name}</div>`;
+    card.appendChild(hdr);
+
+    // Seats
+    const seatsWrap = document.createElement('div');
+    seatsWrap.className = 'plan-seats';
+
+    if (isTG) {
+      // TG: show all guests + always-visible add row
+      tableGuests.forEach((g, i) => {
+        const row = document.createElement('div');
+        row.className = 'plan-seat filled';
+        row.innerHTML = `<span class="plan-seat-num">${i + 1}</span><span class="plan-seat-name">${g.name}</span><span class="rsvp-badge rsvp-${g.rsvp || 'pending'}">${g.rsvp || 'pending'}</span>`;
+        row.addEventListener('click', () => openGuestModal(g.id));
+        seatsWrap.appendChild(row);
+      });
+      const addRow = document.createElement('div');
+      addRow.className = 'plan-seat plan-add-row';
+      addRow.innerHTML = `<span class="plan-seat-num">+</span><span class="plan-seat-empty">Add tentative guest…</span>`;
+      addRow.addEventListener('click', () => openGuestModal(null, table.id));
+      seatsWrap.appendChild(addRow);
+    } else {
+      // Fixed capacity tables: numbered slots
+      for (let i = 0; i < table.capacity; i++) {
+        const guest = tableGuests[i] || null;
+        const row = document.createElement('div');
+        if (guest) {
+          row.className = 'plan-seat filled';
+          row.innerHTML = `<span class="plan-seat-num">${i + 1}</span><span class="plan-seat-name">${guest.name}</span><span class="rsvp-badge rsvp-${guest.rsvp || 'pending'}">${guest.rsvp || 'pending'}</span>`;
+          row.addEventListener('click', () => openGuestModal(guest.id));
+        } else {
+          row.className = 'plan-seat empty';
+          row.innerHTML = `<span class="plan-seat-num">${i + 1}</span><span class="plan-seat-empty">— tap to add —</span>`;
+          row.addEventListener('click', () => openGuestModal(null, table.id));
+        }
+        seatsWrap.appendChild(row);
+      }
+    }
+
+    card.appendChild(seatsWrap);
+    wrap.appendChild(card);
+  });
+
+  view.appendChild(wrap);
 }
 
 /* ── Map view ────────────────────────────────────────── */
