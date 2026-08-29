@@ -2159,6 +2159,21 @@ body.dark .filter-select { background: #2a1f18; color: var(--ink); }
 .table-sponsor .table-top:hover { border-color: #c9a020; }
 .table-sponsor .table-top.tbl-selected { border-color: var(--rust); background: rgba(122,26,46,0.06); }
 .table-sponsor .table-lbl { color: #8a6a00; font-size: 15px; }
+/* WC — Wedding Couple */
+.table-wc .table-top { width: 92px; height: 58px; border-radius: 29px; background: rgba(184,87,51,0.08); border-color: rgba(184,87,51,0.6); }
+.table-wc .table-top:hover { border-color: var(--rust); box-shadow: 0 4px 16px rgba(184,87,51,0.2); transform: translateY(-2px); }
+.table-wc .table-top.tbl-selected { border-color: var(--rust); background: rgba(184,87,51,0.12); }
+.table-wc .table-lbl { color: var(--rust); font-size: 15px; }
+/* GB — Groomsmen & Bridesmaids */
+.table-gb .table-top { background: rgba(90,60,120,0.06); border-color: rgba(90,60,120,0.38); }
+.table-gb .table-top:hover { border-color: rgba(90,60,120,0.7); box-shadow: 0 4px 16px rgba(90,60,120,0.15); transform: translateY(-2px); }
+.table-gb .table-top.tbl-selected { border-color: rgba(90,60,120,0.9); background: rgba(90,60,120,0.1); }
+.table-gb .table-lbl { color: #5a3c78; }
+/* TG — Tentative Guests */
+.table-tg .table-top { border-style: dashed; border-color: rgba(34,29,23,0.3); background: rgba(34,29,23,0.02); }
+.table-tg .table-top:hover { border-color: var(--rust); box-shadow: 0 4px 16px rgba(184,87,51,0.12); transform: translateY(-2px); }
+.table-tg .table-top.tbl-selected { border-color: var(--rust); background: rgba(184,87,51,0.06); }
+.table-tg .table-lbl { color: #6b5c4a; }
 
 /* Map legend */
 .map-legend {
@@ -3394,9 +3409,11 @@ const DEFAULT_BUDGET = 24900;
 const CHECKMARK_SVG = `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`;
 const MINUS_SVG = `<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>`;
 const TABLES = [
-  ...Array.from({length:10}, (_,i) => ({id:`C${i+1}`, label:`C${i+1}`, name:`Table ${i+1}`, type:'c', capacity:10})),
-  {id:'S1', label:'S1', name:'Sponsor S1', type:'s', capacity:5},
-  {id:'S2', label:'S2', name:'Sponsor S2', type:'s', capacity:5},
+  {id:'WC', label:'WC', name:'Wedding Couple',          type:'wc', capacity:2},
+  {id:'FS', label:'FS', name:'Family / Sponsor Table',  type:'s',  capacity:10},
+  {id:'GB', label:'GB', name:'Groomsmen & Bridesmaids', type:'gb', capacity:10},
+  ...Array.from({length:8}, (_,i) => ({id:`G${i+1}`, label:`G${i+1}`, name:`Guest Table ${i+1}`, type:'c', capacity:10})),
+  {id:'TG', label:'TG', name:'Tentative Guests',        type:'tg', capacity:50},
 ];
 
 /* ── Seed data ─────────────────────────────────────── */
@@ -3569,7 +3586,11 @@ function buildSeedData() {
     item(c13,'Walk-through call/meet 3 days before',{tag:'required'}),
     item(c13,'Thank-you gift for Day Captain',{tag:'required',estCost:150}),
   ];
-  return { categories: cats, items, weddingDate: '2027-03-15', budget: DEFAULT_BUDGET, fianceeName: '', decisions: [], timeline: [], dismissedMilestones: [] };
+  const wcGuests = [
+    {id: uid(), name: 'Mark Kevin Capili', tableId: 'WC', rsvp: 'confirmed', note: ''},
+    {id: uid(), name: 'Christine Carillo', tableId: 'WC', rsvp: 'confirmed', note: ''},
+  ];
+  return { categories: cats, items, weddingDate: '2027-03-15', budget: DEFAULT_BUDGET, fianceeName: '', decisions: [], timeline: [], dismissedMilestones: [], guests: wcGuests };
 }
 
 /* ── State ─────────────────────────────────────────── */
@@ -6643,26 +6664,24 @@ function renderGuestMapView(view, seated, totalCap) {
   const mapWrap = document.createElement('div');
   mapWrap.className = 'seating-map-wrap';
 
-  // Sponsor tables
-  const sLbl = document.createElement('div');
-  sLbl.className = 'seating-area-label';
-  sLbl.textContent = 'Sponsor Tables';
-  mapWrap.appendChild(sLbl);
-  const sFloor = document.createElement('div');
-  sFloor.className = 'seating-floor';
-  TABLES.filter(t => t.type === 's').forEach(t => sFloor.appendChild(makeTableCircle(t)));
-  mapWrap.appendChild(sFloor);
+  // Helper to add a labelled section
+  const addSection = (label, types, mt) => {
+    const lbl = document.createElement('div');
+    lbl.className = 'seating-area-label';
+    if (mt) lbl.style.marginTop = mt;
+    lbl.textContent = label;
+    mapWrap.appendChild(lbl);
+    const floor = document.createElement('div');
+    floor.className = 'seating-floor';
+    TABLES.filter(t => types.includes(t.type)).forEach(t => floor.appendChild(makeTableCircle(t)));
+    mapWrap.appendChild(floor);
+  };
 
-  // Guest tables
-  const cLbl = document.createElement('div');
-  cLbl.className = 'seating-area-label';
-  cLbl.style.marginTop = '24px';
-  cLbl.textContent = 'Guest Tables';
-  mapWrap.appendChild(cLbl);
-  const cFloor = document.createElement('div');
-  cFloor.className = 'seating-floor';
-  TABLES.filter(t => t.type === 'c').forEach(t => cFloor.appendChild(makeTableCircle(t)));
-  mapWrap.appendChild(cFloor);
+  addSection('Wedding Couple', ['wc']);
+  addSection('Family / Sponsor Table', ['s'], '24px');
+  addSection('Groomsmen & Bridesmaids', ['gb'], '24px');
+  addSection('Guest Tables', ['c'], '24px');
+  addSection('Tentative Guests', ['tg'], '24px');
 
   // Legend
   const legend = document.createElement('div');
@@ -6763,6 +6782,7 @@ function renderGuestListView(view) {
     const capCls  = full ? 'cap-full' : count > 0 ? 'cap-part' : 'cap-empty';
     const capTxt  = full ? `Full · ${count}/${table.capacity}` : `${count}/${table.capacity} seats`;
     const isSpons = table.type === 's';
+    const _typeLabel = {wc:'Wedding Couple', s:'Sponsor table', gb:'Groomsmen & Bridesmaids', c:'Guest table', tg:'Tentative Guests'}[table.type] || 'Guest table';
 
     const card = document.createElement('div');
     card.className = 'guest-tbl-card';
@@ -6772,7 +6792,7 @@ function renderGuestListView(view) {
       <div class="guest-tbl-hdr-icon${isSpons ? ' is-sponsor' : ''}">${table.label}</div>
       <div class="guest-tbl-hdr-info">
         <div class="guest-tbl-hdr-name">${table.name}</div>
-        <div class="guest-tbl-hdr-meta">${isSpons ? 'Sponsor table' : 'Guest table'} · capacity ${table.capacity}</div>
+        <div class="guest-tbl-hdr-meta">${_typeLabel} · capacity ${table.capacity}</div>
       </div>
       <span class="guest-tbl-cap-pill ${capCls}">${capTxt}</span>
     `;
@@ -6827,7 +6847,8 @@ function makeTableCircle(table) {
   const sel    = _selectedTableId === table.id;
 
   const wrap = document.createElement('div');
-  wrap.className = `table-circle${table.type === 's' ? ' table-sponsor' : ''}`;
+  const _typeClass = {wc:'table-wc', s:'table-sponsor', gb:'table-gb', tg:'table-tg'}[table.type] || '';
+  wrap.className = `table-circle${_typeClass ? ' '+_typeClass : ''}`;
 
   const cls = ['table-top', full ? 'tbl-full' : has ? 'tbl-has' : '', sel ? 'tbl-selected' : ''].filter(Boolean).join(' ');
   const fullDot = full
@@ -6933,10 +6954,14 @@ function openGuestModal(guestId, defaultTableId) {
   // Table select — grouped by type
   const sel = document.getElementById('guest-table-input');
   sel.innerHTML = '<option value="">— unassigned —</option>';
-  const sGroup = document.createElement('optgroup');
-  sGroup.label = 'Sponsor Tables';
-  const cGroup = document.createElement('optgroup');
-  cGroup.label = 'Guest Tables';
+  const _groups = {
+    wc:  { label: 'Wedding Couple',          el: document.createElement('optgroup') },
+    s:   { label: 'Family / Sponsor Table',  el: document.createElement('optgroup') },
+    gb:  { label: 'Groomsmen & Bridesmaids', el: document.createElement('optgroup') },
+    c:   { label: 'Guest Tables',            el: document.createElement('optgroup') },
+    tg:  { label: 'Tentative Guests',        el: document.createElement('optgroup') },
+  };
+  Object.values(_groups).forEach(g => { g.el.label = g.label; });
   TABLES.forEach(t => {
     const seatedCount = state.guests.filter(g => g.tableId === t.id && g.id !== (guest && guest.id)).length;
     const isFull = seatedCount >= t.capacity;
@@ -6945,10 +6970,9 @@ function openGuestModal(guestId, defaultTableId) {
     opt.textContent = `${t.name} (${seatedCount}/${t.capacity})${isFull ? ' — Full' : ''}`;
     if (isFull) opt.disabled = true;
     opt.selected = guest ? guest.tableId === t.id : defaultTableId === t.id;
-    (t.type === 's' ? sGroup : cGroup).appendChild(opt);
+    (_groups[t.type] || _groups.c).el.appendChild(opt);
   });
-  sel.appendChild(sGroup);
-  sel.appendChild(cGroup);
+  Object.values(_groups).forEach(g => sel.appendChild(g.el));
 
   document.getElementById('guest-delete-btn').style.display = guest ? '' : 'none';
   document.getElementById('guest-modal-overlay').classList.add('open');
