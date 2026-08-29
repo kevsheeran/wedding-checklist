@@ -22,21 +22,24 @@
   --rust-pale: rgba(122,26,46,0.09);
   --cream: #faf3e8;
   --panel: #f2e6d2;
-  --hairline: #ddd1b8;
-  --shadow: 0 1px 4px rgba(34,29,23,0.08);
-  --radius: 6px;
+  --hairline: rgba(221,209,184,0.6);
+  --shadow: 0 2px 8px rgba(34,29,23,0.08);
+  --radius: 14px;
   --sidebar-w: 240px;
-  --header-h: 72px;
-  --tabs-h: 42px;
-  --glass: rgba(250,243,232,0.85);
-  --glass-white: rgba(255,255,255,0.78);
-  --shadow-xs: 0 1px 3px rgba(34,29,23,0.07);
-  --shadow-sm: 0 2px 12px rgba(34,29,23,0.10), 0 1px 3px rgba(34,29,23,0.06);
-  --shadow-md: 0 8px 32px rgba(34,29,23,0.13), 0 2px 8px rgba(34,29,23,0.07);
-  --shadow-lg: 0 20px 60px rgba(34,29,23,0.18), 0 4px 16px rgba(34,29,23,0.10);
-  --radius-sm: 10px;
-  --radius-md: 14px;
-  --radius-lg: 20px;
+  --header-h: 76px;
+  --tabs-h: 46px;
+  --glass-card: rgba(255,255,255,0.42);
+  --glass-card-border: rgba(255,255,255,0.72);
+  --glass-blur: blur(28px) saturate(200%);
+  --glass-sheet: rgba(250,243,232,0.92);
+  --shadow-xs: 0 1px 3px rgba(34,29,23,0.06);
+  --shadow-sm: 0 4px 20px rgba(34,29,23,0.09), 0 1px 4px rgba(34,29,23,0.05);
+  --shadow-md: 0 10px 40px rgba(34,29,23,0.12), 0 3px 10px rgba(34,29,23,0.06);
+  --shadow-lg: 0 24px 64px rgba(34,29,23,0.16), 0 6px 20px rgba(34,29,23,0.08);
+  --radius-sm: 14px;
+  --radius-md: 20px;
+  --radius-lg: 28px;
+  --radius-xl: 36px;
 }
 
 /* ── Reset ─────────────────────────────────────────── */
@@ -44,13 +47,47 @@
 html { font-size: 16px; -webkit-text-size-adjust: 100%; }
 body {
   font-family: 'Raleway', sans-serif;
-  background: linear-gradient(160deg, #faf3e8 0%, #f2e6d2 55%, #e9d9bd 100%);
+  background: linear-gradient(150deg, #f8ede0 0%, #f0e2cc 40%, #ead8bc 100%);
   background-attachment: fixed;
   color: var(--ink);
   min-height: 100vh;
   line-height: 1.55;
   font-size: 15px;
 }
+
+/* ── Liquid Glass Background Blobs ─────────────────── */
+#bg-blobs {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
+}
+.blob {
+  position: absolute; border-radius: 50%; pointer-events: none;
+}
+.blob-1 {
+  width: 70vw; height: 70vw; max-width: 520px; max-height: 520px;
+  top: -18%; left: -12%;
+  background: radial-gradient(circle at 40% 40%, rgba(122,26,46,0.32) 0%, rgba(184,87,51,0.16) 45%, transparent 70%);
+  filter: blur(55px);
+}
+.blob-2 {
+  width: 65vw; height: 65vw; max-width: 480px; max-height: 480px;
+  bottom: -12%; right: -12%;
+  background: radial-gradient(circle at 60% 60%, rgba(212,168,67,0.28) 0%, rgba(230,185,80,0.14) 45%, transparent 70%);
+  filter: blur(60px);
+}
+.blob-3 {
+  width: 50vw; height: 50vw; max-width: 380px; max-height: 380px;
+  top: 38%; left: 25%;
+  background: radial-gradient(circle, rgba(210,145,100,0.18) 0%, transparent 70%);
+  filter: blur(50px);
+}
+.blob-4 {
+  width: 45vw; height: 45vw; max-width: 340px; max-height: 340px;
+  top: 10%; right: 5%;
+  background: radial-gradient(circle, rgba(180,100,140,0.14) 0%, transparent 70%);
+  filter: blur(55px);
+}
+/* Everything above blobs */
+#app { position: relative; z-index: 1; }
 button { font-family: inherit; cursor: pointer; border: none; background: none; }
 input, textarea, select { font-family: inherit; }
 a { color: inherit; text-decoration: none; }
@@ -75,32 +112,33 @@ a { color: inherit; text-decoration: none; }
 /* Header */
 #header {
   position: sticky; top: 0; z-index: 100;
-  background: rgba(250,243,232,0.92);
-  backdrop-filter: blur(20px) saturate(160%);
-  -webkit-backdrop-filter: blur(20px) saturate(160%);
-  border-bottom: 1px solid var(--hairline);
-  box-shadow: 0 1px 0 rgba(255,255,255,0.6), var(--shadow-xs);
+  background: rgba(248,237,224,0.78);
+  backdrop-filter: blur(32px) saturate(200%);
+  -webkit-backdrop-filter: blur(32px) saturate(200%);
+  border-bottom: 1px solid rgba(255,255,255,0.5);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.7), 0 4px 24px rgba(34,29,23,0.06);
   padding: 0 20px;
   height: var(--header-h);
   display: flex; align-items: center; justify-content: space-between;
   gap: 16px;
 }
-.header-left { display: flex; flex-direction: column; gap: 2px; }
+.header-left { display: flex; flex-direction: column; gap: 1px; }
 .monogram {
   font-family: 'Gilda Display', serif;
-  font-size: 24px;
+  font-size: 26px;
   font-weight: 400;
   color: var(--ink);
   line-height: 1;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.03em;
 }
 .header-sub {
   font-family: 'Raleway', sans-serif;
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: 0.12em;
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--rust);
+  opacity: 0.85;
 }
 .header-right { display: flex; align-items: center; gap: 12px; }
 .countdown-chip {
@@ -124,8 +162,15 @@ a { color: inherit; text-decoration: none; }
 .ring-label {
   position: absolute; inset: 0;
   display: flex; align-items: center; justify-content: center;
-  font-size: 10px; font-weight: 600; color: var(--ink);
-  letter-spacing: 0;
+  font-size: 10px; font-weight: 700; color: var(--ink);
+  letter-spacing: -0.01em;
+}
+.ring-motivational {
+  font-size: 8.5px; font-weight: 500; color: var(--rust);
+  letter-spacing: 0.03em; text-align: center;
+  margin-top: 2px; opacity: 0.8;
+  display: block; line-height: 1.1;
+  white-space: nowrap;
 }
 .header-actions { display: flex; align-items: center; gap: 4px; }
 .icon-btn {
@@ -137,9 +182,11 @@ a { color: inherit; text-decoration: none; }
 
 /* Category Nav (mobile: horizontal chips) */
 #cat-nav {
-  background: var(--cream);
-  border-bottom: 1px solid var(--hairline);
-  padding: 10px 20px;
+  background: rgba(242,230,213,0.7);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid rgba(255,255,255,0.4);
+  padding: 10px 16px;
   overflow-x: auto;
   display: flex; gap: 8px; align-items: center;
   -webkit-overflow-scrolling: touch;
@@ -154,27 +201,27 @@ a { color: inherit; text-decoration: none; }
   font-family: 'Raleway', sans-serif;
   font-size: 12px;
   font-weight: 500;
-  letter-spacing: 0.06em;
-  padding: 6px 14px;
-  border-radius: 20px;
-  border: 1px solid rgba(221,209,184,0.6);
-  background: rgba(255,255,255,0.65);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  box-shadow: 0 1px 4px rgba(34,29,23,0.06);
+  letter-spacing: 0.04em;
+  padding: 8px 18px;
+  border-radius: 50px;
+  border: 1px solid rgba(255,255,255,0.65);
+  background: rgba(255,255,255,0.52);
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  box-shadow: 0 2px 10px rgba(34,29,23,0.06), inset 0 1px 0 rgba(255,255,255,0.8);
   color: var(--ink);
-  transition: all 0.15s;
+  transition: all 0.2s cubic-bezier(0.34,1.2,0.64,1);
   white-space: nowrap;
-  min-height: 32px;
+  min-height: 36px;
   cursor: pointer;
   display: flex; align-items: center; gap: 6px;
 }
-.cat-chip:hover { border-color: var(--rust); color: var(--rust); }
+.cat-chip:hover { background: rgba(255,255,255,0.72); border-color: rgba(122,26,46,0.3); color: var(--rust); transform: translateY(-1px); }
 .cat-chip.active {
   background: var(--rust);
-  border-color: var(--rust);
+  border-color: rgba(122,26,46,0.4);
   color: #fff;
-  box-shadow: 0 2px 8px rgba(122,26,46,0.35);
+  box-shadow: 0 4px 16px rgba(122,26,46,0.32), inset 0 1px 0 rgba(255,255,255,0.2);
 }
 .cat-chip-count {
   font-size: 10px;
@@ -270,15 +317,18 @@ a { color: inherit; text-decoration: none; }
 }
 
 /* Category section */
-.cat-section { margin-bottom: 28px; }
+.cat-section { margin-bottom: 24px; }
 .cat-section-header {
   display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
   margin-bottom: 0;
-  padding: 10px 12px;
-  background: var(--panel);
+  padding: 13px 16px;
+  background: rgba(255,255,255,0.5);
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
   border-radius: var(--radius-md) var(--radius-md) 0 0;
-  border: 1px solid var(--hairline);
-  border-bottom: none;
+  border: 1px solid rgba(255,255,255,0.75);
+  border-bottom: 1px solid rgba(221,209,184,0.35);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.9);
 }
 .cat-section-icon { flex-shrink: 0; color: var(--rust); }
 .cat-section-title {
@@ -320,42 +370,47 @@ a { color: inherit; text-decoration: none; }
 
 /* ── Item list & cards ─────────────────────────────── */
 .item-list {
-  display: flex; flex-direction: column; gap: 6px;
-  border: 1px solid rgba(221,209,184,0.5);
+  display: flex; flex-direction: column; gap: 8px;
+  border: 1px solid rgba(255,255,255,0.45);
   border-top: none;
   border-radius: 0 0 var(--radius-md) var(--radius-md);
-  padding: 8px 8px 10px;
-  background: rgba(255,255,255,0.22);
+  padding: 10px 10px 12px;
+  background: rgba(255,255,255,0.08);
 }
 
 .item-row {
   display: flex; align-items: flex-start; gap: 14px;
-  padding: 13px 14px;
+  padding: 15px 15px;
   border-radius: var(--radius-md);
-  background: #fff;
-  border: 1px solid var(--hairline);
-  border-left: 3px solid var(--hairline);
+  background: var(--glass-card);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-card-border);
+  border-left: 3.5px solid rgba(221,209,184,0.5);
   cursor: pointer;
   position: relative;
-  transition: box-shadow 0.18s, border-color 0.18s;
-  box-shadow: 0 1px 4px rgba(30,23,21,0.06);
+  transition: all 0.22s cubic-bezier(0.34,1.2,0.64,1);
+  box-shadow: 0 4px 20px rgba(30,23,21,0.07), 0 1px 4px rgba(30,23,21,0.04), inset 0 1px 0 rgba(255,255,255,0.75);
 }
 .item-row:hover {
-  border-color: rgba(122,26,46,0.3);
-  box-shadow: 0 2px 8px rgba(30,23,21,0.09);
+  background: rgba(255,255,255,0.65);
+  border-color: rgba(255,255,255,0.9);
+  box-shadow: 0 8px 32px rgba(30,23,21,0.11), 0 3px 10px rgba(30,23,21,0.06), inset 0 1px 0 rgba(255,255,255,0.9);
+  transform: translateY(-2px) scale(1.005);
 }
 
 /* Left-bar status colours */
-.item-row.status-todo  { border-left-color: #d9cfc2; }
+.item-row.status-todo  { border-left-color: rgba(200,185,165,0.7); }
 .item-row.status-doing { border-left-color: var(--rust); }
-.item-row.status-done  { border-left-color: #2a7a45; background: rgba(255,255,255,0.5); }
+.item-row.status-done  { border-left-color: #2a7a45; background: rgba(240,252,246,0.42); }
 .item-row.status-na    {
   border-left-color: transparent;
   border-style: dashed;
   border-left-style: solid;
-  opacity: 0.5;
+  opacity: 0.42;
+  background: rgba(255,255,255,0.22);
 }
-.item-row.status-na .item-title { text-decoration: line-through; color: var(--ink); }
+.item-row.status-na .item-title { text-decoration: line-through; }
 
 /* Checkbox */
 .item-check {
@@ -378,10 +433,10 @@ a { color: inherit; text-decoration: none; }
 /* Item body */
 .item-body { flex: 1; min-width: 0; }
 .item-title {
-  font-size: 14px;
+  font-size: 14.5px;
   font-weight: 500;
   color: var(--ink);
-  line-height: 1.4;
+  line-height: 1.42;
   letter-spacing: -0.01em;
   margin-bottom: 6px;
 }
@@ -442,8 +497,8 @@ a { color: inherit; text-decoration: none; }
   font-size: 11px; font-weight: 400; color: var(--ink); opacity: 0.65;
 }
 .meta-chip svg { opacity: 0.7; flex-shrink: 0; }
-.meta-chip.overdue { color: #b01e1e; opacity: 1; font-weight: 500; }
-.meta-chip.soon    { color: var(--rust); opacity: 1; font-weight: 500; }
+.meta-chip.overdue { color: #b01e1e; opacity: 1; font-weight: 600; animation: overdue-pulse 1.8s ease infinite; }
+.meta-chip.soon    { color: var(--rust); opacity: 1; font-weight: 600; }
 
 /* ── Notes ──────────────────────────────────────────── */
 .item-notes {
@@ -502,8 +557,11 @@ a { color: inherit; text-decoration: none; }
 
 /* Budget strip */
 #budget-strip {
-  background: var(--cream);
-  border-top: 1px solid var(--hairline);
+  background: rgba(250,243,232,0.88);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border-top: 1px solid rgba(255,255,255,0.65);
+  box-shadow: 0 -4px 24px rgba(34,29,23,0.07), 0 -1px 0 rgba(221,209,184,0.4);
   padding: 14px 20px;
   position: sticky;
   bottom: 0;
@@ -545,7 +603,7 @@ a { color: inherit; text-decoration: none; }
   border-radius: 3px;
   transition: width 0.4s ease;
 }
-.budget-fill.over { background: #b01e1e; }
+.budget-fill.over { background: linear-gradient(90deg, #b01e1e, #d42b2b); animation: budget-warn 0.6s ease; }
 
 /* Toast */
 #toast-container {
@@ -560,17 +618,20 @@ a { color: inherit; text-decoration: none; }
   pointer-events: none;
 }
 .toast {
-  background: var(--ink);
+  background: rgba(30,23,21,0.88);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border: 1px solid rgba(255,255,255,0.12);
   color: #fff;
   font-size: 13px;
   font-weight: 400;
-  padding: 10px 16px;
-  border-radius: var(--radius);
+  padding: 10px 18px;
+  border-radius: 50px;
   display: flex; align-items: center; gap: 12px;
   pointer-events: all;
   white-space: nowrap;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.2);
-  animation: toast-in 0.2s ease;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.22), 0 2px 8px rgba(0,0,0,0.12);
+  animation: toast-in 0.25s cubic-bezier(0.34,1.56,0.64,1);
 }
 .toast-undo {
   font-weight: 600;
@@ -585,8 +646,26 @@ a { color: inherit; text-decoration: none; }
   padding: 0;
 }
 @keyframes toast-in {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; transform: translateY(12px) scale(0.95); }
+  to   { opacity: 1; transform: translateY(0)   scale(1); }
+}
+@keyframes overdue-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.45; }
+}
+@keyframes budget-warn {
+  0%,100% { transform: scaleX(1); }
+  15%     { transform: scaleX(1.015); }
+  30%     { transform: scaleX(0.985); }
+  45%     { transform: scaleX(1.01); }
+  60%     { transform: scaleX(0.99); }
+}
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes ring-grow {
+  from { stroke-dashoffset: 113.1; }
 }
 
 /* Modal / Bottom sheet */
@@ -600,17 +679,19 @@ a { color: inherit; text-decoration: none; }
 }
 #modal-overlay.open { display: flex; }
 #modal-sheet {
-  background: var(--cream);
-  backdrop-filter: blur(24px) saturate(160%);
-  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  background: rgba(248,238,224,0.88);
+  backdrop-filter: blur(40px) saturate(220%);
+  -webkit-backdrop-filter: blur(40px) saturate(220%);
   width: 100%;
   max-width: 600px;
-  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-  border-top: 1px solid rgba(255,255,255,0.6);
-  padding: 0 0 env(safe-area-inset-bottom,16px);
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  border-top: 1px solid rgba(255,255,255,0.8);
+  border-left: 1px solid rgba(255,255,255,0.5);
+  border-right: 1px solid rgba(255,255,255,0.5);
+  padding: 0 0 env(safe-area-inset-bottom,20px);
   max-height: 92vh;
   overflow-y: auto;
-  box-shadow: var(--shadow-lg);
+  box-shadow: 0 -12px 60px rgba(34,29,23,0.18), 0 -4px 20px rgba(34,29,23,0.08), inset 0 1px 0 rgba(255,255,255,0.9);
 }
 .sheet-handle {
   width: 36px; height: 4px;
@@ -673,42 +754,46 @@ a { color: inherit; text-decoration: none; }
 }
 .btn-primary {
   flex: 1;
-  padding: 12px 16px;
+  padding: 13px 20px;
   background: var(--rust);
   color: #fff;
   border-radius: 50px;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: 0.02em;
-  min-height: 44px;
-  transition: background 0.15s, box-shadow 0.15s, transform 0.1s;
-  box-shadow: 0 2px 10px rgba(122,26,46,0.28);
+  min-height: 48px;
+  transition: all 0.2s cubic-bezier(0.34,1.2,0.64,1);
+  box-shadow: 0 4px 20px rgba(122,26,46,0.35), inset 0 1px 0 rgba(255,255,255,0.2);
 }
-.btn-primary:hover { background: var(--rust-dark); box-shadow: 0 4px 14px rgba(122,26,46,0.38); transform: translateY(-1px); }
+.btn-primary:hover { background: var(--rust-dark); box-shadow: 0 6px 24px rgba(122,26,46,0.45); transform: translateY(-1px); }
+.btn-primary:active { transform: scale(0.98); }
 .btn-secondary {
-  padding: 12px 16px;
-  background: #fff;
+  padding: 13px 20px;
+  background: rgba(255,255,255,0.65);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   color: var(--ink);
   border-radius: 50px;
   font-size: 14px;
   font-weight: 500;
-  min-height: 44px;
-  border: 1px solid var(--hairline);
-  transition: background 0.15s;
+  min-height: 48px;
+  border: 1px solid rgba(255,255,255,0.8);
+  box-shadow: 0 2px 10px rgba(34,29,23,0.08), inset 0 1px 0 rgba(255,255,255,0.9);
+  transition: all 0.2s;
 }
-.btn-secondary:hover { background: rgba(255,255,255,0.9); }
+.btn-secondary:hover { background: rgba(255,255,255,0.85); }
 .btn-danger {
-  padding: 12px 16px;
+  padding: 13px 20px;
   background: rgba(176,30,30,0.08);
   color: #b01e1e;
-  border-radius: var(--radius);
+  border-radius: 50px;
   font-size: 14px;
   font-weight: 500;
-  min-height: 44px;
-  border: 1px solid rgba(176,30,30,0.2);
+  min-height: 48px;
+  border: 1px solid rgba(176,30,30,0.18);
   transition: background 0.15s;
 }
-.btn-danger:hover { background: rgba(176,30,30,0.15); }
+.btn-danger:hover { background: rgba(176,30,30,0.14); }
 
 /* Settings panel */
 #settings-panel {
@@ -1083,39 +1168,51 @@ a { color: inherit; text-decoration: none; }
 
 /* ── View Tabs ──────────────────────────────────────── */
 #view-tabs {
-  background: var(--cream);
-  border-bottom: 1px solid var(--hairline);
-  padding: 0 16px;
-  display: flex; gap: 0;
+  background: rgba(245,234,218,0.75);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border-bottom: 1px solid rgba(255,255,255,0.45);
+  padding: 8px 16px;
+  display: flex; gap: 4px;
   overflow-x: auto; scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
   position: sticky;
   top: var(--header-h);
   z-index: 95;
+  box-shadow: 0 2px 16px rgba(34,29,23,0.05);
 }
 #view-tabs::-webkit-scrollbar { display: none; }
 .view-tab {
   flex-shrink: 0;
-  padding: 0 14px; height: var(--tabs-h);
+  padding: 7px 16px;
   font-family: 'Raleway', sans-serif;
-  font-size: 12px; font-weight: 500; letter-spacing: 0.04em;
+  font-size: 12px; font-weight: 500; letter-spacing: 0.03em;
   color: var(--ink); opacity: 0.5;
-  border-bottom: 2px solid transparent;
-  border-radius: 0;
+  border-radius: 50px;
+  border: none;
   cursor: pointer; white-space: nowrap;
-  transition: color 0.15s, opacity 0.15s, border-color 0.15s;
+  transition: all 0.2s cubic-bezier(0.34,1.2,0.64,1);
   display: flex; align-items: center; gap: 5px;
   background: transparent;
+  min-height: 34px;
 }
-.view-tab:hover { opacity: 0.8; }
-.view-tab.active { color: var(--rust); opacity: 1; border-bottom-color: var(--rust); }
+.view-tab:hover { opacity: 0.75; background: rgba(255,255,255,0.35); }
+.view-tab.active {
+  color: var(--rust); opacity: 1;
+  background: rgba(255,255,255,0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 2px 12px rgba(122,26,46,0.12), 0 1px 0 rgba(255,255,255,0.8);
+  font-weight: 600;
+}
 .view-tab-count {
-  font-size: 10px; font-weight: 600;
-  background: var(--panel); border-radius: 10px;
-  padding: 1px 6px; min-width: 18px; text-align: center;
-  line-height: 16px;
+  font-size: 10px; font-weight: 700;
+  background: rgba(122,26,46,0.1); color: var(--rust);
+  border-radius: 50px;
+  padding: 1px 7px; min-width: 20px; text-align: center;
+  line-height: 17px;
 }
-.view-tab.active .view-tab-count { background: rgba(122,26,46,0.15); color: var(--rust); }
+.view-tab.active .view-tab-count { background: rgba(122,26,46,0.12); }
 
 /* ── Board View ─────────────────────────────────────── */
 .board-search-bar {
@@ -1862,11 +1959,19 @@ a { color: inherit; text-decoration: none; }
 #sync-prompt-overlay.open { display: flex; }
 .sync-warn-banner {
   display: flex; align-items: center; gap: 8px;
-  background: rgba(122,26,46,0.1); border: 1px solid rgba(122,26,46,0.25);
-  border-radius: 10px; padding: 9px 13px; margin: 0 0 16px;
-  font-family: 'Raleway',sans-serif; font-size: 11px; color: var(--rust); cursor: pointer;
+  background: rgba(255,255,255,0.55);
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  border: 1px solid rgba(122,26,46,0.18);
+  border-radius: 50px; padding: 8px 14px; margin: 0 0 16px;
+  font-family: 'Raleway',sans-serif; font-size: 11px; font-weight: 500;
+  color: var(--rust); cursor: pointer;
+  box-shadow: 0 2px 12px rgba(122,26,46,0.08);
+  animation: fade-in-up 0.3s ease;
+  transition: opacity 0.4s ease, transform 0.4s ease;
 }
-.sync-warn-banner:hover { background: rgba(122,26,46,0.15); }
+.sync-warn-banner:hover { background: rgba(255,255,255,0.75); }
+.sync-warn-banner.hiding { opacity: 0; transform: translateY(-4px); pointer-events: none; }
 
 /* ── Star / Priority ─────────────────────────────────── */
 .star-btn {
@@ -2031,6 +2136,121 @@ body.dark .filter-select { background: #2a1f18; color: var(--ink); }
 }
 
 /* ── Guest Seating Chart ─────────────────────────────── */
+/* ── Program Flow View ───────────────────────────────── */
+#body-wrap.view-program #sidebar { display: none !important; }
+#body-wrap.view-program #main-content { padding: 0; }
+#program-view { padding: 20px 20px 80px; max-width: 680px; margin: 0 auto; }
+.program-header { margin-bottom: 24px; }
+.program-title {
+  font-family: 'Gilda Display', serif;
+  font-size: 28px; font-weight: 400; color: var(--ink);
+  letter-spacing: 0.01em; margin-bottom: 4px;
+}
+.program-subtitle {
+  font-size: 11px; font-weight: 600; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--rust); opacity: 0.8;
+}
+.program-timeline { position: relative; padding-left: 52px; }
+.program-timeline::before {
+  content: ''; position: absolute; left: 20px; top: 8px; bottom: 8px;
+  width: 1.5px;
+  background: linear-gradient(to bottom, rgba(122,26,46,0.12) 0%, rgba(122,26,46,0.3) 30%, rgba(122,26,46,0.3) 70%, rgba(122,26,46,0.12) 100%);
+}
+.program-item {
+  position: relative; margin-bottom: 10px;
+  background: rgba(255,255,255,0.62);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255,255,255,0.8);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  box-shadow: 0 2px 12px rgba(30,23,21,0.06);
+  transition: box-shadow 0.18s, transform 0.15s;
+  cursor: default;
+}
+.program-item-body { cursor: pointer; }
+.program-item:hover { transform: translateX(3px); box-shadow: 0 4px 20px rgba(30,23,21,0.10); }
+.program-item.p-done {
+  background: rgba(240,255,245,0.45);
+  border-color: rgba(42,122,69,0.2);
+}
+.program-item.p-done .program-item-title { text-decoration: line-through; opacity: 0.55; }
+.program-dot {
+  position: absolute; left: -38px; top: 50%; transform: translateY(-50%);
+  width: 14px; height: 14px; border-radius: 50%;
+  background: #fff; border: 2px solid var(--hairline);
+  box-shadow: 0 0 0 3px rgba(255,255,255,0.8);
+  transition: border-color 0.2s, background 0.2s;
+}
+.program-item.p-done .program-dot { background: #2a7a45; border-color: #2a7a45; }
+.program-item.p-doing .program-dot { background: var(--rust); border-color: var(--rust); }
+.program-item-time {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--rust); margin-bottom: 2px;
+}
+.program-item-title {
+  font-family: 'Gilda Display', serif;
+  font-size: 16px; font-weight: 400; color: var(--ink); line-height: 1.3;
+  margin-bottom: 3px;
+}
+.program-item-meta {
+  font-size: 11px; color: var(--ink); opacity: 0.5; font-weight: 400;
+}
+.program-item-note {
+  font-size: 11px; color: var(--ink); opacity: 0.5;
+  margin-top: 5px; padding-top: 5px;
+  border-top: 1px solid var(--hairline);
+  line-height: 1.45;
+}
+.program-actions {
+  display: flex; gap: 10px; margin-top: 16px; margin-left: -52px;
+  width: calc(100% + 52px);
+}
+.program-add-btn {
+  display: flex; align-items: center; gap: 8px;
+  flex: 1;
+  padding: 11px 16px; border-radius: 50px;
+  background: rgba(255,255,255,0.55);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px dashed rgba(122,26,46,0.3);
+  font-size: 13px; font-weight: 500; color: var(--rust);
+  cursor: pointer; width: calc(100% + 52px);
+  transition: background 0.15s, border-color 0.15s;
+}
+.program-add-btn:hover { background: rgba(255,255,255,0.8); border-color: var(--rust); }
+.program-print-btn {
+  display: flex; align-items: center; gap: 8px;
+  padding: 11px 16px; border-radius: 50px;
+  background: var(--rust); color: #fff;
+  border: 1.5px solid var(--rust-dark);
+  font-family: 'Raleway', sans-serif; font-size: 12px; font-weight: 600;
+  letter-spacing: 0.04em; cursor: pointer; white-space: nowrap;
+  transition: background 0.15s, transform 0.15s;
+}
+.program-print-btn:hover { background: var(--rust-dark); transform: translateY(-1px); }
+.program-dot { cursor: pointer; }
+.program-dot:hover { transform: translateY(-50%) scale(1.3) !important; }
+
+/* Program item modal */
+#program-modal-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(34,29,23,0.45); z-index: 200;
+  align-items: flex-end; justify-content: center;
+}
+#program-modal-overlay.open { display: flex; }
+#program-modal-sheet {
+  background: rgba(250,243,232,0.95);
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  width: 100%; max-width: 600px;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  border-top: 1px solid rgba(255,255,255,0.7);
+  padding: 0 0 env(safe-area-inset-bottom,16px);
+  max-height: 85vh; overflow-y: auto;
+  box-shadow: var(--shadow-lg);
+}
+
 /* ── Plan View ───────────────────────────────────────── */
 .plan-wrap { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 16px; padding-bottom: 40px; }
 .plan-card { background: #fff; border: 1px solid var(--hairline); border-radius: 14px; overflow: hidden; box-shadow: 0 1px 4px rgba(34,29,23,0.05); }
@@ -2483,13 +2703,16 @@ body.dark .guest-tbl-hdr-icon { background: #2a1f18; }
     </div>
     <div class="header-right">
       <div class="countdown-chip" id="countdown-chip">— days to go</div>
-      <div class="progress-ring-wrap" aria-label="Overall progress">
-        <svg width="44" height="44" viewBox="0 0 44 44">
-          <circle class="ring-bg" cx="22" cy="22" r="18"/>
-          <circle class="ring-fill" id="ring-fill" cx="22" cy="22" r="18"
-            stroke-dasharray="113.1" stroke-dashoffset="113.1"/>
-        </svg>
-        <span class="ring-label" id="ring-label">0%</span>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:2px">
+        <div class="progress-ring-wrap" aria-label="Overall progress">
+          <svg width="44" height="44" viewBox="0 0 44 44">
+            <circle class="ring-bg" cx="22" cy="22" r="18"/>
+            <circle class="ring-fill" id="ring-fill" cx="22" cy="22" r="18"
+              stroke-dasharray="113.1" stroke-dashoffset="113.1"/>
+          </svg>
+          <span class="ring-label" id="ring-label">0%</span>
+        </div>
+        <span class="ring-motivational" id="ring-motivational">Let's go!</span>
       </div>
       <div class="header-actions">
         <button class="icon-btn" id="save-btn" aria-label="Save backup">
@@ -2522,6 +2745,7 @@ body.dark .guest-tbl-hdr-icon { background: #2a1f18; }
     <button class="view-tab" data-view="done" role="tab" aria-selected="false">Done <span class="view-tab-count">0</span></button>
     <button class="view-tab" data-view="board" role="tab" aria-selected="false">Board</button>
     <button class="view-tab" data-view="day" role="tab" aria-selected="false">Day</button>
+    <button class="view-tab" data-view="program" role="tab" aria-selected="false">Program</button>
     <button class="view-tab" data-view="guests" role="tab" aria-selected="false">Guests <span class="view-tab-count" id="guest-tab-count">0</span></button>
   </div>
 
@@ -3426,6 +3650,52 @@ body.dark .guest-tbl-hdr-icon { background: #2a1f18; }
     </div>
   </div>
 
+  <!-- Program Flow Modal -->
+  <div id="program-modal-overlay" role="dialog" aria-modal="true">
+    <div id="program-modal-sheet">
+      <div class="sheet-handle"></div>
+      <div class="sheet-header">
+        <h2 class="sheet-title" id="program-modal-title">Add Event</h2>
+        <button class="sheet-close icon-btn" id="program-modal-close" aria-label="Close">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="sheet-body">
+        <input type="hidden" id="program-edit-id">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="program-time-input">Time *</label>
+            <input type="text" id="program-time-input" class="form-input" placeholder="e.g. 3:00 PM" autocomplete="off">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="program-assignee-input">Handled By</label>
+            <select id="program-assignee-input" class="form-select">
+              <option value="">— anyone —</option>
+              <option value="Both">Both</option>
+              <option value="Mark">Groom</option>
+              <option value="Fiancée">Bride</option>
+              <option value="Family">Family</option>
+              <option value="Vendor">Vendor</option>
+              <option value="Emcee">Emcee</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="program-title-input">Event / Activity *</label>
+          <input type="text" id="program-title-input" class="form-input" placeholder="e.g. Grand entrance" autocomplete="off">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="program-note-input">Notes</label>
+          <textarea id="program-note-input" class="form-textarea" placeholder="Details, cues, reminders…" style="min-height:80px"></textarea>
+        </div>
+      </div>
+      <div class="sheet-footer">
+        <button class="btn-danger" id="program-delete-btn" style="display:none">Delete</button>
+        <button class="btn-primary" id="program-save-btn">Save Event</button>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <script>
@@ -3463,9 +3733,15 @@ function buildSeedData() {
     { id: uid(), name: 'Reception Program & Items', order: 10, icon: 'list' },
     { id: uid(), name: 'Gifts & Tokens', order: 11, icon: 'gift' },
     { id: uid(), name: 'Suppliers & Payments', order: 12, icon: 'invoice' },
-    { id: uid(), name: 'Day Captain Pack', order: 13, icon: 'star' },
+    { id: uid(), name: 'Day Captain Pack',                    order: 13, icon: 'star'     },
+    { id: uid(), name: 'Ceremony Essentials',                 order: 14, icon: 'ring'     },
+    { id: uid(), name: "Bride's Personal Checklist",          order: 15, icon: 'bag'      },
+    { id: uid(), name: "Groom's Personal Checklist",          order: 16, icon: 'shirt'    },
+    { id: uid(), name: 'Snack Boxes',                         order: 17, icon: 'gift'     },
+    { id: uid(), name: 'Gifts — Principal Sponsors',          order: 18, icon: 'star'     },
+    { id: uid(), name: 'Gifts — Bridesmaids & Groomsmen',    order: 19, icon: 'gift'     },
   ];
-  const [c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11,c12,c13] = cats.map(c=>c.id);
+  const [c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11,c12,c13,c14,c15,c16,c17,c18,c19] = cats.map(c=>c.id);
   const item = (categoryId, title, opts={}) => ({
     id: uid(), categoryId, title,
     notes: opts.notes || '',
@@ -3616,16 +3892,128 @@ function buildSeedData() {
     item(c13,'Handover: printed timeline, payables envelopes, supplier contact sheet, program cues',{tag:'required'}),
     item(c13,'Walk-through call/meet 3 days before',{tag:'required'}),
     item(c13,'Thank-you gift for Day Captain',{tag:'required',estCost:150}),
+
+    // Cat 14 — Ceremony Essentials (Christian)
+    item(c14,'White unity cord',{tag:'required',notes:'Long enough to loop around both shoulders; usually provided by a designated sponsor'}),
+    item(c14,'2 veils (primary + secondary)',{tag:'required',notes:'Primary drapes over bride; secondary bridges bride & groom. Assigned to sponsors (ninang)'}),
+    item(c14,'Arras — 13 coins + decorative holder',{tag:'required',notes:'13 coins symbolise prosperity; presented by coin sponsors'}),
+    item(c14,'Unity candles: 2 taper + 1 pillar',{tag:'required',estCost:150,notes:'Candle sponsors light tapers; couple lights pillar together'}),
+    item(c14,'Candle holders (stable, not tippy)',{tag:'required'}),
+    item(c14,'Lighter + backup matches',{tag:'required',assignee:'Family'}),
+    item(c14,'Bible / missal (for reading)',{tag:'required',notes:'Can use personal copy; mark readings with ribbon'}),
+    item(c14,'Flower girl basket + petals',{tag:'required',notes:'Silk petals recommended — real petals may wilt'}),
+    item(c14,'Ring bearer pillow',{tag:'required',notes:'Secure rings with ribbon so they don\'t roll off'}),
+    item(c14,'Processional / recessional music USB',{tag:'required',notes:'Label clearly; give to AV team day before. Include: processional, signing, recessional'}),
+    item(c14,'Printed program booklets for guests',{tag:'required',notes:'One per couple/family. Include: order of service, hymns, sponsor names'}),
+    item(c14,'2 personalised vow booklets',{tag:'required',assignee:'Both',notes:'Calligraphy or printed; coordinate design with invites'}),
+    item(c14,'Communion elements: bread + grape juice (if included)',{tag:'optional',status:'na',notes:'Enable if pastor will include communion in ceremony'}),
+    item(c14,'Aisle runner',{tag:'optional',notes:'Confirm with venue — some disallow if floor is tiled'}),
+    item(c14,'Pew / aisle floral markers',{tag:'optional',notes:'Coordinate with florist; venue may restrict attachment methods'}),
+    item(c14,'Welcome / venue directional signage',{tag:'required',notes:'At entrance + key turns. Hire calligrapher or DIY print'}),
+    item(c14,'Offertory basket',{tag:'optional'}),
+    item(c14,'Guest book + archival pen',{tag:'required',assignee:'Family',notes:'Place at entrance with instruction card for guests to write before entering'}),
+
+    // Cat 15 — Bride's Personal Checklist
+    item(c15,'Wedding gown steamed + hung (night before)',{tag:'required',assignee:'Fiancée',notes:'Do not fold — hang on padded hanger. Check for any loose buttons or trim'}),
+    item(c15,'Bridal shoes: broken in (walk in them at home 2–3 hrs)',{tag:'required',assignee:'Fiancée',notes:'Wear with insoles or heel grips to prevent blisters'}),
+    item(c15,'Veil secured and ready',{tag:'required',assignee:'Fiancée',notes:'Attach comb or clips the night before so HMUA can place it quickly'}),
+    item(c15,'Jewellery laid out: earrings, necklace, bracelet, hair piece',{tag:'required',assignee:'Fiancée'}),
+    item(c15,'Something old, something new, something borrowed, something blue',{tag:'optional',assignee:'Fiancée'}),
+    item(c15,'Engagement ring moved to right hand on wedding morning',{tag:'required',assignee:'Fiancée',notes:'Move it yourself before HMUA arrives so you don\'t forget'}),
+    item(c15,'Touch-up kit packed: lipstick, powder, blotting paper, concealer',{tag:'required',assignee:'Fiancée',notes:'Give to MOH to hold during reception'}),
+    item(c15,'Spare nylons / stockings x 2',{tag:'required',assignee:'Fiancée'}),
+    item(c15,'Comfortable bridal robe for getting-ready photos',{tag:'required',assignee:'Fiancée',notes:'Monogrammed or satin style — good for flat-lay and getting-ready shots'}),
+    item(c15,'Vow book: personal vows memorised or clearly printed',{tag:'required',assignee:'Fiancée'}),
+    item(c15,'Reception/after-party change of outfit',{tag:'optional',assignee:'Fiancée'}),
+    item(c15,'Honeymoon bag packed separately (leave in car or hotel room)',{tag:'optional',assignee:'Fiancée'}),
+    item(c15,'Bride card / letter for groom (first-look reveal)',{tag:'optional',assignee:'Fiancée'}),
+    item(c15,'Bridal emergency kit: safety pins, clear nail polish, fashion tape, pain killers, antacids',{tag:'required',assignee:'Fiancée',notes:'Give to MOH / bridesmaid to carry in her bag'}),
+    item(c15,'Eat a proper breakfast on wedding morning',{tag:'required',assignee:'Fiancée',notes:'Non-negotiable — fainting at the altar is a real thing'}),
+
+    // Cat 16 — Groom's Personal Checklist
+    item(c16,'Suit pressed and hung (night before)',{tag:'required',assignee:'Mark',notes:'Check pocket square, lapel pin, all buttons. Iron shirt collar'}),
+    item(c16,'Shoes polished',{tag:'required',assignee:'Mark'}),
+    item(c16,'Boutonnière / buttonhole pinned correctly',{tag:'required',assignee:'Mark',notes:'Pin through lapel backing — not through face of lapel. Practice once'}),
+    item(c16,'Personal vows reviewed / memorised',{tag:'required',assignee:'Mark'}),
+    item(c16,'Wedding rings confirmed with best man (he holds both)',{tag:'required',assignee:'Mark',notes:'Best man keeps rings; confirm hand-off logistics before ceremony'}),
+    item(c16,'Speech notes ready (if giving reception speech)',{tag:'optional',assignee:'Mark',notes:'3 minutes max. Thank both families, acknowledge sponsors, toast the bride'}),
+    item(c16,'Card / letter for bride ready',{tag:'required',assignee:'Mark',notes:'For first-look or pre-ceremony private moment'}),
+    item(c16,'Gift for bride delivered or ready',{tag:'required',assignee:'Mark'}),
+    item(c16,'Honeymoon travel documents packed (passports, bookings)',{tag:'optional',assignee:'Mark'}),
+    item(c16,'Emergency grooming kit: razor, deodorant, mouthwash, cologne',{tag:'required',assignee:'Mark'}),
+    item(c16,'Phone fully charged; data coverage confirmed',{tag:'required',assignee:'Mark'}),
+    item(c16,'Eat a proper meal before ceremony',{tag:'required',assignee:'Mark',notes:'Groomsmen snack box helps — don\'t rely on cocktail hour food'}),
+
+    // Cat 17 — Snack Boxes
+    item(c17,'Photographer snack box × 1',{tag:'required',estCost:50,notes:'Pack 4–6 hrs before handover. Include: sandwich, fruit, nuts, chocolate, juice, water'}),
+    item(c17,'Videographer snack box × 1',{tag:'required',estCost:50}),
+    item(c17,'HMUA team snack boxes × 2',{tag:'required',estCost:100,notes:'HMUA + assistant. They start earliest — feed them well'}),
+    item(c17,'Day Captain / coordinator snack box × 1',{tag:'required',estCost:50}),
+    item(c17,'Groomsmen snack boxes (confirm count)',{tag:'required',estCost:200,notes:'AED 25–35/box. Good for keeping energy up during long getting-ready'}),
+    item(c17,'Bridesmaids snack boxes (confirm count)',{tag:'required',estCost:200,notes:'Coordinate with MOH. Include healthy options since they\'re in dresses'}),
+    item(c17,'Bridal suite light snacks: fruit bowl, nuts, crackers',{tag:'required',estCost:100,notes:'For grazing during 6-hour prep. Avoid messy foods'}),
+    item(c17,'Bottled water cases × 2 (for vendor team)',{tag:'required',estCost:60}),
+    item(c17,'Hot meals / rice meals ordered for vendors (venue day-of)',{tag:'required',notes:'Confirm with venue coordinator — vendors must be fed by contract or courtesy. Usually delivered between cocktail hour and dinner service'}),
+    item(c17,'Snack box labels printed (name + role)',{tag:'required',notes:'Avoids confusion at handover. Print on card labels and tie with ribbon'}),
+
+    // Cat 18 — Gifts — Principal Sponsors
+    item(c18,'Finalise sponsor list: names + roles (ninong/ninang)',{tag:'required',dueDate:'2027-01-01',notes:'Cross-reference with ceremony program to ensure acknowledgment is correct'}),
+    item(c18,'Confirm budget per sponsor (recommended AED 80–150/head)',{tag:'required',estCost:1200}),
+    item(c18,'Ninangs option A: premium pashmina / silk scarf',{tag:'required',estCost:80,notes:'Neutral colours (ivory, blush, champagne) — wearable, travel-friendly'}),
+    item(c18,'Ninangs option B: luxury skincare / candle gift set',{tag:'required',estCost:100,notes:'Brands like Rituals, Jo Malone, or local UAE artisan candles'}),
+    item(c18,'Ninongs option A: engraved pen or quality pen set',{tag:'required',estCost:90,notes:'Engrave: initials or short message. Shop: Parker, Cross, or local engravers'}),
+    item(c18,'Ninongs option B: leather wallet or grooming kit',{tag:'required',estCost:110}),
+    item(c18,'Unisex option: framed prenup photo + dates & chocolates box',{tag:'optional',estCost:120,notes:'Personal touch — order frames early so there\'s time for print quality check'}),
+    item(c18,'Gift presentation boxes + tissue paper + ribbon sourced',{tag:'required',estCost:80}),
+    item(c18,'Handwritten thank-you notes written (1 per sponsor)',{tag:'required',notes:'Mention their specific sponsor role (e.g. "Thank you for being our cord sponsors") — never generic'}),
+    item(c18,'Gifts labeled / tagged per sponsor name',{tag:'required',notes:'Use calligraphy name cards if possible'}),
+    item(c18,'Gifts handed over privately BEFORE reception program',{tag:'required',notes:'Best during cocktail hour — quiet moment, more intimate than public handover'}),
+
+    // Cat 19 — Gifts — Bridesmaids & Groomsmen
+    item(c19,'Bridesmaids count confirmed',{tag:'required'}),
+    item(c19,'Groomsmen count confirmed',{tag:'required'}),
+    item(c19,'Bridesmaids gift option: personalised robe',{tag:'required',estCost:250,notes:'Monogrammed with their name or initials. Give during morning getting-ready — great for photos'}),
+    item(c19,'Bridesmaids gift option: personalised jewellery (necklace or bracelet)',{tag:'optional',estCost:200,notes:'Can double as their wedding day accessory — coordinate colour with dresses'}),
+    item(c19,'Bridesmaids gift option: personalised tote bag + goodies',{tag:'optional',estCost:180,notes:'Include: lip balm, nail file, hair tie, blotting paper, chocolate'}),
+    item(c19,'Groomsmen gift option: engraved hip flask or whiskey glass',{tag:'required',estCost:250,notes:'Engrave: initials or "Best Man / Groomsman" + wedding date'}),
+    item(c19,'Groomsmen gift option: personalised tie clip or cufflinks',{tag:'optional',estCost:200}),
+    item(c19,'Groomsmen gift option: grooming kit (razor, pomade, cologne)',{tag:'optional',estCost:220}),
+    item(c19,'Personalised gift tags / name cards for each member',{tag:'required',notes:'Calligraphy or printed. Include a short thank-you line'}),
+    item(c19,'Presentation: box + wrapping tissue + ribbon',{tag:'required',estCost:80}),
+    item(c19,'Reveal timing: morning of wedding during getting-ready',{tag:'required',notes:'Emotional moment + great photos. Coordinate with photographer to be in the room'}),
+    item(c19,'Thank-you speech or note to entourage (at rehearsal or morning-of)',{tag:'optional',notes:'2 minutes — acknowledge each person by name'}),
   ];
   const wcGuests = [
     {id: uid(), name: 'Mark Kevin Capili', tableId: 'WC', rsvp: 'confirmed', note: ''},
     {id: uid(), name: 'Christine Carillo', tableId: 'WC', rsvp: 'confirmed', note: ''},
   ];
-  return { categories: cats, items, weddingDate: '2027-03-15', budget: DEFAULT_BUDGET, fianceeName: '', decisions: [], timeline: [], dismissedMilestones: [], guests: wcGuests };
+  const prog = pid => uid();
+  const program = [
+    {id:uid(),time:'6:00 AM', title:'Bride hair & makeup begins',        assignee:'Fiancée', note:'Venue: bridal suite. Photographer arrives for getting-ready shots.', done:false},
+    {id:uid(),time:'9:00 AM', title:'Groom getting ready',               assignee:'Mark',    note:'Groomsmen gather. Detail shots: rings, suits, shoes.', done:false},
+    {id:uid(),time:'11:00 AM',title:'Pre-ceremony couple portraits',     assignee:'Both',    note:'First look session if planned. Coordinate with photographer.', done:false},
+    {id:uid(),time:'1:30 PM', title:'Guests begin arriving at venue',    assignee:'Family',  note:'Ushers in position. Background music playing.', done:false},
+    {id:uid(),time:'2:30 PM', title:'Bridal party line-up',              assignee:'Both',    note:'Groomsmen & bridesmaids in position at entrance.', done:false},
+    {id:uid(),time:'3:00 PM', title:'Wedding ceremony begins',           assignee:'Emcee',   note:'Processional music starts. Ushers seat remaining guests.', done:false},
+    {id:uid(),time:'3:45 PM', title:'Ceremony concludes — couple exit',  assignee:'Both',    note:'Recessional. Confetti / petal toss if planned.', done:false},
+    {id:uid(),time:'4:00 PM', title:'Cocktail hour',                     assignee:'Vendor',  note:'Guests move to cocktail area. Couple do formal portraits.', done:false},
+    {id:uid(),time:'5:30 PM', title:'Reception doors open',              assignee:'Vendor',  note:'Guests find seats. Music transitions to dinner playlist.', done:false},
+    {id:uid(),time:'6:00 PM', title:'Grand entrance of couple',          assignee:'Emcee',   note:'Emcee announces K & C. Entrance song plays.', done:false},
+    {id:uid(),time:'6:10 PM', title:'Welcome speech',                    assignee:'Family',  note:'Opening remarks — keep to 3 minutes.', done:false},
+    {id:uid(),time:'6:20 PM', title:'Dinner service begins',             assignee:'Vendor',  note:'Catering team signals. Tables served by rotation.', done:false},
+    {id:uid(),time:'7:15 PM', title:'First dance',                       assignee:'Both',    note:'K & C dance. Photographer + videographer in position.', done:false},
+    {id:uid(),time:'7:25 PM', title:'Parent dances',                     assignee:'Family',  note:'Father-bride dance, then mother-groom if planned.', done:false},
+    {id:uid(),time:'7:40 PM', title:'Toasts & speeches',                 assignee:'Family',  note:'Best man, maid of honour, parents. Max 3 min each.', done:false},
+    {id:uid(),time:'8:15 PM', title:'Cake cutting',                      assignee:'Both',    note:'Dessert table opens after cut. Photographer ready.', done:false},
+    {id:uid(),time:'8:30 PM', title:'Open dancing',                      assignee:'Vendor',  note:'DJ / band transitions to dance set. Dance floor opens.', done:false},
+    {id:uid(),time:'10:30 PM',title:'Last dance',                        assignee:'Both',    note:'Final song announced by emcee. Guests form send-off line.', done:false},
+    {id:uid(),time:'11:00 PM',title:'Grand exit / send-off',             assignee:'Both',    note:'Sparklers / confetti / petals. Photographer captures exit.', done:false},
+  ];
+  return { categories: cats, items, weddingDate: '2027-03-15', budget: DEFAULT_BUDGET, fianceeName: '', decisions: [], timeline: [], dismissedMilestones: [], guests: wcGuests, program };
 }
 
 /* ── State ─────────────────────────────────────────── */
-let state = { categories: [], items: [], weddingDate: '2027-03-15', budget: DEFAULT_BUDGET, fianceeName: '', decisions: [], timeline: [], dismissedMilestones: [], guests: [] };
+let state = { categories: [], items: [], weddingDate: '2027-03-15', budget: DEFAULT_BUDGET, fianceeName: '', decisions: [], timeline: [], dismissedMilestones: [], guests: [], program: [] };
 let activeCategory    = 'all';
 let activeView        = 'all';
 let _prevCatProgress  = {};
@@ -3669,6 +4057,23 @@ function loadState() {
       if (!state.timeline) state.timeline = [];
       if (!state.dismissedMilestones) state.dismissedMilestones = [];
       if (!state.guests) state.guests = [];
+      if (!state.program || !state.program.length) state.program = buildSeedData().program;
+      // Migrate: inject the 6 new seed categories if not yet present
+      const existingCatNames = state.categories.map(c => c.name);
+      const newCatNames = [
+        'Ceremony Essentials', "Bride's Personal Checklist",
+        "Groom's Personal Checklist", 'Snack Boxes',
+        'Gifts — Principal Sponsors', 'Gifts — Bridesmaids & Groomsmen'
+      ];
+      const missing = newCatNames.filter(n => !existingCatNames.includes(n));
+      if (missing.length) {
+        const seed = buildSeedData();
+        const seedCats = seed.categories.filter(c => missing.includes(c.name));
+        const seedItems = seed.items.filter(i => seedCats.some(c => c.id === i.categoryId));
+        state.categories.push(...seedCats);
+        state.items.push(...seedItems);
+        saveState();
+      }
     }
     catch(e) { state = buildSeedData(); saveState(); }
   }
@@ -3784,6 +4189,11 @@ function renderHeader() {
   const offset = circumference * (1 - pct / 100);
   document.getElementById('ring-fill').style.strokeDashoffset = offset;
   document.getElementById('ring-label').textContent = pct + '%';
+  const motEl = document.getElementById('ring-motivational');
+  if (motEl) {
+    const mot = pct === 0 ? 'Let\'s go!' : pct < 25 ? 'Starting' : pct < 50 ? 'Getting there' : pct < 75 ? 'Halfway!' : pct < 100 ? 'Almost!' : 'Done! 🎉';
+    motEl.textContent = mot;
+  }
 
   // Monogram — use fiancée initial if set
   const fName = state.fianceeName ? state.fianceeName.trim() : '';
@@ -3899,11 +4309,12 @@ function renderViewTabs() {
     if (countEl && counts[v] !== undefined) countEl.textContent = counts[v];
   });
   const bodyWrap = document.getElementById('body-wrap');
-  bodyWrap.classList.toggle('view-board',  activeView === 'board');
-  bodyWrap.classList.toggle('view-guests', activeView === 'guests');
+  bodyWrap.classList.toggle('view-board',   activeView === 'board');
+  bodyWrap.classList.toggle('view-guests',  activeView === 'guests');
+  bodyWrap.classList.toggle('view-program', activeView === 'program');
 
   const filterBar = document.getElementById('filter-bar');
-  if (filterBar) filterBar.style.display = (activeView === 'board' || activeView === 'guests') ? 'none' : '';
+  if (filterBar) filterBar.style.display = (activeView === 'board' || activeView === 'guests' || activeView === 'program') ? 'none' : '';
 
   // Category chips (mobile): only show in 'all' view
   const catNav = document.getElementById('cat-nav');
@@ -4134,9 +4545,10 @@ function renderMilestoneBanner(container) {
 }
 
 function renderMain() {
-  if (activeView === 'board')  { renderBoard(); return; }
-  if (activeView === 'day')    { renderTimelineView(); return; }
-  if (activeView === 'guests') { renderGuestsView(); return; }
+  if (activeView === 'board')   { renderBoard(); return; }
+  if (activeView === 'day')     { renderTimelineView(); return; }
+  if (activeView === 'program') { renderProgramFlow(); return; }
+  if (activeView === 'guests')  { renderGuestsView(); return; }
 
   const main = document.getElementById('main-content');
   const sorted = [...state.categories].sort((a,b)=>a.order-b.order);
@@ -5669,9 +6081,14 @@ function closeSyncPrompt(skipped) {
       const banner = document.createElement('div');
       banner.id = 'sync-warn-banner';
       banner.className = 'sync-warn-banner';
-      banner.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> Sync disabled — data is local only. Tap to enable →`;
+      banner.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> Sync not enabled — tap to set up cloud sync →`;
       banner.addEventListener('click', () => { openSettings(); closeSyncPrompt(false); });
       main.prepend(banner);
+      // Auto-hide after 6 seconds
+      setTimeout(() => {
+        banner.classList.add('hiding');
+        setTimeout(() => banner.remove(), 450);
+      }, 6000);
     }
   }
 }
@@ -6112,6 +6529,17 @@ function wireEvents() {
   });
   document.getElementById('guest-save-btn').addEventListener('click', saveGuestModal);
   document.getElementById('guest-delete-btn').addEventListener('click', deleteGuest);
+
+  // Program Flow modal
+  document.getElementById('program-modal-close').addEventListener('click', closeProgramModal);
+  document.getElementById('program-modal-overlay').addEventListener('click', e => {
+    if (e.target === document.getElementById('program-modal-overlay')) closeProgramModal();
+  });
+  document.getElementById('program-save-btn').addEventListener('click', saveProgramModal);
+  document.getElementById('program-delete-btn').addEventListener('click', deleteProgramItem);
+  document.getElementById('program-title-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') saveProgramModal();
+  });
   document.getElementById('guest-name-input').addEventListener('keydown', e => {
     if (e.key === 'Enter') saveGuestModal();
   });
@@ -6697,6 +7125,156 @@ function renderGuestsView() {
   }
 }
 
+/* ── Program Flow ────────────────────────────────────── */
+let _editingProgramId = null;
+
+function renderProgramFlow() {
+  const main = document.getElementById('main-content');
+  main.innerHTML = '';
+  const view = document.createElement('div');
+  view.id = 'program-view';
+
+  const done = state.program.filter(p => p.done).length;
+  const total = state.program.length;
+
+  view.innerHTML = `
+    <div class="program-header">
+      <div class="program-title">Wedding Day Program</div>
+      <div class="program-subtitle">15 March 2027 · Abu Dhabi · ${done}/${total} complete</div>
+    </div>
+    <div class="program-timeline" id="program-timeline"></div>
+    <div class="program-actions">
+      <button class="program-add-btn" id="program-add-btn">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Add event
+      </button>
+      <button class="program-print-btn" id="program-print-btn">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+        Print / PDF
+      </button>
+    </div>
+  `;
+
+  const timeline = view.querySelector('#program-timeline');
+  state.program.forEach(p => {
+    const el = document.createElement('div');
+    el.className = `program-item${p.done ? ' p-done' : ''}`;
+    el.innerHTML = `
+      <div class="program-dot" title="Tap to mark ${p.done ? 'not done' : 'done'}"></div>
+      <div class="program-item-body">
+        <div class="program-item-time">${escHtml(p.time)}</div>
+        <div class="program-item-title">${escHtml(p.title)}</div>
+        ${p.assignee ? `<div class="program-item-meta">Handled by ${escHtml(p.assignee)}</div>` : ''}
+        ${p.note ? `<div class="program-item-note">${escHtml(p.note)}</div>` : ''}
+      </div>
+    `;
+    // Dot toggles done state; rest of card opens edit modal
+    el.querySelector('.program-dot').addEventListener('click', (e) => {
+      e.stopPropagation();
+      p.done = !p.done;
+      saveState(); renderProgramFlow();
+    });
+    el.querySelector('.program-item-body').addEventListener('click', () => openProgramModal(p.id));
+    timeline.appendChild(el);
+  });
+
+  view.querySelector('#program-add-btn').addEventListener('click', () => openProgramModal(null));
+  view.querySelector('#program-print-btn').addEventListener('click', printProgramFlow);
+  main.appendChild(view);
+}
+
+function openProgramModal(id) {
+  _editingProgramId = id;
+  const p = id ? state.program.find(x => x.id === id) : null;
+  document.getElementById('program-modal-title').textContent = p ? 'Edit Event' : 'Add Event';
+  document.getElementById('program-edit-id').value = id || '';
+  document.getElementById('program-time-input').value = p ? p.time : '';
+  document.getElementById('program-title-input').value = p ? p.title : '';
+  document.getElementById('program-assignee-input').value = p ? (p.assignee || '') : '';
+  document.getElementById('program-note-input').value = p ? (p.note || '') : '';
+  document.getElementById('program-delete-btn').style.display = p ? '' : 'none';
+  document.getElementById('program-modal-overlay').classList.add('open');
+  setTimeout(() => document.getElementById('program-time-input').focus(), 80);
+}
+
+function closeProgramModal() {
+  document.getElementById('program-modal-overlay').classList.remove('open');
+  _editingProgramId = null;
+}
+
+function saveProgramModal() {
+  const time  = document.getElementById('program-time-input').value.trim();
+  const title = document.getElementById('program-title-input').value.trim();
+  if (!time || !title) {
+    document.getElementById('program-time-input').style.borderColor  = time  ? '' : 'var(--rust)';
+    document.getElementById('program-title-input').style.borderColor = title ? '' : 'var(--rust)';
+    return;
+  }
+  const assignee = document.getElementById('program-assignee-input').value;
+  const note     = document.getElementById('program-note-input').value.trim();
+  if (_editingProgramId) {
+    const p = state.program.find(x => x.id === _editingProgramId);
+    if (p) { p.time = time; p.title = title; p.assignee = assignee; p.note = note; }
+  } else {
+    state.program.push({ id: uid(), time, title, assignee, note, done: false });
+  }
+  saveState(); closeProgramModal(); renderProgramFlow();
+  showToast(_editingProgramId ? 'Event updated ✓' : 'Event added ✓');
+}
+
+function deleteProgramItem() {
+  if (!_editingProgramId) return;
+  state.program = state.program.filter(p => p.id !== _editingProgramId);
+  saveState(); closeProgramModal(); renderProgramFlow();
+  showToast('Event removed.');
+}
+
+function printProgramFlow() {
+  const wDate = state.weddingDate ? new Date(state.weddingDate).toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'}) : '15 March 2027';
+  const rows = state.program.map((p,i) => `
+    <tr class="${i%2===0?'even':'odd'}">
+      <td class="time">${escHtml(p.time)}</td>
+      <td class="event">${escHtml(p.title)}</td>
+      <td class="who">${escHtml(p.assignee||'—')}</td>
+      <td class="note">${escHtml(p.note||'')}</td>
+    </tr>`).join('');
+  const html = `<!DOCTYPE html><html><head><meta charset="UTF-8">
+  <title>K & C — Wedding Program</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Gilda+Display&family=Raleway:wght@300;400;500;600&display=swap');
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Raleway',sans-serif;background:#fff;color:#1e1715;padding:48px 40px}
+    .cover{text-align:center;margin-bottom:48px;padding-bottom:32px;border-bottom:1px solid #ddd1b8}
+    .cover-title{font-family:'Gilda Display',serif;font-size:42px;font-weight:400;color:#1e1715;letter-spacing:0.02em}
+    .cover-sub{font-size:12px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:#7a1a2e;margin-top:8px}
+    .cover-date{font-family:'Gilda Display',serif;font-size:18px;margin-top:12px;color:#1e1715;opacity:0.7}
+    table{width:100%;border-collapse:collapse}
+    th{font-size:9px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#7a1a2e;padding:10px 12px;border-bottom:2px solid #7a1a2e;text-align:left}
+    td{padding:12px 12px;vertical-align:top;border-bottom:1px solid #ede5d8;font-size:13px}
+    tr.even td{background:#faf3e8}
+    .time{width:80px;font-weight:700;color:#7a1a2e;white-space:nowrap}
+    .event{font-family:'Gilda Display',serif;font-size:15px;font-weight:400}
+    .who{width:100px;font-size:11px;color:#6b5c4a;font-weight:500}
+    .note{font-size:11px;color:#8a7a6a;line-height:1.5}
+    .footer{margin-top:40px;text-align:center;font-size:10px;color:#a89e90;letter-spacing:0.08em}
+    @media print{body{padding:20px 24px} .cover-title{font-size:32px}}
+  </style></head><body>
+  <div class="cover">
+    <div class="cover-title">K &amp; C</div>
+    <div class="cover-sub">Wedding Day Program</div>
+    <div class="cover-date">${wDate}</div>
+  </div>
+  <table>
+    <thead><tr><th>Time</th><th>Event</th><th>By</th><th>Notes</th></tr></thead>
+    <tbody>${rows}</tbody>
+  </table>
+  <div class="footer">K &amp; C WEDDING · ${wDate}</div>
+  <script>window.onload=()=>setTimeout(()=>window.print(),300)<\/script>
+  </body></html>`;
+  const w = window.open('','_blank');
+  if (w) { w.document.write(html); w.document.close(); }
+}
+
 /* ── Plan view ───────────────────────────────────────── */
 function renderGuestPlanView(view) {
   const wrap = document.createElement('div');
@@ -7125,6 +7703,14 @@ function deleteGuest() {
 }
 
 /* ── Boot ──────────────────────────────────────────── */
+// Inject background blobs for Liquid Glass effect
+(function() {
+  const w = document.createElement('div');
+  w.id = 'bg-blobs';
+  w.innerHTML = '<div class="blob blob-1"></div><div class="blob blob-2"></div><div class="blob blob-3"></div><div class="blob blob-4"></div>';
+  document.body.prepend(w);
+})();
+
 loadState();
 wireEvents();
 initPinLock();
